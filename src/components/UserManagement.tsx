@@ -1,0 +1,444 @@
+import { logActivity } from '../services/activityService';
+import React, { useState, useEffect } from 'react';
+import { db } from '../lib/firebase';
+import { collection, query, onSnapshot, doc, setDoc, deleteDoc, updateDoc, getDocs, writeBatch } from 'firebase/firestore';
+import { useAuth } from '../contexts/AuthContext';
+import { initializeApp } from 'firebase/app';
+import { getAuth, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
+import firebaseConfig from '../../firebase-applet-config.json';
+import { UserPlus, Shield, User as UserIcon, Trash2, Mail, Lock, Loader2, RotateCcw, AlertTriangle, RefreshCcw, Database } from 'lucide-react';
+import ConfirmModal from './ConfirmModal';
+
+export default function UserManagement() {
+  const { user, role, getUserDisplayName, getUserRole } = useAuth();
+  const [users, setUsers] = useState<any[]>([]);
+  const [newEmail, setNewEmail] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [newRole, setNewRole] = useState<'developer' | 'admin' | 'team_leader' | 'recruiter' | 'client'>('recruiter');
+  const [isAdding, setIsAdding] = useState(false);
+  const [isResetting, setIsResetting] = useState(false);
+  const [error, setError] = useState('');
+  const [view, setView] = useState<'active' | 'trash'>('active');
+  const [confirmConfig, setConfirmConfig] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    onConfirm: () => void;
+    variant?: 'danger' | 'warning' | 'info';
+    confirmText?: string;
+  }>({
+    isOpen: false,
+    title: '',
+    message: '',
+    onConfirm: () => {},
+  });
+
+  const showAlert = (title: string, message: string) => {
+    setConfirmConfig({
+      isOpen: true,
+      title,
+      message,
+      onConfirm: () => {},
+      variant: 'info',
+      confirmText: 'OK'
+    });
+  };
+
+  useEffect(() => {
+    const usersQ = query(collection(db, 'users'));
+    return onSnapshot(usersQ, (snapshot) => {
+      setUsers(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    }, (error) => {
+      console.error("Error loading users in UserManagement:", error);
+    });
+  }, []);
+
+  const activeUsers = users.filter(u => !u.isArchived);
+  const trashedUsers = users.filter(u => u.isArchived);
+
+  const handleCreateUser = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newEmail.trim() || !newPassword.trim()) return;
+    setIsAdding(true);
+    setError('');
+
+    try {
+      // Create user using a temporary secondary app to avoid logging out the admin
+      const tempAppName = `temp-app-${Date.now()}`;
+      const tempApp = initializeApp(firebaseConfig, tempAppName);
+      const tempAuth = getAuth(tempApp);
+      
+      const userCredential = await createUserWithEmailAndPassword(tempAuth, newEmail.toLowerCase(), newPassword);
+      const newUser = userCredential.user;
+
+      // Create user doc in main database
+      await setDoc(doc(db, 'users', newUser.uid), {
+        uid: newUser.uid,
+        email: newEmail.toLowerCase(),
+        name: newEmail.toLowerCase().split('@')[0],
+        role: newRole,
+        createdAt: new Date().toISOString(),
+        addedBy: 'admin',
+        isArchived: false
+      });
+
+      await logActivity(
+        getUserDisplayName(),
+        user!.uid,
+        getUserRole(),
+        'Create User',
+        newEmail,
+        null,
+        `New user created: ${newEmail}`,
+        'Team User Management'
+      );
+
+      // Cleanup temp app
+      await signOut(tempAuth);
+      
+      setNewEmail('');
+      setNewPassword('');
+      setNewRole('recruiter');
+    } catch (err: any) {
+      console.error(err);
+      if (err.code === 'auth/email-already-in-use') {
+        setError('This email is already registered. Please use a different email.');
+      } else {
+        setError(err.message);
+      }
+    }
+    setIsAdding(false);
+  };
+
+  const handleUpdateRole = async (userId: string, currentRole: string) => {
+    let nextRole: 'developer' | 'admin' | 'team_leader' | 'recruiter' | 'client' = 'admin';
+    if (currentRole === 'admin') nextRole = 'team_leader';
+    else if (currentRole === 'team_leader') nextRole = 'recruiter';
+    else if (currentRole === 'recruiter') nextRole = 'client';
+    else if (currentRole === 'client') nextRole = 'developer';
+    else nextRole = 'admin';
+    
+    try {
+      await updateDoc(doc(db, 'users', userId), { role: nextRole });
+      await logActivity(
+         getUserDisplayName(),
+         user!.uid,
+         getUserRole(),
+         'Update Role',
+         userId,
+         null,
+         `Role updated from ${currentRole} to ${nextRole}`,
+         'Team User Management'
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleArchiveUser = async (userId: string) => {
+    setConfirmConfig({
+      isOpen: true,
+      title: 'Move User to Trash',
+      message: 'Move this user to Trash? They will lose access to the portal immediately.',
+      onConfirm: async () => {
+        try {
+          await updateDoc(doc(db, 'users', userId), { isArchived: true });
+        } catch (err) {
+          console.error(err);
+        }
+      },
+      variant: 'warning'
+    });
+  };
+
+  const handleRestoreUser = async (userId: string) => {
+    try {
+      await updateDoc(doc(db, 'users', userId), { isArchived: false });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleDeleteUserPermanently = async (userId: string) => {
+    setConfirmConfig({
+      isOpen: true,
+      title: 'Delete Team Member',
+      message: 'PERMANENT DELETE. This will remove the user entry from the database. Note: The user account in Firebase Auth remains but they will have NO role/access.',
+      onConfirm: async () => {
+        try {
+          await deleteDoc(doc(db, 'users', userId));
+        } catch (err) {
+          console.error(err);
+        }
+      },
+      variant: 'danger'
+    });
+  };
+
+  const handleResetDatabase = async () => {
+    setConfirmConfig({
+      isOpen: true,
+      title: 'Reset Database',
+      message: "EXTREME CAUTION: This will PERMANENTLY DELETE ALL candidates from the database. This action cannot be undone. Are you absolutely sure you want to proceed?",
+      onConfirm: async () => {
+        setIsResetting(true);
+        try {
+          const candidatesRef = collection(db, 'candidates');
+          const snapshot = await getDocs(candidatesRef);
+          
+          const batch = writeBatch(db);
+          snapshot.docs.forEach((d) => {
+            batch.delete(d.ref);
+          });
+          
+          await batch.commit();
+          showAlert('Database Purge Complete', `Success: ${snapshot.size} candidate records have been purged.`);
+        } catch (err: any) {
+          console.error(err);
+          setError("Database reset failed: " + err.message);
+        }
+        setIsResetting(false);
+      },
+      variant: 'danger'
+    });
+  };
+
+
+  if (role !== 'admin' && role !== 'team_leader' && role !== 'developer') {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center p-8 bg-[var(--bg-primary)] rounded-[2rem] border border-[var(--border-color)] shadow-sm transition-colors duration-300">
+        <Shield size={64} className="text-[var(--border-color)] mb-6 opacity-50" />
+        <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-2">Restricted Access</h2>
+        <p className="text-[var(--text-muted)]">Only administrators can manage users and roles.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 text-[var(--text-primary)]">
+      {/* Creation form */}
+      <section className="bg-[var(--card-bg)] p-8 rounded-[2rem] border border-[var(--border-color)] shadow-sm transition-colors duration-300">
+        <div className="mb-8">
+          <h2 className="text-3xl font-serif text-[var(--text-primary)]">Team Expansion</h2>
+          <p className="text-[var(--text-secondary)] text-sm mt-1">Directly register new team members with credentials</p>
+        </div>
+
+        {error && (
+          <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900/30 rounded-2xl text-red-600 dark:text-red-400 text-xs font-semibold flex items-center gap-2 animate-in fade-in zoom-in-95">
+            <Shield size={14} />
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleCreateUser} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+          <div className="space-y-1.5 flex flex-col">
+            <label className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest ml-1">Email (Gmail preferred)</label>
+            <div className="relative">
+              <Mail className="absolute left-3 top-2.5 text-[var(--text-muted)]" size={16} />
+              <input 
+                type="email" 
+                placeholder="colleague@aurrum.co"
+                value={newEmail}
+                onChange={(e) => setNewEmail(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 bg-[var(--sidebar-bg)] border border-[var(--border-color)] rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/10 text-sm h-11 text-[var(--text-primary)]"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="space-y-1.5 flex flex-col">
+            <label className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest ml-1">Temporary Password</label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-2.5 text-[var(--text-muted)]" size={16} />
+              <input 
+                type="password" 
+                placeholder="••••••••"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 bg-[var(--sidebar-bg)] border border-[var(--border-color)] rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/10 text-sm h-11 text-[var(--text-primary)]"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="space-y-1.5 flex flex-col">
+            <label className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest ml-1">Permission Role</label>
+            <select 
+              value={newRole}
+              onChange={(e) => setNewRole(e.target.value as any)}
+              className="w-full bg-[var(--sidebar-bg)] border border-[var(--border-color)] rounded-xl px-4 text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)] focus:outline-none focus:ring-2 focus:ring-indigo-500/10 h-11"
+            >
+              <option value="recruiter">Recruiter</option>
+              <option value="client">Client</option>
+              <option value="team_leader">Team Leader</option>
+              <option value="admin">Admin</option>
+              <option value="developer">Developer</option>
+            </select>
+          </div>
+
+          <button 
+            type="submit"
+            disabled={isAdding}
+            className="bg-indigo-600 text-white px-6 py-2 rounded-xl text-sm font-bold flex items-center justify-center gap-2 hover:bg-indigo-700 transition-all disabled:opacity-50 h-11"
+          >
+            {isAdding ? <Loader2 size={18} className="animate-spin" /> : <UserPlus size={18} />}
+            Register Member
+          </button>
+        </form>
+      </section>
+
+      {/* List section */}
+      <section className="bg-[var(--card-bg)] p-8 rounded-[2rem] border border-[var(--border-color)] shadow-sm flex flex-col gap-6 transition-colors duration-300">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-[var(--border-color)] pb-6">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+              <UserIcon size={20} />
+            </div>
+            <div>
+              <h3 className="text-xl font-serif text-[var(--text-primary)]">Rectech Team Directory</h3>
+              <p className="text-[10px] uppercase font-bold tracking-widest text-[var(--text-muted)]">Manage access and authority levels</p>
+            </div>
+          </div>
+
+          <div className="flex p-1 bg-[var(--sidebar-bg)] rounded-xl transition-colors duration-300 border border-[var(--border-color)]">
+            <button 
+              onClick={() => setView('active')}
+              className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${view === 'active' ? 'bg-[var(--card-bg)] text-indigo-600 dark:text-indigo-300 shadow-sm' : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'}`}
+            >
+              Active ({activeUsers.length})
+            </button>
+
+            <button 
+              onClick={() => setView('trash')}
+              className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${view === 'trash' ? 'bg-[var(--card-bg)] text-red-600 dark:text-red-400 shadow-sm' : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'}`}
+            >
+              Trash ({trashedUsers.length})
+            </button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {(view === 'active' ? activeUsers : trashedUsers).map((u) => (
+            <div key={u.id} className="flex items-center justify-between p-5 bg-[var(--card-bg)] rounded-[1.5rem] border border-[var(--border-color)] group transition-all hover:bg-[var(--sidebar-bg)] hover:shadow-sm">
+              <div className="flex items-center gap-4">
+                <div className={`w-12 h-12 rounded-2xl border flex items-center justify-center text-sm font-bold shadow-sm transition-all ${u.isArchived ? 'bg-red-50 dark:bg-red-900/20 border-red-100 dark:border-red-900/40 text-red-400 dark:text-red-300' : 'bg-[var(--bg-primary)] border-[var(--border-color)] text-indigo-600 dark:text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white'}`}>
+                  {(u.name || (u.email?.split('@')[0])).slice(0, 2).toUpperCase()}
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-[var(--text-primary)]">{u.name || (u.email?.split('@')[0])}</p>
+                  <p className="text-[10px] text-[var(--text-muted)] font-medium">{u.email}</p>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <p className={`text-[9px] uppercase font-black px-2 py-0.5 rounded-md ${u.role === 'admin' ? 'bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300' : 'bg-[var(--sidebar-bg)] text-[var(--text-muted)]'}`}>
+                      {u.role}
+                    </p>
+                    {u.addedBy === 'admin' && (
+                        <p className="text-[9px] text-[var(--text-muted)] font-medium italic opacity-60">Direct invite</p>
+                    )}
+                    {(role === 'admin' || role === 'team_leader' || role === 'developer') && u.role === 'recruiter' && (
+                        <div className="flex items-center gap-1.5 mt-2">
+                           <select 
+                            value={u.teamLeaderId || ''}
+                            onChange={async (e) => {
+                                await updateDoc(doc(db, 'users', u.id), { teamLeaderId: e.target.value });
+                            }}
+                            className="bg-[var(--sidebar-bg)] border border-[var(--border-color)] rounded-lg px-2 py-1 text-[9px] text-[var(--text-primary)]"
+                          >
+                            <option value="">No Team Leader</option>
+                            {users.filter(x => x.role === 'team_leader').map(tl => (
+                                <option key={tl.id} value={tl.id}>{tl.name || tl.email}</option>
+                            ))}
+                          </select>
+                          <button 
+                              onClick={async () => {
+                                  await updateDoc(doc(db, 'users', u.id), { canAssignCandidates: !u.canAssignCandidates });
+                              }}
+                              className={`flex items-center gap-1.5 transition-all duration-200 text-[9px] uppercase font-black px-2 py-1 rounded-md cursor-pointer hover:scale-[1.02] active:scale-[0.98] ${u.canAssignCandidates ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300' : 'bg-[var(--sidebar-bg)] text-[var(--text-muted)]'}`}
+                          >
+                              <Shield size={10} className={`${u.canAssignCandidates ? 'text-emerald-500' : 'text-[var(--text-muted)]'}`} />
+                              {u.canAssignCandidates ? 'Permission Active' : 'Access Restricted'}
+                          </button>
+                        </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all">
+                {view === 'active' ? (
+                  <>
+                    <button 
+                      onClick={() => handleArchiveUser(u.id)}
+                      className="p-2 text-slate-300 dark:text-slate-700 hover:text-amber-500 dark:hover:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/40 rounded-xl transition-all"
+                      title="Move to Trash"
+                    >
+                      <Trash2 size={18} />
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button 
+                      onClick={() => handleRestoreUser(u.id)}
+                      className="p-2 text-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-300 dark:hover:bg-emerald-900/40 hover:bg-emerald-50 rounded-xl transition-all"
+                      title="Restore User"
+                    >
+                      <RotateCcw size={18} />
+                    </button>
+                    <button 
+                      onClick={() => handleDeleteUserPermanently(u.id)}
+                      className="p-2 text-slate-300 dark:text-slate-700 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/40 rounded-xl transition-all"
+                      title="Delete Permanently"
+                    >
+                      <AlertTriangle size={18} />
+                    </button>
+                  </>
+                )
+                  }
+              </div>
+            </div>
+          ))}
+
+          {(view === 'active' ? activeUsers : trashedUsers).length === 0 && (
+            <div className="col-span-full py-12 text-center flex flex-col items-center justify-center bg-[var(--sidebar-bg)] rounded-[2rem] border border-dashed border-[var(--border-color)] transition-colors duration-300">
+              <UserIcon size={32} className="text-[var(--border-color)] mb-2" />
+              <p className="text-[var(--text-muted)] text-sm font-medium italic">No {view} team members found</p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Database Reset Section (Admin Only) */}
+      <section className="bg-red-50/30 dark:bg-red-950/10 p-8 rounded-[2rem] border border-red-100/50 dark:border-red-900/30 transition-all duration-300">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-red-100 dark:bg-red-900/40 rounded-2xl flex items-center justify-center text-red-600 dark:text-red-400">
+              <Database size={24} />
+            </div>
+            <div>
+              <h3 className="text-xl font-serif text-red-900 dark:text-red-100">Strategic Reset</h3>
+              <p className="text-xs text-red-600/60 dark:text-red-400/50 font-medium">Clear all candidate intelligence for a fresh platform launch</p>
+            </div>
+          </div>
+          
+          <button 
+            onClick={handleResetDatabase}
+            disabled={isResetting}
+            className="px-6 py-3 bg-red-600 text-white rounded-xl text-sm font-black uppercase tracking-widest hover:bg-red-700 transition-all shadow-lg shadow-red-200 dark:shadow-none flex items-center gap-2 disabled:opacity-50"
+          >
+            {isResetting ? <Loader2 size={18} className="animate-spin" /> : <RefreshCcw size={18} />}
+            Purge All Database Records
+          </button>
+        </div>
+      </section>
+
+      <ConfirmModal 
+        isOpen={confirmConfig.isOpen}
+        title={confirmConfig.title}
+        message={confirmConfig.message}
+        onConfirm={confirmConfig.onConfirm}
+        onCancel={() => setConfirmConfig(prev => ({ ...prev, isOpen: false }))}
+        variant={confirmConfig.variant}
+        confirmText={confirmConfig.confirmText}
+      />
+    </div>
+  );
+}
