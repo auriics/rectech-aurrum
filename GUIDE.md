@@ -5,6 +5,7 @@ Talent Insights / Aurrum CRM is an enterprise-grade recruiting, candidate pipeli
 
 ---
 
+<<<<<<< Updated upstream
 ## Key Features & Capabilities
 
 ### 1. Robust Resume Upload, Validation & AI Parsing Pipeline
@@ -37,5 +38,319 @@ Talent Insights / Aurrum CRM is an enterprise-grade recruiting, candidate pipeli
 ### 7. Global Branding Engine
 - System Settings integration for managing corporate identity assets globally for Light and Dark themes.
 - Dynamic multi-surface application across Sidebar Navigation, Login Screen, and Invoices/Print/PDF views.
+=======
+## 2. Core Architectural & Design Principles
+
+### Unified Theme Parity (Light & Dark Mode)
+- **Single Component Architecture:** Light Theme and Dark Theme share the exact same component structure, typography scale, padding, margin, border-radius, and interactive functionality.
+- **Variable-Driven Custom Properties:** Theme switching toggles semantic CSS custom properties (`--bg-primary`, `--card-bg`, `--text-primary`, `--text-muted`, `--border-color`, etc.) smoothly in `200ms–300ms` transitions without page refresh, layout shifts, or component re-renders.
+- **Elimination of Hardcoded CSS:** Component code MUST NOT use hardcoded light/dark Tailwind classes like `bg-slate-50`, `dark:bg-slate-900`, `text-indigo-600`, or `dark:text-indigo-400`. All styling must use semantic tokens like `bg-[var(--card-bg)]`, `text-[var(--text-primary)]`, `text-[var(--primary-gold)]`, and `.crm-btn-gold`.
+
+---
+
+## 3. Light Theme vs Dark Theme Standards
+
+### Aurrum Light Theme Standards (Client-Ready & High Contrast)
+- **Backgrounds:** Pure white (`#FFFFFF`) cards and modal surfaces layered on a crisp, soft neutral canvas (`#F8FAFC`).
+- **Typography:** High-contrast solid dark navy typography (`#002D38` primary, `#003649` secondary, `#005472` muted). Faded gray text is strictly forbidden.
+- **Borders & Elevation:** Crisp 1px borders (`#E2E8F0`) with subtle, refined elevation shadows.
+- **Accents & Buttons:** Brand Primary Blue (`#004564`) and Primary Gold (`#A98B56`).
+
+### Aurrum Dark Theme Standards (Modern & Comfortable)
+- **Backgrounds:** Layered deep brand blue surfaces (`#002D38` canvas, `#003E51` cards) rather than harsh pure black (`#000000`).
+- **Typography:** High-contrast off-white and pure white typography (`#FFFFFF` primary, `#E2E8F0` secondary, `#94A3B8` muted).
+- **Borders & Elevation:** Subtle dark blue borders (`#005472`) and soft depth shadows.
+
+---
+
+## 4. Typography Specifications (Font: Poppins)
+- **Primary Font Family:** **Poppins** across all modules (`font-sans`).
+- **Hierarchy Rules:**
+  - **Headings (H1 - H3):** Poppins 700-800 weight, tight tracking, high-contrast brand tokens (`var(--text-primary)`).
+  - **Body Text:** Poppins 400-500 weight, 1.5–1.6 line height for effortless long-session reading.
+  - **UI Labels, Badges & Buttons:** Poppins 600-700 weight, medium/tight tracking.
+- **Accessibility & Contrast:** Minimum 4.5:1 contrast ratio for body text in both light and dark modes.
+
+---
+
+## 5. Official Brand Palette & CSS Token Architecture
+
+### Primary Palette
+- **Primary Brand Blue (`#004564`)**: Main brand color for primary actions, active headers, and focal points.
+- **Darkest Blue (`#002D38`)**: Primary text token in light mode, primary background surface in dark mode.
+- **Primary Gold Accent (`#A98B56`)**: Primary accent color, active state indicators, and gold button gradients (`#A98B56` to `#BC9B66`).
+
+### CSS Token Mapping (`src/index.css`)
+
+| Semantic Token | Light Theme Value | Dark Theme Value | Usage Description |
+| :--- | :--- | :--- | :--- |
+| `--bg-primary` | `#F8FAFC` | `#002D38` | Main application canvas background |
+| `--bg-secondary` | `#EDF2F7` | `#003649` | Secondary containers, table headers, hover surfaces |
+| `--card-bg` | `#FFFFFF` | `#003E51` | Surface for cards, modals, and drawers |
+| `--card-hover-bg` | `#F1F5F9` | `#004564` | Row and card hover background |
+| `--text-primary` | `#002D38` | `#FFFFFF` | High-contrast main headings and body text |
+| `--text-secondary` | `#003649` | `#E2E8F0` | Subtitles, table cell secondary content |
+| `--text-muted` | `#005472` | `#94A3B8` | Muted labels, placeholders, timestamps |
+| `--border-color` | `#E2E8F0` | `#005472` | Card borders, table dividers, input borders |
+| `--primary-gold` | `#A98B56` | `#A98B56` | Primary brand gold accent |
+
+---
+
+## 6. Core Component Library Standards
+
+### Sidebar Navigation
+- Premium collapsible navigation with structured section headers (**Workspace**, **Management** — admin/team_leader/developer and privileged roles only, **Preferences**).
+- Featuring the Aurrum Gold Sparkle emblem, smooth collapse transitions, active tab left accent line (`#A98B56`), floating tooltips, and bottom user profile card.
+- Mobile-responsive: below the `lg` breakpoint the sidebar renders as a full-screen slide-in drawer triggered by a hamburger button in the top header, with the same section structure and role-based item visibility as desktop.
+- *Note:* Redundant developer maintenance tools (JSON Resume Uploader and Live Resume Sync) have been permanently removed from the sidebar across all roles. The primary sidebar implementation lives inline in `src/pages/Dashboard.tsx`; the standalone `src/components/layout/Sidebar.tsx` + `DashboardLayout.tsx` pair exists in the codebase but is not currently wired into any route.
+
+### Buttons & Interactive Controls
+- **Primary Gold Button (`.crm-btn-gold`)**: High-contrast gold gradient button (`#A98B56` -> `#BC9B66`) with active scale feedback.
+- **Secondary Button (`.crm-btn-secondary`)**: Clean surface button with custom border and brand color text.
+- **Form Inputs (`.crm-input`, `.crm-label`)**: Theme-aware input fields with high-contrast text labels and primary gold focus rings.
+
+### Tables & Data Cards
+- Standardized `.crm-table` and `.crm-card` styling across Candidate Repository, Pipeline, Invoice Management, and Analytics views.
+- Sticky high-contrast table headers, comfortable padding, and standardized status badges (`.crm-badge-gold`, `.crm-badge-success`, `.crm-badge-warning`, `.crm-badge-error`, `.crm-badge-info`).
+- Candidate table explicitly displays the **Uploaded By** attribute column for precise tracking.
+
+---
+
+## 7. Security Specifications & Data Invariants
+1. **IP-Based Access Restriction:** Managed via `ALLOWED_IPS` environment variable with fail-closed security.
+2. **Firestore Security Rules:** Strict rules enforcing authentication and requiring `uploadedBy` UID validation on candidate records.
+3. **Client Portal Profile Safeguards:** Sensitive configuration panels such as Security & Password and Client Billing Configuration are hidden from client views to maintain a clean client experience.
+4. **Settings Collection Access:** `match /settings/{settingId}` allows public read (`allow read: if true`) and write by any signed-in user (`allow write: if isSignedIn()`) — this was widened from admin-only writes and a hardcoded `global` document ID to support additional per-feature settings documents (e.g. invoice design config) written by non-admin roles.
+
+---
+
+## 8. AI Resume Parsing Engine & JSON Resume Architecture
+- **High-Capability AI Models:** Uses `gemini-3.1-pro-preview` as the primary parsing engine (with automatic fallback to `gemini-3.8-flash`) via `@google/genai` to guarantee exhaustive, high-precision structured data extraction.
+- **Queue-Based Bulk Processing & Enhanced Batch Limits:** Supports up to 50 CVs per batch upload. Implements high-performance queue-based processing with 3–5 parallel workers, automatic retries with exponential backoff, and automatic secondary re-extraction/cross-reference fallback passes when any fields are missing.
+- **Candidate Actions:**
+  - **AI Re-Extract:** Authorized users (Admin and Developer) can trigger re-parsing of raw resume files to update profile fields, preserving manual edits.
+  - **Download CV:** Recruiters, Admins, and Developers can download original uploaded resume files.
+- **Persistent Extraction Storage:** Permanently stores original resumes, extracted raw text, parsed JSON, AI metadata, and file hashes to support efficient re-parsing without requiring re-upload.
+
+---
+
+## 9. Global Logo & Branding Engine
+
+To ensure cohesive corporate identity across all customer touchpoints, the CRM implements a unified **Global Branding Engine**:
+
+### Centralized Management
+- **System Settings Integration:** Located under **System Settings → Global CRM Branding**, administrators can manage corporate identity assets globally.
+- **Light & Dark Theme Parity:** Upload distinct logos or supply direct URLs for both **Light Theme** (optimized for white backgrounds) and **Dark Theme** (optimized for navy/dark blue backgrounds).
+- **Format & Constraint Validation:** Supports drag-and-drop or file browsing (PNG, JPG, SVG, WebP up to 500KB) with instant preview frames of corresponding theme backgrounds.
+
+### Automated Multi-Surface Application
+Once configured globally in the database, the logos dynamically apply across all system surfaces with zero secondary configuration:
+1. **Sidebar Navigation:** Automatically displays the appropriate active branding logo adapting to the user's selected global theme.
+2. **Login Screen:** Welcomes users with the official global corporate branding in perfect high-contrast.
+3. **Invoices Module:** All invoice templates, print sheets, and generated PDF structures automatically inherit the Light Theme logo to match the crisp white paper canvas layout.
+
+---
+
+## 10. Performance & Load Optimization Architecture
+
+To maintain lightning-fast responsiveness across enterprise workflows (even with thousands of candidate profiles), Aurrum CRM implements rigorous performance optimizations:
+
+1. **Payload Separation (Firebase Storage):**
+   - Original resume files are uploaded directly to Firebase Storage (`resumes/`), storing only lightweight metadata (`cvStorageUrl`, `cvFileName`, `cvSizeBytes`, `cvFileHash`) on Firestore candidate documents.
+   - Eliminates multi-megabyte base64 payload bloat in Firestore document reads.
+
+2. **Bounded Real-Time Listeners:**
+   - All Firestore `onSnapshot` subscriptions use strict query boundaries (`orderBy`, `where`, and `limit(100)`), preventing unbounded collection-wide data transfers on every update.
+
+3. **Optimized Derived State (`useMemo`) & Debounced Search:**
+   - Complex sorting, status filtering, and search matching are wrapped in `useMemo` hooks keyed to raw query snapshots and filter parameters to avoid redundant re-renders.
+   - Search-input queries are debounced to eliminate unnecessary CPU spikes.
+
+4. **Instant Client-Side AI Search Fallbacks:**
+   - The AI CV Search Assistant features an instant client-side heuristic fallback mechanism. If API rate limits (HTTP 429) or network timeouts occur, the search engine instantly processes candidate attributes locally to ensure zero downtime and uninterrupted recruiter workflows.
+
+5. **Standardized Pagination:**
+   - Large datasets (Candidates, Invoices, Activity Logs) feature robust client and server pagination controls (`15–50` items per page) with intuitive navigation.
+
+---
+
+## 11. Invoice Fee Calculation, Bank Account Instructions & Robust PDF Export Engine
+
+Aurrum CRM features an enterprise-grade automated billing and invoicing module:
+
+1. **Per-Invoice Placement Fee Calculator:**
+   - Annual CTC and Fee Percentage calculations (`calcCtc` and `calcFeePercent`) are bound to each unique invoice ID rather than shared globally. Edits made to one invoice do not overwrite or affect other invoices.
+   - Every candidate profile includes an **Annual Salary (CTC)** property. Each client profile supports configurable placement billing rules: either **Percentage (%)** of CTC or **Fixed Amount ($)**.
+
+2. **Official Aurrum Brand Logo & Invoice Design:**
+   - Both **Custom Invoices** and **Dynamic/Consolidated Invoices** feature the official Aurrum branding: the golden sparkle emblem (`#A98B56` to `#BC9B66`), `Aurrum CRM` title, and `Talent Insights & Recruitment Services` tagline.
+   - Designed to maintain exact aspect ratios without stretching, blurring, or cropping across both light and dark print/preview modes.
+
+3. **Bank Account Payment Instructions:**
+   - Invoice receipts, printable views, and PDF exports automatically include complete **Bank Payment Instructions** (Payee Name, Bank Name, Branch, Account Number, and SWIFT/BIC Code) when configured.
+   - Full editable input fields are provided in the invoice edit modal to update bank payment instructions per invoice.
+
+4. **Streamlined Invoice Table & Summary Metrics:**
+   - The main invoice table is optimized by focusing on essential columns (Invoice #, Client / Company, Total Amount, Due Date, Status, and Actions).
+   - Dashboard and header badges display accurate **Total Pending Amount** for unpaid/pending statements.
+
+5. **Robust PDF Generation Engine:**
+   - Leverages `html2canvas` and `jspdf` to render pixel-perfect multi-page PDF statements with clean table layouts, embedded vector branding, and USD currency formatting for seamless production export and download.
+
+---
+
+## 12. Enterprise Notification System & Real-Time Alerts
+
+Aurrum CRM features an enterprise-grade real-time notification system:
+
+1. **Client Candidate Assignment Notifications:**
+   - When a recruiter or admin assigns a candidate to a client, an immediate Firestore notification is created targeting solely the assigned client user (`recipientId`), containing candidate name, assignment action, sender details, timestamp, and candidate reference ID.
+   - Notifications appear instantly in the client's notification center without page refreshes, driven by bounded Firestore `onSnapshot` listeners.
+
+2. **Comprehensive CRM Activity Alerts:**
+   - Generates notifications for candidate assignments, status changes, client reviews, shortlists, feedback, and invoice updates.
+
+3. **Duplicate Prevention & Non-Blocking Resilience:**
+   - Built-in deduplication check verifies recipient, candidate reference, and notification type within a 30-second window before committing writes to prevent redundant alerts.
+   - All notification dispatches are wrapped in non-blocking try/catch blocks; notification write failures never break or interrupt primary CRM actions.
+
+4. **Unread Count & Badge Tracking:**
+   - Real-time unread counter tracks unread notifications, decreases upon reading or batch marking ("Mark all as read"), and maintains strict user/role data segregation.
+
+- **Download All CVs in One ZIP Archive:** The **CV Repository** features a dedicated **"Download All CVs (ZIP)"** action button that packages all candidate CV documents (PDF, Word DOCX) into a single structured archive (`Aurrum_CRM_All_CVs_YYYY-MM-DD.zip`), enabling recruiters and admins to download the entire talent pool instantly.
+
+---
+
+## 13. Client Portal Candidate Assignment Display
+
+- **Assigned Client Visibility:** In the Client Portal (`ClientAssignedCandidates`, `ClientCvRepository`, and `ClientShortlist`), every candidate listing card and table row explicitly displays the **Assigned Client** name with a dedicated building icon badge.
+- **Client Resolution Logic:** Automatically resolves client identification across `candidate.clientName`, lookup against the team list using `candidate.clientId` or `candidate.assignedToClient`, falling back to `candidate.clientEmail` or shortened ID.
+
+---
+
+## 14. Role-Based Access Controls for Advanced Tools
+- **Clean Sidebar Architecture:** Redundant developer maintenance tabs have been permanently retired from the navigation menu across all user roles.
+- **Granular Permissions:** Invoices, candidate editing, system settings, and bulk actions are appropriately governed across Admin, Team Leader, Recruiter, Client, and Developer roles.
+
+---
+
+## 15. Resilient AI Parser & Rate-Limit Fault Tolerance
+- **Smart Error Recovery:** The backend and client Gemini resume parsers incorporate robust error handlers for HTTP 503 service errors and HTTP 429 quota exhaustion limits.
+- **Local Fallback Engine:** When AI quotas or network errors occur, the parser seamlessly defaults to high-accuracy regex and structural heuristic extraction to ensure zero data loss during resume ingestion.
+
+---
+
+## 16. Type-Safe Certification & Education Rendering
+- **Object/String Agnostic Handling:** Candidate certifications and education records support both raw string formats and structured metadata objects (`{ name, issuer, year }`).
+- **Crash Prevention:** All UI views (CandidateModal, CandidateDetails) include defensive guards (`typeof c === 'string' ? c : (c.name || JSON.stringify(c))`) to prevent React runtime object rendering crashes.
+
+---
+
+## 17. Comprehensive CV Repository Bulk ZIP Packaging
+- **Multi-Source Archive Generation:** The bulk ZIP export tool in the CV Repository processes candidates with base64 storage, URL storage, or raw profile text fallback, ensuring that every profile in the talent pool is successfully packaged into a clean download archive.
+
+---
+
+## 18. Backend Bulk Resume Parser & 1500+ Ingestion Engine
+
+For bulk importing 1,500+ resumes with complete structured JSON extraction:
+
+1. **Folder Setup**:
+   - Place all raw resume files (`.pdf`, `.docx`, `.txt`) into a local directory named `bulk_resumes/` at the root of the project.
+2. **Automated Backend Script (`scripts/bulk_parse_resumes.ts`)**:
+   - Run the ingestion script using `npx tsx scripts/bulk_parse_resumes.ts`.
+   - **Text Extraction**: Uses `pdf-parse` for PDFs and `mammoth` for Word documents (`.docx`).
+   - **Gemini AI Structured Extraction**: Sends extracted raw text to Google Gemini (`gemini-2.5-flash`) with strict JSON schema definitions (`Type.OBJECT`, `Type.ARRAY`) to extract Name, Email, Phone, Location, Summary, Skills, Experience history, Education, Certifications, Domain, and ATS scores.
+3. **Batch Processing & Rate Limiting**:
+   - Processes resumes in concurrency batches of 5 with automatic rate-limiting pauses and JSON progress checkpoints saved to `parsed_candidates_batch.json`.
+4. **Database Sync**:
+   - The generated JSON file can be imported directly into Firestore or seeded into Aurrum CRM using the batch seeding utilities.
+
+---
+
+## 19. Precision Experience Calculation & Overlap Merging Engine
+
+1. **Interval-Based Tenure Calculation (`src/utils/experienceUtils.ts`)**:
+   - Parses start and end dates with month and year precision (e.g., "Jan 2020", "2021-05").
+   - Automatically resolves **current/ongoing employment** ("Present", "Current", "Now", "Till Date").
+   - **Overlap Merging**: Sorts and merges overlapping or contiguous employment date ranges to prevent artificial inflation or double-counting of simultaneous positions.
+2. **Integrity Guard**:
+   - Correctly calculates fractional years with 1-decimal precision. Preserves `0 Years` only when a resume genuinely lacks work history or valid date information, without fabricating fake tenure.
+
+---
+
+## 20. Parser Quality Audit & Completeness Assurance
+
+1. **Quality Scoring Engine (`src/utils/parserQuality.ts`)**:
+   - Evaluates parsed candidate records against original CV text for completeness (Full Name, Email, Work Experience, Education, Skills, Professional Summary).
+   - Computes a **Quality Score (0–100)** and categorizes completeness (`high`, `medium`, `low`).
+2. **Automated Audit & Re-Parse (`/api/candidates/audit-and-reparse`)**:
+   - Scans stored candidates for missing fields or zero experience despite valid resume text.
+   - Automatically re-parses and updates records while preserving existing manual edits.
+3. **Database Details Maintenance Tools**:
+   - Developers have access to dedicated management utilities in **Database Details**:
+     - **Fix 0-Experience Resumes**: Instantly re-calculates experience for candidates showing 0 years.
+     - **Audit & Re-Parse All Resumes**: Executes a full database quality audit and re-parses records requiring correction.
+
+---
+
+## 21. Website Leads → Parse Resume Flow & Firebase Admin Architecture
+
+1. **WordPress CRM Integration**:
+   - Automatically syncs inbound leads and resume attachments from the WordPress API (`aurrum.co/wp-json/aurrum/v1/crm-leads`).
+2. **Interactive Website Lead Resume Cards**:
+   - Displays file names, file types, secure download links, and real-time status indicators (*Not Parsed*, *Parsing...*, *Parsed*, *Failed (Queued for Retry)*).
+3. **Server-Side Secure Parsing Flow**:
+   - Clicking **Parse Resume** triggers `/api/wordpress/parse-lead-resume`.
+   - Securely fetches and validates resume buffers, detects PDF/DOCX format, extracts raw text, processes through Gemini AI resume parser (with heuristic fallback), and validates data quality.
+   - **Data URI Support (`src/services/leadWebhookService.ts`):** `resumeUrl` values may be inline `data:` URIs (base64-encoded), not just remote URLs. These are decoded directly to a buffer without a network fetch, with a minimum 50-byte size check to reject empty/corrupted payloads. Remote fetch failures and undersized/oversized downloads now throw explicit `RESUME_FETCH_FAILED` errors instead of silently substituting a fallback placeholder PDF, so parsing failures surface accurately instead of producing blank candidate records.
+4. **Deduplication & Candidate List Sync**:
+   - Performs email and `resumeUrl` deduplication checks against existing candidate records in Firestore before creation or update.
+   - Automatically synchronizes the main Candidate List and AI CV Finder without requiring manual page refreshes.
+5. **Centralized Firebase Admin Initialization (`/src/services/firebaseAdmin.ts`)**:
+   - Provides a robust singleton Firebase Admin initialization layer that explicitly binds to the `aurrum-production` database ID.
+   - Protects serverless and background queue execution paths (Vercel / Cloud Run) from uninitialized database errors.
+
+---
+
+## 22. Rectech Enterprise Invoice & Dynamic Fee Calculation Engine
+
+1. **Effective Subtotal & Total Calculation Engine**:
+   - Implements centralized `getEffectiveSubtotal` and `getEffectiveTotal` utility functions that dynamically evaluate placement fees, candidate line items, subtotal adjustments, tax rates, and discounts as the single source of truth.
+   - Eliminates `$0.00` calculation bugs by correctly falling back when base subtotal properties are absent or modified.
+
+2. **Unified Preview, Print, and PDF Consistency**:
+   - Synchronizes invoice calculation and presentation logic across the interactive invoice modal, preview component, A4 print layout generator (`handlePrintInvoice`), and PDF export generator (`handleDownloadPDF`).
+   - Ensures any updates to line items, placement fees, or discounts instantly reflect across preview, print, and PDF exports in real time.
+
+---
+
+## 23. Invoice Design & Branding Editor (`src/components/InvoiceDesignEditor.tsx`)
+
+1. **Visual Layout Customization:**
+   - A dedicated design editor (launched from Invoices) lets users tune the generated PDF/print layout live: logo width/height, header spacing, page margin, section spacing, container padding, table row height, font size, line height, and border thickness.
+2. **Branding Controls:**
+   - Configurable primary color, gold accent color, and text color used across the invoice template.
+   - Watermark support with adjustable size, opacity, and position (`center`, `top-right`, `bottom-right`), plus signature alignment (`left`, `center`, `right`).
+3. **Extended Invoice Branding Fields (`src/types.ts`):**
+   - Per-invoice fields now support `senderAddress`, `logoVariant` (`dark` | `white` | `custom`), `darkLogoUrl`, `whiteLogoUrl`, `logoUrl`, `watermarkUrl`, `watermarkText`, and `signatureUrl`, allowing distinct branding assets per invoice rather than a single global logo.
+4. **Persistence:**
+   - Design configuration is saved to Firestore under the `settings` collection via `loadInvoiceDesign` / `setDoc`, gated by the widened settings write rule described in Section 7.
+>>>>>>> Stashed changes
 
 
+
+---
+
+## 24. Database Administration & Utility Scripts
+
+1. **Admin User Creation (`scripts/create_admin_user.ts`)**:
+   - A robust script to create or update a Firebase Auth user and the corresponding Firestore `users/{uid}` document with a specified role.
+   - Usage: `npx tsx scripts/create_admin_user.ts <email> <password> [name] [role]`
+   - Alternatively, it supports configuration via environment variables: `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `ADMIN_ROLE`.
+   - Prevents hardcoded credentials and resolves authentication edge cases (like updating passwords for existing users).
+
+2. **Database Backup & Dump (`scripts/dump_database.ts`)**:
+   - Performs a full extraction of the `aurrum-production` Firestore database using the Admin SDK.
+   - Iterates through all root collections and writes documents to a local `firestore_dump.json` file.
+   - Crucial for data migrations, local testing, and offline auditing.
