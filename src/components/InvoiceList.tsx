@@ -223,14 +223,14 @@ export const InvoiceList = () => {
       const total = getEffectiveTotal(inv);
 
       const logoVariant = inv.logoVariant || 'dark';
-      const darkLogo = inv.darkLogoUrl || 'https://aurrum.co/wp-content/uploads/2026/05/Rectech-Logo.svg';
-      const whiteLogo = inv.whiteLogoUrl || 'https://aurrum.co/wp-content/uploads/2026/05/Rectech-white-logo.svg';
+      const darkLogo = inv.darkLogoUrl || 'https://aurrum.co/wp-content/uploads/2026/04/Aurrum_Logo-2.png';
+      const whiteLogo = inv.whiteLogoUrl || 'https://aurrum.co/wp-content/uploads/2026/04/Aurrum_Logo-2.png';
       const displayLogo = logoVariant === 'white' 
         ? whiteLogo 
         : (logoVariant === 'custom' && inv.logoUrl ? inv.logoUrl : darkLogo);
       const watermarkImg = inv.watermarkUrl || displayLogo;
 
-      const logoContainerStyle = 'width: 48px; height: 48px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 6px;';
+      const logoContainerStyle = 'width: auto; height: 60px; max-width: 240px; display: flex; align-items: center; justify-content: flex-start; flex-shrink: 0;';
 
       const cleanSigName = (!inv.signatoryName || inv.signatoryName.includes('dfgvdsf') || inv.signatoryName.includes('gvsdfesf')) ? 'Mayur Jungi' : inv.signatoryName;
       const cleanSigTitle = (!inv.signatoryTitle || inv.signatoryTitle.includes('dfgvdsf') || inv.signatoryTitle.includes('gvsdfesf')) ? 'Operations Manager' : inv.signatoryTitle;
@@ -253,7 +253,7 @@ export const InvoiceList = () => {
             <div style="display: flex;  align-items: flex-start; border-bottom: 2px solid #004564; padding-bottom: 16px; margin-bottom: 20px;">
               <div style="display: flex; align-items: flex-start; gap: 12px;">
                 <div style="${logoContainerStyle}">
-                  <img src="${displayLogo}" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;" />
+                  <img src="${displayLogo}" alt="Logo" style="width: auto; height: 100%; max-width: 100%; object-fit: contain;" />
                 </div>
                 <div>
                   <h1 style="font-size: 21px; font-weight: 800; color: #002D38; margin: 0 0 2px 0;">${inv.senderName || 'AURRUM SERVICES'}</h1>
@@ -428,14 +428,14 @@ export const InvoiceList = () => {
     const total = getEffectiveTotal(inv);
 
     const logoVariant = inv.logoVariant || 'dark';
-    const darkLogo = inv.darkLogoUrl || 'https://aurrum.co/wp-content/uploads/2026/05/Rectech-Logo.svg';
-    const whiteLogo = inv.whiteLogoUrl || 'https://aurrum.co/wp-content/uploads/2026/05/Rectech-white-logo.svg';
+    const darkLogo = inv.darkLogoUrl || 'https://aurrum.co/wp-content/uploads/2026/04/Aurrum_Logo-2.png';
+    const whiteLogo = inv.whiteLogoUrl || 'https://aurrum.co/wp-content/uploads/2026/04/Aurrum_Logo-2.png';
     const displayLogo = logoVariant === 'white' 
       ? whiteLogo 
       : (logoVariant === 'custom' && inv.logoUrl ? inv.logoUrl : darkLogo);
     const watermarkImg = inv.watermarkUrl || displayLogo;
 
-    const logoContainerStyle = 'width: 48px; height: 48px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 6px;';
+    const logoContainerStyle = 'width: auto; height: 60px; max-width: 240px; display: flex; align-items: center; justify-content: flex-start; flex-shrink: 0;';
 
     const cleanSigName = (!inv.signatoryName || inv.signatoryName.includes('dfgvdsf') || inv.signatoryName.includes('gvsdfesf')) ? 'Mayur Jungi' : inv.signatoryName;
     const cleanSigTitle = (!inv.signatoryTitle || inv.signatoryTitle.includes('dfgvdsf') || inv.signatoryTitle.includes('gvsdfesf')) ? 'Operations Manager' : inv.signatoryTitle;
@@ -501,7 +501,7 @@ export const InvoiceList = () => {
               <div style="display: flex;  align-items: flex-start; border-bottom: 2px solid #004564; padding-bottom: 16px; margin-bottom: 20px;">
                 <div style="display: flex; align-items: flex-start; gap: 12px;">
                   <div style="${logoContainerStyle}">
-                    <img src="${displayLogo}" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;" />
+                    <img src="${displayLogo}" alt="Logo" style="width: auto; height: 100%; max-width: 100%; object-fit: contain;" />
                   </div>
                   <div>
                     <h1 style="font-size: 21px; font-weight: 800; color: #002D38; margin: 0 0 2px 0;">${inv.senderName || 'AURRUM SERVICES'}</h1>
@@ -1032,7 +1032,7 @@ export const InvoiceList = () => {
                         }`}
                       >
                         <div className="w-10 h-10 bg-[#002D38] rounded-lg flex items-center justify-center p-2">
-                          <img src={editedInvoice.darkLogoUrl || 'https://aurrum.co/wp-content/uploads/2026/05/Rectech-Logo.svg'} alt="Dark Logo" className="w-full h-full object-contain" />
+                          <img src={editedInvoice.darkLogoUrl || 'https://aurrum.co/wp-content/uploads/2026/04/Aurrum_Logo-2.png'} alt="Dark Logo" className="w-full h-full object-contain" />
                         </div>
                         <div>
                           <div className="text-xs font-bold text-[var(--text-primary)]">Dark Logo Variant</div>
@@ -1050,7 +1050,7 @@ export const InvoiceList = () => {
                         }`}
                       >
                         <div className="w-10 h-10 bg-[#004564] rounded-lg flex items-center justify-center p-2">
-                          <img src={editedInvoice.whiteLogoUrl || 'https://aurrum.co/wp-content/uploads/2026/05/Rectech-white-logo.svg'} alt="White Logo" className="w-full h-full object-contain" />
+                          <img src={editedInvoice.whiteLogoUrl || 'https://aurrum.co/wp-content/uploads/2026/04/Aurrum_Logo-2.png'} alt="White Logo" className="w-full h-full object-contain" />
                         </div>
                         <div>
                           <div className="text-xs font-bold text-[var(--text-primary)]">White Logo Variant</div>

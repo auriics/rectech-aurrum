@@ -196,8 +196,8 @@ export default function SystemSettings() {
 
   const isAdmin = role === 'admin' || role === 'developer';
 
-  const defaultLightSvg = 'https://aurrum.co/wp-content/uploads/2026/05/Rectech-Logo.svg';
-  const defaultDarkSvg = 'https://aurrum.co/wp-content/uploads/2026/05/Rectech-white-logo.svg';
+  const defaultLightSvg = 'https://aurrum.co/wp-content/uploads/2026/04/Aurrum_Logo-2.png';
+  const defaultDarkSvg = 'https://aurrum.co/wp-content/uploads/2026/04/Aurrum_Logo-2.png';
 
   const fetchGeminiStatus = async () => {
     setIsLoadingGeminiStatus(true);

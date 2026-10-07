@@ -27,8 +27,8 @@ export default function Logo({
   const isDarkBg = theme === 'dark';
 
   const defaultRectechLogo = isDarkBg 
-    ? 'https://aurrum.co/wp-content/uploads/2026/05/Rectech-white-logo.svg' 
-    : 'https://aurrum.co/wp-content/uploads/2026/05/Rectech-Logo.svg';
+    ? 'https://aurrum.co/wp-content/uploads/2026/04/Aurrum_Logo-2.png' 
+    : 'https://aurrum.co/wp-content/uploads/2026/04/Aurrum_Logo-2.png';
 
   // Determine logo source based on requested variant
   let logoSrc = activeLogoUrl;

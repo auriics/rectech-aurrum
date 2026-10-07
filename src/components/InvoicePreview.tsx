@@ -18,8 +18,8 @@ export const InvoicePreview = React.forwardRef<HTMLDivElement, { invoice: Invoic
       : Math.max(0, subtotal + (invAny.tax || invAny.taxAmount || 0) - (invAny.discountAmount || 0));
 
   const logoVariant = invoice.logoVariant || 'dark';
-  const darkLogo = invoice.darkLogoUrl || propLogoUrl || 'https://aurrum.co/wp-content/uploads/2026/05/Rectech-Logo.svg';
-  const whiteLogo = invoice.whiteLogoUrl || 'https://aurrum.co/wp-content/uploads/2026/05/Rectech-white-logo.svg';
+  const darkLogo = invoice.darkLogoUrl || propLogoUrl || 'https://aurrum.co/wp-content/uploads/2026/04/Aurrum_Logo-2.png';
+  const whiteLogo = invoice.whiteLogoUrl || 'https://aurrum.co/wp-content/uploads/2026/04/Aurrum_Logo-2.png';
   
   const displayLogoUrl = logoVariant === 'white' 
     ? whiteLogo 
@@ -67,7 +67,7 @@ export const InvoicePreview = React.forwardRef<HTMLDivElement, { invoice: Invoic
               <img 
                 src={displayLogoUrl} 
                 alt="Logo" 
-                className="h-20 w-20 object-contain shrink-0 p-1 bg-white border border-[#cbd5e1] rounded-xl"
+                className="h-14 w-auto max-w-[220px] object-contain shrink-0"
                 crossOrigin="anonymous"
               />
               <div>
