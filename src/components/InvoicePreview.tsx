@@ -34,7 +34,7 @@ export const InvoicePreview = React.forwardRef<HTMLDivElement, { invoice: Invoic
     <div 
       ref={ref} 
       style={{ width: '794px', height: '1123px', boxSizing: 'border-box' }}
-      className="relative overflow-hidden p-[40px] bg-white text-[#002D38] mx-auto shadow-2xl font-sans flex flex-col justify-between"
+      className="relative overflow-hidden p-[24px] bg-white text-[#002D38] mx-auto shadow-2xl font-sans flex flex-col"
     >
       {/* Centered Background Watermark Image or Text */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0">
@@ -63,51 +63,51 @@ export const InvoicePreview = React.forwardRef<HTMLDivElement, { invoice: Invoic
         <div className="space-y-6">
           {/* Header Bar */}
           <div className="flex justify-between items-start pb-4 border-b-2 border-[#004564]">
-            <div className="flex items-start gap-3">
+            <div className="flex items-start gap-5">
               <img 
                 src={displayLogoUrl} 
                 alt="Logo" 
-                className="h-12 w-12 object-contain shrink-0 p-1 bg-white border border-[#cbd5e1] rounded-xl"
+                className="h-20 w-20 object-contain shrink-0 p-1 bg-white border border-[#cbd5e1] rounded-xl"
                 crossOrigin="anonymous"
               />
               <div>
-                <h1 className="text-sm font-extrabold text-[#002D38] m-0">{invoice.senderName || 'AURRUM SERVICES'}</h1>
-                <p className="text-[10px] text-[#005472] font-bold uppercase tracking-wider m-0">
+                <h1 className="text-lg font-extrabold text-[#002D38] m-0">{invoice.senderName || 'AURRUM SERVICES'}</h1>
+                <p className="text-sm text-[#005472] font-bold uppercase tracking-wider m-0">
                   {invoice.senderTagline || 'Talent Insights & Recruitment Services'}
                 </p>
-                <p className="text-[9px] text-[#64748b] mt-1 max-w-[260px] leading-snug">
+                <p className="text-xs text-[#64748b] mt-1 max-w-[360px] leading-snug">
                   {invoice.senderAddress || '513, 5th Floor, Shivalik Shilp Iskcon Cross Road, Sarkhej - Gandhinagar Hwy, Ahmedabad - 380015'}
                 </p>
-                <p className="text-[9px] text-[#A98B56] font-bold mt-1">{invoice.senderEmail || 'auriicsservices@gmail.com'} | {invoice.senderWeb || 'aurrum.co'}</p>
+                <p className="text-xs text-[#A98B56] font-bold mt-1">{invoice.senderEmail || 'auriicsservices@gmail.com'} | {invoice.senderWeb || 'aurrum.co'}</p>
               </div>
             </div>
 
             {/* Invoice Info Box */}
-            <div className="text-right text-xs space-y-1.5 shrink-0 bg-[#f8fafc] p-3 rounded-xl border border-[#cbd5e1] min-w-[190px]">
+            <div className="text-right text-base space-y-1.5 shrink-0 bg-[#f8fafc] p-5 rounded-xl border border-[#cbd5e1] min-w-[260px]">
               <div className="flex justify-end items-center gap-2 mb-1">
-                <h2 className="text-base font-black text-[#002D38] m-0 tracking-tight">INVOICE</h2>
-                <span className="px-2 py-0.5 bg-blue-50 text-blue-600 border border-blue-200 rounded text-[9px] font-black uppercase">
+                <h2 className="text-xl font-black text-[#002D38] m-0 tracking-tight">INVOICE</h2>
+                <span className="px-2 py-0.5 bg-blue-50 text-blue-600 border border-blue-200 rounded text-xs font-black uppercase">
                   {invoice.status || 'Draft'}
                 </span>
               </div>
-              <p className="m-0 text-[10px]"><span className="text-[#64748b] font-bold">Invoice No:</span> <span className="font-mono font-bold text-[#002D38]">{invoice.invoiceNumber || '633011'}</span></p>
-              <p className="m-0 text-[10px]"><span className="text-[#64748b] font-bold">Issue Date:</span> <span className="font-semibold text-[#002D38]">{invoice.invoiceDate}</span></p>
-              <p className="m-0 text-[10px]"><span className="text-[#64748b] font-bold">Due Date:</span> <span className="font-semibold text-[#002D38]">{invoice.dueDate}</span></p>
+              <p className="m-0 text-sm"><span className="text-[#64748b] font-bold">Invoice No:</span> <span className="font-mono font-bold text-[#002D38]">{invoice.invoiceNumber || '633011'}</span></p>
+              <p className="m-0 text-sm"><span className="text-[#64748b] font-bold">Issue Date:</span> <span className="font-semibold text-[#002D38]">{invoice.invoiceDate}</span></p>
+              <p className="m-0 text-sm"><span className="text-[#64748b] font-bold">Due Date:</span> <span className="font-semibold text-[#002D38]">{invoice.dueDate}</span></p>
             </div>
           </div>
 
           {/* Boxed To & Service Description Section */}
-          <div className="grid grid-cols-2 border border-[#cbd5e1] rounded-xl overflow-hidden bg-[#f8fafc] p-3 gap-4">
+          <div className="grid grid-cols-2 border border-[#cbd5e1] rounded-xl overflow-hidden bg-[#f8fafc] p-5 gap-4">
             <div>
-              <p className="text-[9px] uppercase font-black tracking-widest text-[#A98B56] mb-1">Billed To :</p>
-              <h3 className="font-black text-xs text-[#002D38] m-0">{invoice.clientName}</h3>
+              <p className="text-xs uppercase font-black tracking-widest text-[#A98B56] mb-1">Billed To :</p>
+              <h3 className="font-black text-base text-[#002D38] m-0">{invoice.clientName}</h3>
               {invoice.clientAddress && (
-                <p className="text-[10px] text-[#002D38] leading-relaxed mt-1 whitespace-pre-wrap">{invoice.clientAddress}</p>
+                <p className="text-sm text-[#002D38] leading-relaxed mt-1 whitespace-pre-wrap">{invoice.clientAddress}</p>
               )}
             </div>
             <div className="text-right">
-              <p className="text-[9px] uppercase font-black tracking-widest text-[#A98B56] mb-1">Service Description:</p>
-              <p className="text-[10px] text-[#002D38] font-bold leading-relaxed m-0">
+              <p className="text-xs uppercase font-black tracking-widest text-[#A98B56] mb-1">Service Description:</p>
+              <p className="text-sm text-[#002D38] font-bold leading-relaxed m-0">
                 {invoice.serviceDescription || 'Professional Recruitment & Talent Search Services'}
               </p>
             </div>
@@ -115,18 +115,18 @@ export const InvoicePreview = React.forwardRef<HTMLDivElement, { invoice: Invoic
 
           {/* Styled Brand Table */}
           <div className="border border-[#cbd5e1] rounded-xl overflow-hidden">
-            <table className="w-full text-xs border-collapse">
+            <table className="w-full text-base border-collapse">
               <thead className="bg-[#004564] text-white text-left">
                 <tr>
-                  <th className="py-2.5 px-4 font-black uppercase tracking-wider text-[10px]">Description</th>
-                  <th className="py-2.5 px-4 font-black uppercase tracking-wider text-[10px] text-right w-36">Amount</th>
+                  <th className="py-4 px-6 font-black uppercase tracking-wider text-sm">Description</th>
+                  <th className="py-4 px-6 font-black uppercase tracking-wider text-sm text-right w-36">Amount</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#cbd5e1] bg-white">
                 {invoice.items.map((item) => (
                   <tr key={item.id} className="hover:bg-[#f8fafc]">
-                    <td className="py-2.5 px-4 text-[#002D38] font-bold text-[11px]">{item.description}</td>
-                    <td className="py-2.5 px-4 text-right font-mono font-bold text-[#002D38] text-[11px]">
+                    <td className="py-4 px-6 text-[#002D38] font-bold text-base">{item.description}</td>
+                    <td className="py-4 px-6 text-right font-mono font-bold text-[#002D38] text-base">
                       $ {item.amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </td>
                   </tr>
@@ -137,7 +137,7 @@ export const InvoicePreview = React.forwardRef<HTMLDivElement, { invoice: Invoic
 
           {/* Totals Section */}
           <div className="flex justify-end">
-            <div className="w-64 space-y-1 text-xs">
+            <div className="w-80 space-y-1 text-base">
               <div className="flex justify-between text-[#64748b]">
                 <span className="font-bold">Subtotal:</span>
                 <span className="font-mono font-bold text-[#002D38]">$ {subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
@@ -148,8 +148,8 @@ export const InvoicePreview = React.forwardRef<HTMLDivElement, { invoice: Invoic
                   <span className="font-mono font-bold text-[#002D38]">+$ {invoice.tax.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                 </div>
               )}
-              <div className="flex justify-between text-sm font-black border-t-2 border-[#A98B56] bg-[#f1f5f9] p-2 rounded-lg text-[#002D38]">
-                <span className="text-xs uppercase">Total Due:</span>
+              <div className="flex justify-between text-lg font-black border-t-2 border-[#A98B56] bg-[#f1f5f9] p-2 rounded-lg text-[#002D38]">
+                <span className="text-base uppercase">Total Due:</span>
                 <span className="font-mono text-[#A98B56]">$ {invoice.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
               </div>
             </div>
@@ -157,10 +157,10 @@ export const InvoicePreview = React.forwardRef<HTMLDivElement, { invoice: Invoic
         </div>
 
         {/* Footer / Bank Details & Signatory */}
-        <div className="pt-4 border-t border-[#cbd5e1] flex justify-between items-end gap-6 mt-4">
+        <div className="pt-4 border-t mt-auto border-[#cbd5e1] flex justify-between items-end gap-6 mt-4">
           <div className="space-y-2 w-1/2">
             {(invoice.payeeName || invoice.bankName || invoice.accountNumber) ? (
-              <div className="bg-[#f8fafc] p-3 rounded-xl border border-[#cbd5e1] space-y-1 text-[10px]">
+              <div className="bg-[#f8fafc] p-5 rounded-xl border border-[#cbd5e1] space-y-1 text-sm">
                 <p className="font-black uppercase text-[#004564] tracking-wider m-0">Bank Payment Instructions</p>
                 {invoice.payeeName && <p className="m-0 text-[#334155]"><strong>Payee:</strong> {invoice.payeeName}</p>}
                 {invoice.bankName && <p className="m-0 text-[#334155]"><strong>Bank:</strong> {invoice.bankName}</p>}
@@ -168,7 +168,7 @@ export const InvoicePreview = React.forwardRef<HTMLDivElement, { invoice: Invoic
                 {invoice.swiftCode && <p className="m-0 text-[#334155]"><strong>SWIFT:</strong> <span className="font-mono font-bold">{invoice.swiftCode}</span></p>}
               </div>
             ) : (
-              <div className="text-[10px] text-[#64748b]">
+              <div className="text-sm text-[#64748b]">
                 <p className="font-bold text-[#002D38] m-0">Thank you for your business!</p>
                 <p className="m-0">Please remit payment according to agreed terms.</p>
               </div>
@@ -184,12 +184,12 @@ export const InvoicePreview = React.forwardRef<HTMLDivElement, { invoice: Invoic
                 crossOrigin="anonymous" 
               />
             ) : (
-              <div className="font-serif italic text-xl text-[#A98B56] font-black">
+              <div className="font-serif italic text-3xl text-[#A98B56] font-black">
                 {cleanSignatoryName}
               </div>
             )}
-            <p className="font-black text-xs text-[#002D38] m-0">{cleanSignatoryName}</p>
-            <p className="text-[10px] text-[#64748b] font-bold uppercase tracking-wider m-0">{cleanSignatoryTitle}</p>
+            <p className="font-black text-base text-[#002D38] m-0">{cleanSignatoryName}</p>
+            <p className="text-sm text-[#64748b] font-bold uppercase tracking-wider m-0">{cleanSignatoryTitle}</p>
           </div>
         </div>
       </div>
