@@ -994,14 +994,7 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
             getUserRole(),
             `Uploaded CV for ${parsed.personal_info.full_name || file.name} — Resume parsing completed`
         );
-        await createNotification(
-            message,
-            user!.uid,
-            getUserName(),
-            getUserRole(),
-            'all',
-            newCandidateRef.id
-        );
+        
         await logActivity(
             getUserDisplayName(),
             user?.uid || 'System',

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Code, CheckCircle, AlertCircle, Sparkles, Upload, Copy, FileText, ShieldAlert } from 'lucide-react';
-import { collection, addDoc, getDocs } from 'firebase/firestore';
+import { collection, addDoc, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { useAuth } from '../contexts/AuthContext';
+import { notifyMultiple, formatNotificationMessage } from '../services/notificationService';
 import LZString from 'lz-string';
 
 export const JsonResumeUploader: React.FC = () => {
@@ -216,7 +217,20 @@ export const JsonResumeUploader: React.FC = () => {
           needsReview: false
         };
 
-        await addDoc(collection(db, 'candidates'), candidatePayload);
+        const newDoc = await addDoc(collection(db, 'candidates'), candidatePayload);
+          
+          await notifyMultiple(
+            formatNotificationMessage(
+               user?.displayName || user?.email?.split('@')[0] || 'System',
+               role,
+               `New resume added via JSON: ${fullName}`
+            ),
+            user!.uid,
+            user?.displayName || user?.email?.split('@')[0] || 'System',
+            role,
+            ['admin'], // Route to admin
+            newDoc.id
+          );
         
         // Add to local duplicate check sets in case JSON itself has duplicates
         if (email) existingEmails.add(email);

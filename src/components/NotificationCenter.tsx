@@ -1,23 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Bell, 
-  CheckCheck, 
-  Trash2, 
-  Clock, 
-  UserCheck, 
-  Calendar, 
-  Eye, 
-  Download, 
-  ThumbsUp, 
-  ThumbsDown, 
-  MessageSquare, 
-  ExternalLink,
-  Filter,
-  Search,
-  CheckCircle2,
-  XCircle,
-  Sparkles
-} from 'lucide-react';
+import { Bell, CheckCheck, Trash2, Clock, UserCheck, Calendar, Eye, Download, ThumbsUp, ThumbsDown, MessageSquare, ExternalLink, Filter, Search, CheckCircle2, XCircle, Sparkles, Volume2, VolumeX } from 'lucide-react';
 import { collection, query, where, onSnapshot, doc, updateDoc, deleteDoc, writeBatch } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { getSLAInfo } from '../utils/clientActionService';
@@ -39,6 +21,37 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState<'all' | 'unread' | 'client_action' | 'interview'>('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [soundEnabled, setSoundEnabled] = useState(() => localStorage.getItem('aurrum_crm_sound') !== 'false');
+  const isInitialLoad = React.useRef(true);
+  const prevUnreadCountRef = React.useRef(0);
+
+  const toggleSound = () => {
+    const next = !soundEnabled;
+    setSoundEnabled(next);
+    localStorage.setItem('aurrum_crm_sound', next ? 'true' : 'false');
+  };
+
+  const playNotificationSound = () => {
+    try {
+      const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+      if (!AudioContext) return;
+      const ctx = new AudioContext();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(600, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.1);
+      gain.gain.setValueAtTime(0, ctx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.2, ctx.currentTime + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.3);
+    } catch (e) {
+      console.error('Audio playback failed', e);
+    }
+  };
 
   useEffect(() => {
     if (!user?.uid) return;
