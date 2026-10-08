@@ -13,6 +13,7 @@ import LZString from 'lz-string';
 import { useAuth } from '../contexts/AuthContext';
 import { useTimezone } from '../contexts/TimezoneContext';
 import { logActivity } from '../services/activityService';
+import { getSLAInfo } from '../utils/clientActionService';
 import { createNotification, notifyMultiple, formatNotificationMessage } from '../services/notificationService';
 import ConfirmModal from '../components/ConfirmModal';
 import HorizontalPipelineStepper from '../components/HorizontalPipelineStepper';
@@ -1407,6 +1408,8 @@ Status: ${candidate.status || 'Sourced'}`;
     return terms.every(term => searchableText.includes(term));
   };
 
+  const slaInfo = candidate ? getSLAInfo(candidate) : null;
+
   if (loading) {
     return (
       <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center p-10">
@@ -1478,7 +1481,15 @@ Status: ${candidate.status || 'Sourced'}`;
               {(candidate.fullName || '??').slice(0, 2)}
             </div>
             <div className="min-w-0">
-              <div className="flex items-center gap-2.5 flex-wrap">
+                <div className="flex items-center gap-2.5 flex-wrap mb-1">
+                  {slaInfo && (
+                    <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md flex items-center gap-1.5 border ${slaInfo.badgeBg}`}>
+                      <span className={`w-1.5 h-1.5 rounded-full ${slaInfo.indicatorColor}`} />
+                      {slaInfo.label} ({slaInfo.durationText})
+                    </span>
+                  )}
+                </div>
+                <div className="flex items-center gap-2.5 flex-wrap">
                 {isEditing ? (
                   <input 
                     type="text" 

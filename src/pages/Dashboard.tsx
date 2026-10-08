@@ -1684,7 +1684,7 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
     if (!searchQuery.trim()) return true;
     const terms = searchQuery.toLowerCase().split(/\s+/);
     const loc = `${candidate.locationInfo?.city || ''} ${candidate.locationInfo?.state || ''} ${candidate.locationInfo?.country || ''} ${candidate.locationInfo?.postalCode || ''}`.toLowerCase();
-    const searchableText = `${candidate.fullName} ${candidate.domainFocus || ''} ${candidate.domain || ''} ${loc} ${candidate.summary} ${candidate.skills?.join(' ')} ${candidate.notes || ''} ${JSON.stringify(candidate.experience)} ${teamMembers[candidate.uploadedBy] || ''} ${teamMembers[candidate.followUpUpdatedBy] || ''}`.toLowerCase();
+    const searchableText = `${candidate.fullName} ${candidate.domainFocus || ''} ${candidate.domain || ''} ${loc} ${candidate.summary} ${candidate.skills?.join(' ')} ${candidate.notes || ''} ${JSON.stringify(candidate.experience)} ${teamMembers[candidate.uploadedBy] || ''} ${teamMembers[candidate.followUpUpdatedBy] || ''} ${candidate.pipelineStage || ''} ${teamMembers[candidate.assignedTo] || ''}`.toLowerCase();
     return terms.every(term => searchableText.includes(term));
   });
 
