@@ -23,7 +23,7 @@ import {
 import { doc, updateDoc, arrayUnion } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { logActivity } from '../services/activityService';
-import { createNotification, formatNotificationMessage } from '../services/notificationService';
+import { createNotification, formatNotificationMessage, notifyMultiple } from '../services/notificationService';
 import { useAuth } from '../contexts/AuthContext';
 import { motion, AnimatePresence } from 'motion/react';
 import { useNavigate } from 'react-router-dom';

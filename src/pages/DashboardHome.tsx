@@ -113,9 +113,22 @@ export default function DashboardHome({
   // KPI calculations
   const total = candidates.length;
   const newCVs = candidates.filter(c => new Date(c.createdAt).getTime() > Date.now() - 24 * 60 * 60 * 1000).length;
-  const processed = candidates.filter(c => c.notes || c.isShortlisted).length;
+  const assignedToMe = candidates.filter(c => c.assignedTo === user?.uid).length;
+  const interviews = candidates.filter(c => (c.pipelineStage || '').toLowerCase().includes('interview')).length;
+  const offers = candidates.filter(c => (c.pipelineStage || '').toLowerCase().includes('offer')).length;
+  const hired = candidates.filter(c => (c.pipelineStage || '').toLowerCase().includes('hire')).length;
   const shortlisted = candidates.filter(c => c.isShortlisted).length;
+  
+  const now = new Date();
   const followUps = candidates.filter(c => !!c.followUpDate).length;
+  const overdueFollowUps = candidates.filter(c => c.followUpDate && new Date(c.followUpDate) < now && c.followUpCompleted !== true).length;
+  // SLA breached approx: if they haven't had their pipeline updated in 7 days (or based on standard SLA logic if imported)
+  const slaBreached = candidates.filter(c => {
+     if (c.pipelineStage?.toLowerCase().includes('hire') || c.pipelineStage?.toLowerCase().includes('reject')) return false;
+     const lastUpdate = c.updatedAt ? new Date(c.updatedAt) : new Date(c.createdAt);
+     const diffDays = (now.getTime() - lastUpdate.getTime()) / (1000 * 3600 * 24);
+     return diffDays > 7; // Simple SLA approximation for dashboard
+  }).length;
   
   const quotes = [
     "Your dedication to finding the right talent changes lives.",
@@ -366,9 +379,13 @@ export default function DashboardHome({
         {[
           { label: 'Total Index', value: total, icon: Users, color: 'text-blue-5472', bg: 'bg-blue-5472/10', border: 'border-blue-5472/20' },
           { label: 'New (24h)', value: newCVs, icon: FileText, color: 'text-gold-a98b', bg: 'bg-gold-a98b/10', border: 'border-gold-a98b/20' },
-          { label: 'Processed', value: processed, icon: Target, color: 'text-gold-bc9b', bg: 'bg-gold-bc9b/10', border: 'border-gold-bc9b/20' },
+          { label: 'Assigned to Me', value: assignedToMe, icon: Users, color: 'text-emerald-600', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20' },
+          { label: 'Interviews', value: interviews, icon: Calendar, color: 'text-purple-600', bg: 'bg-purple-500/10', border: 'border-purple-500/20' },
+          { label: 'Offers / Hires', value: offers + hired, icon: Target, color: 'text-blue-600', bg: 'bg-blue-500/10', border: 'border-blue-500/20' },
           { label: 'Shortlisted', value: shortlisted, icon: Star, color: 'text-gold-9b7e', bg: 'bg-gold-9b7e/10', border: 'border-gold-9b7e/20' },
-          { label: 'Follow-ups', value: followUps, icon: Clock, color: 'text-blue-3e51', bg: 'bg-blue-3e51/10', border: 'border-blue-3e51/20' },
+          { label: 'Pending Follow-ups', value: followUps, icon: Clock, color: 'text-blue-3e51', bg: 'bg-blue-3e51/10', border: 'border-blue-3e51/20' },
+          { label: 'Overdue Follow-ups', value: overdueFollowUps, icon: TrendingDown, color: 'text-rose-600', bg: 'bg-rose-500/10', border: 'border-rose-500/20' },
+          { label: 'SLA Breached', value: slaBreached, icon: Shield, color: 'text-red-600', bg: 'bg-red-500/10', border: 'border-red-500/20' },
         ].map((card, i) => (
           <motion.div 
             key={i} 

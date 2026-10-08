@@ -428,14 +428,22 @@ export default function CandidateDetailsPage() {
         getUserRole(),
         `Updated follow-up status for candidate ${candidate.fullName}`
       );
-      await createNotification(
-        message,
-        user!.uid,
-        getUserDisplayName(),
-        getUserRole(),
-        'all',
-        candidate.id
-      );
+      
+        const notifyRecipients = new Set<string>();
+        if (candidate.assignedTo && candidate.assignedTo !== user?.uid) {
+           notifyRecipients.add(candidate.assignedTo);
+        }
+        if (notifyRecipients.size > 0) {
+            await notifyMultiple(
+                message,
+                user!.uid,
+                getUserDisplayName(),
+                getUserRole(),
+                Array.from(notifyRecipients),
+                candidate.id
+            );
+        }
+
 
       await logActivity(
         getUserDisplayName(),
@@ -514,14 +522,22 @@ export default function CandidateDetailsPage() {
         getUserRole(),
         `Added feedback for candidate ${candidate.fullName}`
       );
-      await createNotification(
-        message,
-        user!.uid,
-        getUserDisplayName(),
-        getUserRole(),
-        'all',
-        candidate.id
-      );
+      
+        const notifyRecipients = new Set<string>();
+        if (candidate.assignedTo && candidate.assignedTo !== user?.uid) {
+           notifyRecipients.add(candidate.assignedTo);
+        }
+        if (notifyRecipients.size > 0) {
+            await notifyMultiple(
+                message,
+                user!.uid,
+                getUserDisplayName(),
+                getUserRole(),
+                Array.from(notifyRecipients),
+                candidate.id
+            );
+        }
+
 
       await logActivity(
         getUserDisplayName(),
