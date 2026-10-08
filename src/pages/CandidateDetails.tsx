@@ -15,6 +15,7 @@ import { useTimezone } from '../contexts/TimezoneContext';
 import { logActivity } from '../services/activityService';
 import { createNotification, notifyMultiple, formatNotificationMessage } from '../services/notificationService';
 import ConfirmModal from '../components/ConfirmModal';
+import HorizontalPipelineStepper from '../components/HorizontalPipelineStepper';
 import { fetchCvList } from '../services/cvApiService';
 import { parseResumeHeuristically, extractTextFromPDF, extractTextFromDocx } from '../lib/localParser';
 import { getStorage, ref, getBytes } from 'firebase/storage';
@@ -1573,6 +1574,22 @@ Status: ${candidate.status || 'Sourced'}`;
           </div>
         </header>
 
+        <HorizontalPipelineStepper
+          candidateId={candidate.id}
+          candidateName={candidate.fullName || 'Candidate'}
+          currentStage={candidate.pipelineStage || 'cv_upload'}
+          stageHistory={candidate.stageHistory || []}
+          assignedTo={candidate.assignedTo}
+          assignedBy={candidate.assignedBy}
+          isPrivileged={isPrivileged}
+          role={role}
+          user={user}
+          getUserDisplayName={getUserDisplayName}
+          getUserRole={getUserRole}
+          showAlert={showAlert}
+        />
+
+
         {/* Large Index Processing Warning banner */}
         {candidate.isLargeFile && !(cvUrl || candidate.url) && (
           <div className="mb-8 p-4 bg-amber-50 dark:bg-amber-950/15 border border-amber-100/20 rounded-2xl flex items-center gap-3">
@@ -2150,36 +2167,7 @@ Status: ${candidate.status || 'Sourced'}`;
           {/* RIGHT COLUMN: Recruiter Workflow Assignees, Notes, Location details */}
           <div className="space-y-8">
             
-            {/* Pipeline Stage Selector */}
-            {(isPrivileged || role === 'recruiter') && (
-              <section className="crm-card p-6">
-                <h3 className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-4 flex items-center gap-2">
-                  <Layers size={14} className="text-[var(--primary-gold)]" /> Pipeline Stage
-                </h3>
-                <div className="space-y-3">
-                  <div className="relative">
-                    <select 
-                      value={assignedStage}
-                      onChange={(e) => setAssignedStage(e.target.value)}
-                      className="w-full bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-xl pl-4 pr-10 py-2.5 text-xs focus:ring-1 focus:ring-[var(--primary-gold)] text-[var(--text-primary)] appearance-none cursor-pointer font-bold"
-                    >
-                      {STAGES_LIST.map((stage) => (
-                        <option key={stage.id} value={stage.id}>{stage.label} ({stage.parentLabel})</option>
-                      ))}
-                    </select>
-                    <ChevronDown size={14} className="absolute right-3 top-3.5 text-[var(--text-muted)] pointer-events-none" />
-                  </div>
-                  <button 
-                    onClick={handleUpdateStage}
-                    disabled={isSavingStage}
-                    className="crm-btn-gold w-full text-[10px]"
-                  >
-                    {isSavingStage ? <Loader2 className="animate-spin" size={12} /> : <Save size={12} />} 
-                    Update Pipeline Stage
-                  </button>
-                </div>
-              </section>
-            )}
+            
 
             {/* Recruiter Assignment Panel (Hidden temporarily per user request)
             {isPrivileged && (
