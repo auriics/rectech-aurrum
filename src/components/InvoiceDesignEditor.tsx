@@ -229,7 +229,7 @@ export const InvoiceDesignEditor: React.FC = () => {
                   type="text" 
                   value={config.logoUrl} 
                   onChange={(e) => setConfig({ ...config, logoUrl: e.target.value })}
-                  className="crm-input w-full text-xs font-mono"
+                  className="crm-input w-full text-xs "
                 />
               </div>
 
@@ -398,7 +398,7 @@ export const InvoiceDesignEditor: React.FC = () => {
                       type="text" 
                       value={config.primaryColor} 
                       onChange={(e) => setConfig({ ...config, primaryColor: e.target.value, tableHeaderBg: e.target.value })}
-                      className="crm-input font-mono text-xs uppercase"
+                      className="crm-input  text-xs uppercase"
                     />
                   </div>
                 </div>
@@ -415,7 +415,7 @@ export const InvoiceDesignEditor: React.FC = () => {
                       type="text" 
                       value={config.goldColor} 
                       onChange={(e) => setConfig({ ...config, goldColor: e.target.value })}
-                      className="crm-input font-mono text-xs uppercase"
+                      className="crm-input  text-xs uppercase"
                     />
                   </div>
                 </div>
@@ -516,7 +516,7 @@ export const InvoiceDesignEditor: React.FC = () => {
                         {sampleInvoice.status}
                       </span>
                     </div>
-                    <p style={{ margin: '2px 0', fontSize: '11px' }}><strong style={{ color: '#64748b' }}>Invoice No:</strong> <span style={{ fontFamily: 'monospace', fontWeight: 'bold' }}>{sampleInvoice.invoiceNumber}</span></p>
+                    <p style={{ margin: '2px 0', fontSize: '11px' }}><strong style={{ color: '#64748b' }}>Invoice No:</strong> <span style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 'bold' }}>{sampleInvoice.invoiceNumber}</span></p>
                     <p style={{ margin: '2px 0', fontSize: '11px' }}><strong style={{ color: '#64748b' }}>Issue Date:</strong> {sampleInvoice.invoiceDate}</p>
                     <p style={{ margin: '2px 0', fontSize: '11px' }}><strong style={{ color: '#64748b' }}>Due Date:</strong> {sampleInvoice.dueDate}</p>
                   </div>
@@ -547,7 +547,7 @@ export const InvoiceDesignEditor: React.FC = () => {
                     <tbody style={{ background: '#ffffff' }}>
                       <tr style={{ borderBottom: `1px solid ${config.borderColor}`, height: `${config.tableRowHeight}px` }}>
                         <td style={{ padding: '12px 16px', fontWeight: 700, color: config.textColor }}>{sampleInvoice.items[0].description}</td>
-                        <td style={{ padding: '12px 16px', textAlign: 'right', fontFamily: 'monospace', fontWeight: 700, color: config.textColor }}>
+                        <td style={{ padding: '12px 16px', textAlign: 'right', fontFamily: "'Poppins', sans-serif", fontWeight: 700, color: config.textColor }}>
                           $ {sampleInvoice.items[0].amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                         </td>
                       </tr>
@@ -561,11 +561,11 @@ export const InvoiceDesignEditor: React.FC = () => {
                     <tbody>
                       <tr>
                         <td style={{ padding: '6px 0', color: '#64748b', fontWeight: 700 }}>Subtotal:</td>
-                        <td style={{ textAlign: 'right', fontFamily: 'monospace', fontWeight: 700, padding: '6px 0', color: config.textColor }}>$3,417.60</td>
+                        <td style={{ textAlign: 'right', fontFamily: "'Poppins', sans-serif", fontWeight: 700, padding: '6px 0', color: config.textColor }}>$3,417.60</td>
                       </tr>
                       <tr style={{ borderTop: `2px solid ${config.goldColor}`, backgroundColor: '#f1f5f9', fontWeight: 900 }}>
                         <td style={{ padding: '10px 8px', textTransform: 'uppercase', fontSize: '11px', color: config.textColor }}>Total Due:</td>
-                        <td style={{ textAlign: 'right', fontFamily: 'monospace', padding: '10px 8px', color: config.goldColor, fontSize: '14px' }}>$3,417.60</td>
+                        <td style={{ textAlign: 'right', fontFamily: "'Poppins', sans-serif", padding: '10px 8px', color: config.goldColor, fontSize: '14px' }}>$3,417.60</td>
                       </tr>
                     </tbody>
                   </table>
@@ -578,12 +578,12 @@ export const InvoiceDesignEditor: React.FC = () => {
                       <strong style={{ display: 'block', marginBottom: '4px', color: config.primaryColor, textTransform: 'uppercase', fontSize: '10px', letterSpacing: '0.05em' }}>Bank Payment Instructions</strong>
                       <p style={{ margin: '2px 0', color: '#334155' }}><strong>Payee Name:</strong> {sampleInvoice.payeeName}</p>
                       <p style={{ margin: '2px 0', color: '#334155' }}><strong>Bank Name:</strong> {sampleInvoice.bankName}</p>
-                      <p style={{ margin: '2px 0', color: '#334155' }}><strong>Account:</strong> <span style={{ fontFamily: 'monospace', fontWeight: 'bold' }}>{sampleInvoice.accountNumber}</span></p>
+                      <p style={{ margin: '2px 0', color: '#334155' }}><strong>Account:</strong> <span style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 'bold' }}>{sampleInvoice.accountNumber}</span></p>
                     </div>
                   </div>
 
                   <div style={{ textAlign: config.signatureAlign }}>
-                    <div style={{ fontFamily: 'serif', fontStyle: 'italic', fontSize: '24px', color: config.goldColor, fontWeight: 'bold', marginBottom: '2px' }}>
+                    <div style={{ fontFamily: "'Poppins', sans-serif", fontStyle: 'italic', fontSize: '24px', color: config.goldColor, fontWeight: 'bold', marginBottom: '2px' }}>
                       {sampleInvoice.signatoryName}
                     </div>
                     <p style={{ margin: 0, fontWeight: 900, fontSize: '13px', color: config.textColor }}>{sampleInvoice.signatoryName}</p>

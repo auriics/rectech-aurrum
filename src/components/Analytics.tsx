@@ -288,7 +288,7 @@ export default function Analytics({
   ) : (
     <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-500 text-[var(--text-primary)] pb-12">
       <div className="flex items-center justify-between">
-         <h2 className="text-3xl font-serif text-[var(--text-primary)]">Talent Insights</h2>
+         <h2 className="text-3xl  text-[var(--text-primary)]">Talent Insights</h2>
          <p className="text-[10px] uppercase font-bold tracking-widest text-[var(--text-muted)]">Real-time candidate analytics</p>
       </div>
 
@@ -314,7 +314,7 @@ export default function Analytics({
       <div className="w-full">
         {/* Workflow Dynamics / Activity Flow */}
         <section className="bg-[var(--card-bg)] p-8 rounded-[2.5rem] border border-[var(--border-color)] shadow-sm flex flex-col font-sans">
-          <h3 className="text-xl font-serif text-[var(--text-primary)] mb-6">Activity Flow (Last 7 Days)</h3>
+          <h3 className="text-xl  text-[var(--text-primary)] mb-6">Activity Flow (Last 7 Days)</h3>
           <div className="h-[350px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={activityFlowData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
@@ -345,7 +345,7 @@ export default function Analytics({
       <section className="bg-[var(--card-bg)] p-8 rounded-[2.5rem] border border-[var(--border-color)] shadow-sm flex flex-col font-sans">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
           <div>
-            <h3 className="text-xl font-serif text-[var(--text-primary)]">Domain Distribution</h3>
+            <h3 className="text-xl  text-[var(--text-primary)]">Domain Distribution</h3>
             <p className="text-xs text-[var(--text-muted)] mt-1">Candidate count and breakdown by industry focus</p>
           </div>
           <div className="flex items-center gap-2">
@@ -416,7 +416,7 @@ export default function Analytics({
 
       {/* Skills Analysis */}
       <section className="bg-[var(--card-bg)] p-8 rounded-[2.5rem] border border-[var(--border-color)] shadow-sm flex flex-col font-sans">
-        <h3 className="text-xl font-serif text-[var(--text-primary)] mb-6">Talent Skillscape</h3>                
+        <h3 className="text-xl  text-[var(--text-primary)] mb-6">Talent Skillscape</h3>                
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-1 space-y-6">
                 <Select options={skillOptions} onChange={(opt) => opt && handleSkillClick(opt.value)} styles={customSelectStyles} placeholder="Search skill..." isClearable />
@@ -448,7 +448,7 @@ export default function Analytics({
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in">
           <div className="bg-[var(--card-bg)] text-[var(--text-primary)] border border-[var(--border-color)] w-full max-w-2xl max-h-[80vh] rounded-[2rem] shadow-2xl flex flex-col p-8">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-serif text-[var(--text-primary)]">Candidates with <span className="text-[var(--primary-gold)] font-bold">{selectedSkill}</span> ({filteredCandidates.length})</h2>
+              <h2 className="text-xl  text-[var(--text-primary)]">Candidates with <span className="text-[var(--primary-gold)] font-bold">{selectedSkill}</span> ({filteredCandidates.length})</h2>
               <button onClick={() => setShowModal(false)} className="p-2 hover:bg-[var(--card-hover-bg)] rounded-full font-sans transition-colors duration-300 cursor-pointer"><X size={20} /></button>
             </div>
             <div className="overflow-y-auto space-y-4 font-sans">
@@ -478,7 +478,7 @@ export default function Analytics({
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in">
           <div className="bg-[var(--card-bg)] text-[var(--text-primary)] border border-[var(--border-color)] w-full max-w-2xl max-h-[80vh] rounded-[2rem] shadow-2xl flex flex-col p-8">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-serif text-[var(--text-primary)]">Candidates in <span className="text-[var(--primary-gold)] font-bold">{selectedDomain}</span> ({domainCandidates.length})</h2>
+              <h2 className="text-xl  text-[var(--text-primary)]">Candidates in <span className="text-[var(--primary-gold)] font-bold">{selectedDomain}</span> ({domainCandidates.length})</h2>
               <button 
                 onClick={() => setShowDomainModal(false)} 
                 className="p-2 hover:bg-[var(--card-hover-bg)] rounded-full font-sans transition-colors duration-300 cursor-pointer"

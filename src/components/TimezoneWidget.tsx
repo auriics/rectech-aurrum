@@ -71,7 +71,7 @@ export default function TimezoneWidget() {
             <div key={tz.id} className="relative p-3 rounded-lg border border-[var(--border-color)]/70 bg-[var(--bg-secondary)]">
               <div className={`absolute top-2 right-2 h-2 w-2 rounded-full ${working ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`} />
               <div className="text-[10px] uppercase font-bold text-[var(--text-muted)]">{tz.label} ({tz.abbr})</div>
-              <div className="text-xl font-mono font-bold text-[var(--text-primary)] mt-1">
+              <div className="text-xl  font-bold text-[var(--text-primary)] mt-1">
                 {formatTime(now, tz.id)}
               </div>
               <div className="text-[10px] text-[var(--text-muted)]/80 mt-0.5">

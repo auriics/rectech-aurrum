@@ -310,7 +310,7 @@ export default function SystemSettings() {
                   Total number of active candidates across the CRM. This count automatically updates in real-time as new resumes are uploaded.
                 </p>
               </div>
-              <div className="text-3xl font-black text-[var(--primary-gold)] font-mono">{totalCvCount}</div>
+              <div className="text-3xl font-black text-[var(--primary-gold)] ">{totalCvCount}</div>
             </div>
           )}
 
@@ -417,7 +417,7 @@ export default function SystemSettings() {
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-3 text-xs font-mono font-bold">
+                    <div className="flex items-center gap-3 text-xs  font-bold">
                       {geminiStatus.maskedKey && (
                         <div className="flex items-center gap-1.5 bg-[var(--card-bg)] px-3 py-1.5 rounded-lg border border-[var(--border-color)] text-[var(--text-secondary)]">
                           <Key size={13} className="text-[var(--primary-gold)]" />
@@ -438,7 +438,7 @@ export default function SystemSettings() {
                     <div className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-color)] flex items-center justify-between">
                       <div className="space-y-0.5">
                         <span className="text-[9px] font-black uppercase text-[var(--text-muted)] tracking-wider">Primary AI Model</span>
-                        <div className="font-black text-xs text-[var(--text-primary)] font-mono flex items-center gap-1.5">
+                        <div className="font-black text-xs text-[var(--text-primary)]  flex items-center gap-1.5">
                           <Zap size={14} className="text-[var(--primary-gold)]" />
                           {geminiStatus.primaryModel || 'gemini-3.6-flash'}
                         </div>
@@ -451,7 +451,7 @@ export default function SystemSettings() {
                     <div className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-color)] flex items-center justify-between">
                       <div className="space-y-0.5">
                         <span className="text-[9px] font-black uppercase text-[var(--text-muted)] tracking-wider">Fallback AI Model</span>
-                        <div className="font-black text-xs text-[var(--text-primary)] font-mono flex items-center gap-1.5">
+                        <div className="font-black text-xs text-[var(--text-primary)]  flex items-center gap-1.5">
                           <Layers size={14} className="text-[var(--primary-gold)]" />
                           {geminiStatus.fallbackModel || 'gemini-3.1-pro-preview'}
                         </div>
@@ -478,7 +478,7 @@ export default function SystemSettings() {
                             {geminiStatus.quotaLimits?.requestsPerMinute?.currentUsage || 'Active'}
                           </span>
                         </div>
-                        <div className="text-sm font-black text-[var(--text-primary)] font-mono">
+                        <div className="text-sm font-black text-[var(--text-primary)] ">
                           {geminiStatus.quotaLimits?.requestsPerMinute?.limit || '1,000 RPM / 15 RPM'}
                         </div>
                         <p className="text-[10px] text-[var(--text-muted)] leading-tight font-medium">
@@ -494,7 +494,7 @@ export default function SystemSettings() {
                             {geminiStatus.quotaLimits?.tokensPerMinute?.currentUsage || 'Active'}
                           </span>
                         </div>
-                        <div className="text-sm font-black text-[var(--text-primary)] font-mono">
+                        <div className="text-sm font-black text-[var(--text-primary)] ">
                           {geminiStatus.quotaLimits?.tokensPerMinute?.limit || '4,000,000 TPM / 1,000,000 TPM'}
                         </div>
                         <p className="text-[10px] text-[var(--text-muted)] leading-tight font-medium">
@@ -510,7 +510,7 @@ export default function SystemSettings() {
                             {geminiStatus.quotaLimits?.requestsPerDay?.currentUsage || 'Active'}
                           </span>
                         </div>
-                        <div className="text-sm font-black text-[var(--text-primary)] font-mono">
+                        <div className="text-sm font-black text-[var(--text-primary)] ">
                           {geminiStatus.quotaLimits?.requestsPerDay?.limit || 'Unlimited / 1,500 RPD'}
                         </div>
                         <p className="text-[10px] text-[var(--text-muted)] leading-tight font-medium">

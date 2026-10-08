@@ -37,7 +37,7 @@ export default function BackupDashboard() {
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-8 pb-12">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-serif text-[var(--text-primary)]">Backup & Export</h2>
+        <h2 className="text-2xl  text-[var(--text-primary)]">Backup & Export</h2>
         <div className="flex gap-2">
           <button onClick={handleDownload} className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center transition-all">
             <Download size={16} className="mr-2" />

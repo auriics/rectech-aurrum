@@ -46,7 +46,7 @@ export default function AccessDenied({ userIp, onRetry }: AccessDeniedProps) {
 
           {/* Title Headers */}
           <div className="text-center space-y-2 mb-8">
-            <h1 className="text-2xl font-serif text-[var(--text-primary)] tracking-tight font-medium">
+            <h1 className="text-2xl  text-[var(--text-primary)] tracking-tight font-medium">
               Access Restricted
             </h1>
             <p className="text-sm text-[var(--text-muted)] max-w-md mx-auto">
@@ -56,7 +56,7 @@ export default function AccessDenied({ userIp, onRetry }: AccessDeniedProps) {
 
           {/* Security details section */}
           <div className="bg-[var(--bg-secondary)] rounded-xl border border-[var(--border-color)] p-5 space-y-4 mb-8">
-            <div className="flex items-center justify-between text-xs font-mono border-b border-[var(--border-color)] pb-2">
+            <div className="flex items-center justify-between text-xs  border-b border-[var(--border-color)] pb-2">
               <span className="text-[var(--text-muted)] uppercase tracking-widest">Gatekeeper Status</span>
               <span className="text-red-600 dark:text-red-400 font-medium flex items-center gap-1">
                 <Lock size={12} /> BLOCKED
@@ -66,7 +66,7 @@ export default function AccessDenied({ userIp, onRetry }: AccessDeniedProps) {
             <div className="grid grid-cols-1 gap-3">
               <div>
                 <dt className="text-xs text-[var(--text-muted)] uppercase tracking-wider font-medium mb-1">Your Detected IP Address</dt>
-                <dd className="text-sm font-mono text-[var(--text-primary)] bg-[var(--card-bg)] px-3 py-2 rounded border border-[var(--border-color)] flex items-center justify-between">
+                <dd className="text-sm  text-[var(--text-primary)] bg-[var(--card-bg)] px-3 py-2 rounded border border-[var(--border-color)] flex items-center justify-between">
                   <span>{userIp || 'Detecting...'}</span>
                   <button 
                     onClick={handleCopy}
@@ -81,7 +81,7 @@ export default function AccessDenied({ userIp, onRetry }: AccessDeniedProps) {
 
               <div>
                 <dt className="text-xs text-[var(--text-muted)] uppercase tracking-wider font-medium mb-1">Timestamp (UTC)</dt>
-                <dd className="text-xs font-mono text-[var(--text-secondary)] px-3 py-1 bg-[var(--card-bg)] rounded border border-[var(--border-color)]/50">
+                <dd className="text-xs  text-[var(--text-secondary)] px-3 py-1 bg-[var(--card-bg)] rounded border border-[var(--border-color)]/50">
                   {timestamp}
                 </dd>
               </div>

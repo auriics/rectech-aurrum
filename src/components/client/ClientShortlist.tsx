@@ -140,7 +140,7 @@ export const ClientShortlist: React.FC<ClientShortlistProps> = ({
             <Star size={22} />
           </div>
           <div>
-            <h1 className="text-xl font-serif font-bold text-[var(--text-primary)]">Shortlisted & Accepted Talent</h1>
+            <h1 className="text-xl  font-bold text-[var(--text-primary)]">Shortlisted & Accepted Talent</h1>
             <p className="text-xs text-[var(--text-muted)] font-medium">Approved candidates progressing through interviews and active evaluation.</p>
           </div>
         </div>
@@ -261,7 +261,7 @@ export const ClientShortlist: React.FC<ClientShortlistProps> = ({
       ) : (
         <div className="crm-card p-12 text-center text-[var(--text-muted)] font-medium space-y-3">
           <Star size={36} className="mx-auto text-[#A98B56] opacity-40" />
-          <h3 className="text-lg font-serif font-bold text-[var(--text-primary)]">No Shortlisted Candidates Yet</h3>
+          <h3 className="text-lg  font-bold text-[var(--text-primary)]">No Shortlisted Candidates Yet</h3>
           <p className="text-xs max-w-md mx-auto">
             Candidates you accept or shortlist during the Candidate Review process will automatically appear in this dedicated pipeline list.
           </p>

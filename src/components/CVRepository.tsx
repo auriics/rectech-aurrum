@@ -764,7 +764,7 @@ ${c.rawResumeText || 'N/A'}
                             {copiedIndex === idx ? <Check size={11} className="text-emerald-500" /> : <Copy size={11} />}
                           </button>
                           
-                          <div className="prose prose-sm dark:prose-invert max-w-none text-xs leading-relaxed space-y-2 [&_h1]:text-sm [&_h1]:font-black [&_h1]:text-[var(--text-primary)] [&_h2]:text-xs [&_h2]:font-black [&_h2]:text-[var(--primary-gold)] [&_h2]:mt-3 [&_h2]:mb-1.5 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1.5 [&_code]:bg-[var(--bg-secondary)] [&_code]:text-[var(--primary-gold)] [&_code]:border [&_code]:border-[var(--border-color)] [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded-md [&_code]:font-mono [&_blockquote]:border-l-4 [&_blockquote]:border-[var(--primary-gold)] [&_blockquote]:pl-3 [&_blockquote]:italic [&_blockquote]:my-2 [&_blockquote]:text-[var(--text-muted)]">
+                          <div className="prose prose-sm dark:prose-invert max-w-none text-xs leading-relaxed space-y-2 [&_h1]:text-sm [&_h1]:font-black [&_h1]:text-[var(--text-primary)] [&_h2]:text-xs [&_h2]:font-black [&_h2]:text-[var(--primary-gold)] [&_h2]:mt-3 [&_h2]:mb-1.5 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1.5 [&_code]:bg-[var(--bg-secondary)] [&_code]:text-[var(--primary-gold)] [&_code]:border [&_code]:border-[var(--border-color)] [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded-md [&_code]: [&_blockquote]:border-l-4 [&_blockquote]:border-[var(--primary-gold)] [&_blockquote]:pl-3 [&_blockquote]:italic [&_blockquote]:my-2 [&_blockquote]:text-[var(--text-muted)]">
                             <ReactMarkdown>{msg.text}</ReactMarkdown>
                           </div>
                         </>

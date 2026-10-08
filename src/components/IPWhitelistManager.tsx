@@ -46,7 +46,7 @@ export default function IPWhitelistManager() {
       <ul className="space-y-2">
         {ips.map(ip => (
             <li key={ip} className="flex justify-between items-center p-3 bg-[var(--bg-secondary)] border border-[var(--border-color)]/70 rounded-xl text-xs font-bold text-[var(--text-secondary)]">
-                <span className="font-mono">{ip}</span>
+                <span className="">{ip}</span>
                 <button onClick={() => removeIp(ip)} className="text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/40 p-1.5 rounded-lg text-xs font-black uppercase tracking-wider transition-all">Remove</button>
             </li>
         ))}

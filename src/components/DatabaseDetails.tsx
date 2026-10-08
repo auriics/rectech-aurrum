@@ -51,7 +51,7 @@ export default function DatabaseDetails() {
 
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-6 pb-12">
-      <h2 className="text-2xl font-serif text-[var(--text-primary)]">Database Details & Tools</h2>
+      <h2 className="text-2xl  text-[var(--text-primary)]">Database Details & Tools</h2>
       
       {/* Experience Fix Tool */}
       <div className="bg-[var(--card-bg)] p-6 rounded-2xl border border-[var(--border-color)] shadow-sm space-y-4">

@@ -219,7 +219,7 @@ export default function UserManagement() {
       {/* Creation form */}
       <section className="bg-[var(--card-bg)] p-8 rounded-[2rem] border border-[var(--border-color)] shadow-sm transition-colors duration-300">
         <div className="mb-8">
-          <h2 className="text-3xl font-serif text-[var(--text-primary)]">Team Expansion</h2>
+          <h2 className="text-3xl  text-[var(--text-primary)]">Team Expansion</h2>
           <p className="text-[var(--text-secondary)] text-sm mt-1">Directly register new team members with credentials</p>
         </div>
 
@@ -295,7 +295,7 @@ export default function UserManagement() {
               <UserIcon size={20} />
             </div>
             <div>
-              <h3 className="text-xl font-serif text-[var(--text-primary)]">Rectech Team Directory</h3>
+              <h3 className="text-xl  text-[var(--text-primary)]">Rectech Team Directory</h3>
               <p className="text-[10px] uppercase font-bold tracking-widest text-[var(--text-muted)]">Manage access and authority levels</p>
             </div>
           </div>
@@ -425,7 +425,7 @@ export default function UserManagement() {
               <Database size={24} />
             </div>
             <div>
-              <h3 className="text-xl font-serif text-red-900 dark:text-red-100">Strategic Reset</h3>
+              <h3 className="text-xl  text-red-900 dark:text-red-100">Strategic Reset</h3>
               <p className="text-xs text-red-600/60 dark:text-red-400/50 font-medium">Clear all candidate intelligence for a fresh platform launch</p>
             </div>
           </div>

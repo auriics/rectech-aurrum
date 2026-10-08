@@ -216,7 +216,7 @@ export const ClientAssignedCandidates: React.FC<ClientAssignedCandidatesProps> =
             <Users size={22} />
           </div>
           <div>
-            <h1 className="text-xl font-serif font-bold text-[var(--text-primary)]">Assigned Candidates Directory</h1>
+            <h1 className="text-xl  font-bold text-[var(--text-primary)]">Assigned Candidates Directory</h1>
             <p className="text-xs text-[var(--text-muted)] font-medium">Search, filter, and inspect all talent profiles assigned to your account.</p>
           </div>
         </div>
@@ -283,7 +283,7 @@ export const ClientAssignedCandidates: React.FC<ClientAssignedCandidatesProps> =
               <Code size={12} className="text-[#A98B56]" /> Boolean Syntax Examples
             </div>
             <p className="text-[10px] text-[var(--text-muted)]">
-              Use AND, OR, NOT and quotes for exact phrase match (e.g., <code className="bg-black/10 px-1 rounded font-mono">"Senior Engineer" AND (React OR Vue) NOT Angular</code>).
+              Use AND, OR, NOT and quotes for exact phrase match (e.g., <code className="bg-black/10 px-1 rounded ">"Senior Engineer" AND (React OR Vue) NOT Angular</code>).
             </p>
           </div>
         )}
@@ -481,7 +481,7 @@ export const ClientAssignedCandidates: React.FC<ClientAssignedCandidatesProps> =
           {/* Table Pagination Bar */}
           <div className="p-4 bg-[var(--bg-secondary)] border-t border-[var(--border-color)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-bold text-[var(--text-secondary)]">
             <div>
-              Showing <span className="text-[#A98B56] font-mono">{Math.min((currentPage - 1) * rowsPerPage + 1, filteredCandidates.length)}</span>–<span className="text-[#A98B56] font-mono">{Math.min(currentPage * rowsPerPage, filteredCandidates.length)}</span> of <span className="text-[#A98B56] font-mono">{filteredCandidates.length}</span> assigned candidates
+              Showing <span className="text-[#A98B56] ">{Math.min((currentPage - 1) * rowsPerPage + 1, filteredCandidates.length)}</span>–<span className="text-[#A98B56] ">{Math.min(currentPage * rowsPerPage, filteredCandidates.length)}</span> of <span className="text-[#A98B56] ">{filteredCandidates.length}</span> assigned candidates
             </div>
 
             <div className="flex items-center gap-3">
@@ -510,7 +510,7 @@ export const ClientAssignedCandidates: React.FC<ClientAssignedCandidatesProps> =
                 >
                   <ChevronLeft size={14} />
                 </button>
-                <span className="px-3 py-1.5 text-xs font-mono font-bold text-[#A98B56]">
+                <span className="px-3 py-1.5 text-xs  font-bold text-[#A98B56]">
                   {currentPage} / {totalPages}
                 </span>
                 <button

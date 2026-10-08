@@ -231,7 +231,7 @@ export const ClientDashboardHome: React.FC<ClientDashboardHomeProps> = ({
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#A98B56]/20 border border-[#A98B56]/40 text-[#BC9B66] text-xs font-bold uppercase tracking-widest">
               <Sparkles size={14} /> Client Portal Executive Overview
             </div>
-            <h1 className="text-3xl font-serif font-bold text-white tracking-tight">
+            <h1 className="text-3xl  font-bold text-white tracking-tight">
               Welcome back, {user?.displayName || user?.email?.split('@')[0] || 'Valued Client Partner'}
             </h1>
             <p className="text-sm text-[#DCE6EC] leading-relaxed">
@@ -550,7 +550,7 @@ export const ClientDashboardHome: React.FC<ClientDashboardHomeProps> = ({
                       <span className="font-extrabold text-[var(--text-primary)]">
                         {act.candidateName}
                       </span>
-                      <span className="text-[9px] text-[var(--text-muted)] font-mono">
+                      <span className="text-[9px] text-[var(--text-muted)] ">
                         {act.timestamp ? new Date(act.timestamp).toLocaleDateString() : 'Recent'}
                       </span>
                     </div>

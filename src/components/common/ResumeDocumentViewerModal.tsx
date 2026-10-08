@@ -140,7 +140,7 @@ export const ResumeDocumentViewerModal: React.FC<ResumeDocumentViewerModalProps>
               <FileText size={22} />
             </div>
             <div>
-              <h2 className="text-base sm:text-lg font-serif font-bold text-[var(--text-primary)] flex items-center gap-2">
+              <h2 className="text-base sm:text-lg  font-bold text-[var(--text-primary)] flex items-center gap-2">
                 {candidate.fullName || 'Candidate'} — Resume Document
               </h2>
               <div className="flex items-center gap-2 text-xs text-[var(--text-muted)] font-medium">
@@ -323,7 +323,7 @@ export const ResumeDocumentViewerModal: React.FC<ResumeDocumentViewerModalProps>
                     {copied ? 'Copied' : 'Copy Text'}
                   </button>
                 </div>
-                <div className="p-4 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-xl font-mono text-xs text-[var(--text-secondary)] leading-relaxed whitespace-pre-wrap max-h-64 overflow-y-auto">
+                <div className="p-4 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-xl  text-xs text-[var(--text-secondary)] leading-relaxed whitespace-pre-wrap max-h-64 overflow-y-auto">
                   {rawText}
                 </div>
               </div>

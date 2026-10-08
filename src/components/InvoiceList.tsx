@@ -445,7 +445,7 @@ export const InvoiceList = () => {
         <head>
           <title>Invoice - ${inv.invoiceNumber}</title>
           <style>
-            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
             @page {
               size: A4 portrait;
               margin: 0;
@@ -792,14 +792,14 @@ export const InvoiceList = () => {
                   paginatedInvoices.map((inv) => (
                   <tr key={inv.id} className="hover:bg-[var(--card-hover-bg)] transition-colors">
                     <td className="p-4 pl-6">
-                      <span className="font-mono text-xs font-bold text-[var(--text-primary)]">{inv.invoiceNumber}</span>
+                      <span className=" text-xs font-bold text-[var(--text-primary)]">{inv.invoiceNumber}</span>
                     </td>
                     <td className="p-4">
                       <div className="font-bold text-[var(--text-primary)] text-xs">{inv.clientName}</div>
                       {inv.paymentTerms ? <div className="text-[10px] text-[var(--text-muted)]">{inv.paymentTerms}</div> : null}
                     </td>
                     <td className="p-4">
-                      <span className="font-mono text-xs font-black text-[var(--text-primary)]">
+                      <span className=" text-xs font-black text-[var(--text-primary)]">
                         ${getEffectiveTotal(inv).toLocaleString(undefined, { minimumFractionDigits: 2 })}
                       </span>
                     </td>
@@ -891,12 +891,12 @@ export const InvoiceList = () => {
               <div className="flex items-center gap-2 text-[var(--text-primary)]">
                 <FileText className="w-4.5 h-4.5 text-[var(--primary-gold)]" />
                 <div className="flex items-center gap-2">
-                  <span className="font-mono text-xs font-bold uppercase tracking-tight">Editable Invoice Preview</span>
+                  <span className=" text-xs font-bold uppercase tracking-tight">Editable Invoice Preview</span>
                   <input
                     type="text"
                     value={editedInvoice.invoiceNumber || ''}
                     onChange={(e) => setEditedInvoice({ ...editedInvoice, invoiceNumber: e.target.value })}
-                    className="crm-input h-7 px-2 py-0.5 text-xs font-mono font-bold w-36"
+                    className="crm-input h-7 px-2 py-0.5 text-xs  font-bold w-36"
                     placeholder="Invoice #"
                   />
                 </div>
@@ -1311,7 +1311,7 @@ export const InvoiceList = () => {
                         <span className="text-xs font-bold text-[var(--text-primary)]">Calculate Placement Fee based on Annual Salary</span>
                       </label>
                     </div>
-                    <div className="flex items-center justify-between text-[10px] text-[var(--text-muted)] font-mono font-bold">
+                    <div className="flex items-center justify-between text-[10px] text-[var(--text-muted)]  font-bold">
                       <span>Fee Status: <span className={editedInvoice.calculatePlacementFee ?? true ? "text-emerald-500 font-extrabold" : "text-amber-500 font-extrabold"}>{editedInvoice.calculatePlacementFee ?? true ? "ACTIVE (Included)" : "INACTIVE (Excluded / $0)"}</span></span>
                       <span className="text-[var(--primary-gold)]">
                         Calculated Fee: (${(editedInvoice.calculatePlacementFee ?? true ? Math.round((editedInvoice.calcCtc ?? 60000) * ((editedInvoice.calcFeePercent ?? 15) / 100)) : 0).toLocaleString()})
@@ -1342,7 +1342,7 @@ export const InvoiceList = () => {
                               candidates: []
                             });
                           }}
-                          className="crm-input text-xs font-mono font-bold"
+                          className="crm-input text-xs  font-bold"
                         />
                       </div>
                       <div>
@@ -1369,7 +1369,7 @@ export const InvoiceList = () => {
                               candidates: []
                             });
                           }}
-                          className="crm-input text-xs font-mono font-bold"
+                          className="crm-input text-xs  font-bold"
                         />
                       </div>
                     </div>
@@ -1391,7 +1391,7 @@ export const InvoiceList = () => {
                       </thead>
                       <tbody className="divide-y divide-[var(--border-color)] text-xs">
                         <tr className="text-[var(--text-secondary)]">
-                          <td className="p-3 pl-4 font-mono text-[var(--text-muted)] text-center">1</td>
+                          <td className="p-3 pl-4  text-[var(--text-muted)] text-center">1</td>
                           <td className="p-3">
                             <input
                               type="text"
@@ -1413,7 +1413,7 @@ export const InvoiceList = () => {
                                 const total = Math.max(0, val + taxAmt - discount);
                                 setEditedInvoice({ ...editedInvoice, subtotal: val, totalAmount: total });
                               }}
-                              className="crm-input text-xs font-mono font-bold text-right w-36 ml-auto"
+                              className="crm-input text-xs  font-bold text-right w-36 ml-auto"
                               placeholder="0.00"
                             />
                           </td>
@@ -1433,7 +1433,7 @@ export const InvoiceList = () => {
                             type="number"
                             value={editedInvoice.taxRate || 0}
                             onChange={(e) => setEditedInvoice({ ...editedInvoice, taxRate: parseFloat(e.target.value) || 0 })}
-                            className="crm-input text-xs font-mono font-bold"
+                            className="crm-input text-xs  font-bold"
                           />
                         </div>
                         <div>
@@ -1442,7 +1442,7 @@ export const InvoiceList = () => {
                             type="number"
                             value={editedInvoice.discountAmount || 0}
                             onChange={(e) => setEditedInvoice({ ...editedInvoice, discountAmount: parseFloat(e.target.value) || 0 })}
-                            className="crm-input text-xs font-mono font-bold"
+                            className="crm-input text-xs  font-bold"
                           />
                         </div>
                       </div>
@@ -1460,23 +1460,23 @@ export const InvoiceList = () => {
                             <>
                               <div className="flex justify-between text-[var(--text-muted)]">
                                 <span>Subtotal:</span>
-                                <span className="font-mono font-semibold text-[var(--text-primary)]">${sub.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+                                <span className=" font-semibold text-[var(--text-primary)]">${sub.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
                               </div>
                               {tax > 0 && (
                                 <div className="flex justify-between text-[var(--text-muted)]">
                                   <span>Tax ({editedInvoice.taxRate}%):</span>
-                                  <span className="font-mono font-semibold text-[var(--text-primary)]">+${tax.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+                                  <span className=" font-semibold text-[var(--text-primary)]">+${tax.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
                                 </div>
                               )}
                               {disc > 0 && (
                                 <div className="flex justify-between text-[var(--text-muted)]">
                                   <span>Discount:</span>
-                                  <span className="font-mono font-semibold text-rose-500">-${disc.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+                                  <span className=" font-semibold text-rose-500">-${disc.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
                                 </div>
                               )}
                               <div className="flex justify-between text-sm font-black border-t border-[var(--border-color)] pt-2 text-[var(--text-primary)]">
                                 <span>Total statement due:</span>
-                                <span className="font-mono text-[var(--primary-gold)]">${pendingDue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+                                <span className=" text-[var(--primary-gold)]">${pendingDue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
                               </div>
                             </>
                           );
@@ -1565,7 +1565,7 @@ export const InvoiceList = () => {
                           type="text"
                           value={editedInvoice.accountNumber || ''}
                           onChange={(e) => setEditedInvoice({ ...editedInvoice, accountNumber: e.target.value })}
-                          className="crm-input text-xs font-mono"
+                          className="crm-input text-xs "
                           placeholder="Account Number"
                         />
                       </div>
@@ -1575,7 +1575,7 @@ export const InvoiceList = () => {
                           type="text"
                           value={editedInvoice.swiftCode || ''}
                           onChange={(e) => setEditedInvoice({ ...editedInvoice, swiftCode: e.target.value })}
-                          className="crm-input text-xs font-mono"
+                          className="crm-input text-xs "
                           placeholder="Swift / BIC Code"
                         />
                       </div>

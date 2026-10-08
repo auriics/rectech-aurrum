@@ -315,7 +315,7 @@ export const JsonResumeUploader: React.FC = () => {
               value={jsonText}
               onChange={(e) => setJsonText(e.target.value)}
               placeholder={`Paste your JSON resume structure here...\n{\n  "fullName": "Raven Fuller",\n  "email": "ravenlfuller@gmail.com",\n  ...\n}`}
-              className="w-full crm-input font-mono text-xs leading-relaxed p-4 bg-[var(--bg-secondary)]"
+              className="w-full crm-input  text-xs leading-relaxed p-4 bg-[var(--bg-secondary)]"
               required
             />
           </div>

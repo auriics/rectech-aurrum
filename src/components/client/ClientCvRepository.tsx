@@ -176,7 +176,7 @@ export const ClientCvRepository: React.FC<ClientCvRepositoryProps> = ({
             <FileText size={22} />
           </div>
           <div>
-            <h1 className="text-xl font-serif font-bold text-[var(--text-primary)]">Client CV Repository</h1>
+            <h1 className="text-xl  font-bold text-[var(--text-primary)]">Client CV Repository</h1>
             <p className="text-xs text-[var(--text-muted)] font-medium">Read-only library of parsed candidate resumes shared with your organization.</p>
           </div>
         </div>
@@ -297,7 +297,7 @@ export const ClientCvRepository: React.FC<ClientCvRepositoryProps> = ({
       ) : (
         <div className="crm-card p-12 text-center text-[var(--text-muted)] font-medium space-y-3">
           <FileText size={36} className="mx-auto text-[#A98B56] opacity-40" />
-          <h3 className="text-lg font-serif font-bold text-[var(--text-primary)]">No Resumes Match Search Criteria</h3>
+          <h3 className="text-lg  font-bold text-[var(--text-primary)]">No Resumes Match Search Criteria</h3>
           <p className="text-xs max-w-md mx-auto">Try clearing your search query or choosing a different domain filter.</p>
         </div>
       )}

@@ -63,7 +63,7 @@ export default function LogReview() {
     </div>
   ) : (
     <div className="bg-[var(--card-bg)] p-8 rounded-[2rem] border border-[var(--border-color)] shadow-sm transition-colors duration-300">
-      <h2 className="text-3xl font-serif text-[var(--text-primary)] mb-8">Activity Logs</h2>
+      <h2 className="text-3xl  text-[var(--text-primary)] mb-8">Activity Logs</h2>
       <div className="overflow-hidden border border-[var(--border-color)] rounded-2xl">
         <table className="w-full text-left border-collapse">
             <thead className="bg-[var(--sidebar-bg)] text-[10px] uppercase font-bold text-[var(--text-muted)]">
@@ -77,7 +77,7 @@ export default function LogReview() {
             <tbody className="divide-y divide-[var(--border-color)]">
                 {logs.map(log => (
                     <tr key={log.id} className="hover:bg-indigo-50/20 dark:hover:bg-indigo-900/10 transition-colors">
-                        <td className="px-6 py-4 text-xs font-mono text-[var(--text-muted)]">{formatDate(log.timestamp)}</td>
+                        <td className="px-6 py-4 text-xs  text-[var(--text-muted)]">{formatDate(log.timestamp)}</td>
                         {(role === 'admin' || role === 'developer') && (
                           <td className="px-6 py-4 text-xs font-bold text-[var(--text-secondary)]">
                             {usersMap[log.userId] || 'System/AI'}

@@ -134,7 +134,7 @@ export const ClientTalentInsights: React.FC<ClientTalentInsightsProps> = ({
             <BarChart2 size={22} />
           </div>
           <div>
-            <h1 className="text-xl font-serif font-bold text-[var(--text-primary)]">Talent Insights & Analytics</h1>
+            <h1 className="text-xl  font-bold text-[var(--text-primary)]">Talent Insights & Analytics</h1>
             <p className="text-xs text-[var(--text-muted)] font-medium">Hiring funnel stats, skill availability, experience breakdowns, and conversion analytics.</p>
           </div>
         </div>
@@ -152,7 +152,7 @@ export const ClientTalentInsights: React.FC<ClientTalentInsightsProps> = ({
             <span>TOTAL ASSIGNED</span>
             <Users size={16} className="text-blue-500" />
           </div>
-          <p className="text-2xl font-serif font-bold text-[var(--text-primary)]">{metrics.totalAssigned}</p>
+          <p className="text-2xl  font-bold text-[var(--text-primary)]">{metrics.totalAssigned}</p>
           <p className="text-[10px] text-[var(--text-muted)]">Active profiles in review queue</p>
         </div>
 
@@ -161,7 +161,7 @@ export const ClientTalentInsights: React.FC<ClientTalentInsightsProps> = ({
             <span>PENDING REVIEW</span>
             <Clock size={16} className="text-amber-500" />
           </div>
-          <p className="text-2xl font-serif font-bold text-[var(--text-primary)]">{metrics.pendingCount}</p>
+          <p className="text-2xl  font-bold text-[var(--text-primary)]">{metrics.pendingCount}</p>
           <p className="text-[10px] text-[var(--text-muted)]">Awaiting your feedback</p>
         </div>
 
@@ -170,7 +170,7 @@ export const ClientTalentInsights: React.FC<ClientTalentInsightsProps> = ({
             <span>SHORTLISTED</span>
             <Star size={16} className="text-purple-500" />
           </div>
-          <p className="text-2xl font-serif font-bold text-[var(--text-primary)]">{metrics.shortlistedCount}</p>
+          <p className="text-2xl  font-bold text-[var(--text-primary)]">{metrics.shortlistedCount}</p>
           <p className="text-[10px] text-[var(--text-muted)]">Interview candidate pool</p>
         </div>
 
@@ -179,7 +179,7 @@ export const ClientTalentInsights: React.FC<ClientTalentInsightsProps> = ({
             <span>ACCEPTED / HIRED</span>
             <CheckCircle2 size={16} className="text-emerald-500" />
           </div>
-          <p className="text-2xl font-serif font-bold text-[var(--text-primary)]">{metrics.acceptedCount}</p>
+          <p className="text-2xl  font-bold text-[var(--text-primary)]">{metrics.acceptedCount}</p>
           <p className="text-[10px] text-[var(--text-muted)]">Approved candidate profiles</p>
         </div>
 
@@ -188,7 +188,7 @@ export const ClientTalentInsights: React.FC<ClientTalentInsightsProps> = ({
             <span>REJECTED</span>
             <TrendingUp size={16} className="text-rose-500" />
           </div>
-          <p className="text-2xl font-serif font-bold text-[var(--text-primary)]">{metrics.rejectedCount}</p>
+          <p className="text-2xl  font-bold text-[var(--text-primary)]">{metrics.rejectedCount}</p>
           <p className="text-[10px] text-[var(--text-muted)]">Not moving forward</p>
         </div>
       </div>
@@ -242,7 +242,7 @@ export const ClientTalentInsights: React.FC<ClientTalentInsightsProps> = ({
             {Object.entries(metrics.experienceMap).map(([label, count]) => (
               <div key={label} className="p-4 bg-[var(--bg-secondary)] rounded-2xl border border-[var(--border-color)] space-y-1 text-center">
                 <span className="text-[10px] uppercase font-extrabold text-[var(--text-muted)] block">{label}</span>
-                <p className="text-2xl font-serif font-bold text-[#A98B56]">{count}</p>
+                <p className="text-2xl  font-bold text-[#A98B56]">{count}</p>
                 <span className="text-[9px] text-[var(--text-muted)] font-semibold">candidates</span>
               </div>
             ))}

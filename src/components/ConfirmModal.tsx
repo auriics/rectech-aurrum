@@ -63,7 +63,7 @@ export default function ConfirmModal({
             </button>
           </div>
           
-          <h3 className="text-xl font-serif text-[var(--text-primary)] mb-2">{title}</h3>
+          <h3 className="text-xl  text-[var(--text-primary)] mb-2">{title}</h3>
           <p className="text-sm text-[var(--text-muted)] leading-relaxed mb-8">
             {message}
           </p>

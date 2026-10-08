@@ -15,8 +15,8 @@ import AdmZip from "adm-zip";
 import cron from "node-cron";
 import cors from "cors";
 import dotenv from "dotenv";
-import * as admin3 from "firebase-admin";
-import { FieldValue } from "firebase-admin/firestore";
+import * as admin from "firebase-admin";
+import { FieldValue as FieldValue2 } from "firebase-admin/firestore";
 
 // src/services/resumeParser.server.ts
 import mammoth from "mammoth";
@@ -2398,7 +2398,7 @@ var GeminiSearchAssistant = class {
 import { GoogleGenAI as GoogleGenAI3 } from "@google/genai";
 
 // src/services/leadWebhookService.ts
-import * as admin from "firebase-admin";
+import { FieldValue } from "firebase-admin/firestore";
 var geminiParser = new GeminiResumeParser();
 var sleep2 = (ms) => new Promise((res) => setTimeout(res, ms));
 async function retryWithBackoff2(fn, retries = 3, initialDelay = 1e3) {
@@ -2429,21 +2429,13 @@ async function fetchAndValidateResume(resumeUrl, expectedFileType, expectedSize)
       const mimeMatch = header.match(/data:([^;]+)/);
       const mimeType = mimeMatch ? mimeMatch[1] : expectedFileType || "application/pdf";
       const buffer2 = Buffer.from(base64Data, "base64");
+      if (buffer2.length < 50) {
+        throw new Error("Data URI resume buffer is empty or corrupted");
+      }
       return { buffer: buffer2, mimeType };
     } catch (dataUriErr) {
-      console.warn("[LeadWebhookService] Failed to parse data URI resume:", dataUriErr.message);
+      throw new Error(`RESUME_FETCH_FAILED: Invalid data URI: ${dataUriErr.message}`);
     }
-  }
-  try {
-    const parsedUrl = new URL(resumeUrl);
-    const hostname = parsedUrl.hostname.toLowerCase();
-    const allowedDomains = ["aurrum.co", "storage.googleapis.com", "firebasestorage.googleapis.com", "github.com", "raw.githubusercontent.com", "gitlab.com", "dropbox.com", "amazonaws.com", "blob.core.windows.net", "localhost", "127.0.0.1"];
-    const isAllowed = allowedDomains.some((d) => hostname === d || hostname.endsWith("." + d));
-    if (!isAllowed) {
-      console.warn(`[LeadWebhookService] Domain ${hostname} not in strict whitelist, allowing for robust processing.`);
-    }
-  } catch (err) {
-    console.warn(`[LeadWebhookService] URL validation warning: ${err.message}. Proceeding with fetch.`);
   }
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 15e3);
@@ -2457,23 +2449,24 @@ async function fetchAndValidateResume(resumeUrl, expectedFileType, expectedSize)
         }
       });
       if (!res.ok) {
-        throw new Error(`Failed to fetch resume: HTTP ${res.status} ${res.statusText}`);
+        throw new Error(`HTTP ${res.status} ${res.statusText}`);
       }
       return res;
     });
   } catch (fetchErr) {
-    console.warn(`[LeadWebhookService] Fetch failed (${fetchErr.message}). Using fallback empty valid PDF buffer.`);
-    const fallbackPdf = Buffer.from("%PDF-1.4\n1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj 2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj 3 0 obj<</Type/Page/MediaBox[0 0 612 792]>>endobj xref\n0 4\n0000000000 65535 f \n0000000009 00000 n \n0000000058 00000 n \n0000000115 00000 n \ntrailer<</Size 4/Root 1 0 R>>\nstartxref\n168\n%%EOF", "utf-8");
-    return { buffer: fallbackPdf, mimeType: expectedFileType || "application/pdf" };
+    throw new Error(`RESUME_FETCH_FAILED: Could not download resume from ${resumeUrl} (${fetchErr.message})`);
   } finally {
     clearTimeout(timeoutId);
   }
   const contentType = response.headers.get("content-type") || expectedFileType || "application/pdf";
   const arrayBuffer = await response.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
+  if (buffer.length < 50) {
+    throw new Error(`RESUME_FETCH_FAILED: Downloaded resume file is empty or corrupted (size: ${buffer.length} bytes)`);
+  }
   const maxSize = 10 * 1024 * 1024;
   if (buffer.length > maxSize) {
-    throw new Error(`File size (${buffer.length} bytes) exceeds maximum limit of 10MB`);
+    throw new Error(`RESUME_FETCH_FAILED: File size (${buffer.length} bytes) exceeds maximum limit of 10MB`);
   }
   return { buffer, mimeType: contentType };
 }
@@ -2593,8 +2586,8 @@ async function processWebsiteLead(payload, db) {
       resumeFileType: payload.resume_file_type || "",
       resumeSize: payload.resume_size || 0,
       submittedAt: payload.submitted_at || (/* @__PURE__ */ new Date()).toISOString(),
-      createdAt: admin.firestore.FieldValue.serverTimestamp(),
-      updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+      createdAt: FieldValue.serverTimestamp(),
+      updatedAt: FieldValue.serverTimestamp(),
       status: "New Lead",
       stage: "Sourced",
       rating: 0,
@@ -2604,7 +2597,7 @@ async function processWebsiteLead(payload, db) {
     const docRef = await db.collection("candidates").add(candidateData);
     console.log(`[LeadWebhookService] Successfully created candidate record ${docRef.id} for lead ${candidateData.email}`);
     await db.collection("activityLogs").add({
-      timestamp: admin.firestore.FieldValue.serverTimestamp(),
+      timestamp: FieldValue.serverTimestamp(),
       user: "Website Webhook",
       action: "Website Lead Captured",
       details: `New lead received from ${candidateData.email} (${candidateData.leadType})${parsedResume ? " with parsed resume" : ""}`,
@@ -2624,9 +2617,8 @@ import OpenAI from "openai";
 import Anthropic from "@anthropic-ai/sdk";
 
 // src/services/firebaseAdmin.ts
-import * as admin2 from "firebase-admin";
-import { getApps, initializeApp, cert } from "firebase-admin/app";
-import { getFirestore } from "firebase-admin/firestore";
+import { getApps, getApp, initializeApp, cert } from "firebase-admin/app";
+import { getFirestore as getFirestore2 } from "firebase-admin/firestore";
 import { getMessaging } from "firebase-admin/messaging";
 import fs from "fs";
 import path from "path";
@@ -2675,15 +2667,15 @@ function getAdminApp() {
       console.log("[FirebaseAdmin] Admin SDK initialized with Project ID:", firebaseConfig.projectId);
     }
   }
-  return admin2.app();
+  return getApp();
 }
 function getAdminDb() {
   if (cachedAdminDb) {
     return cachedAdminDb;
   }
-  const app3 = getAdminApp();
+  const app2 = getAdminApp();
   const dbId = firebaseConfig.firestoreDatabaseId || "aurrum-production";
-  cachedAdminDb = getFirestore(app3, dbId);
+  cachedAdminDb = getFirestore2(app2, dbId);
   if (!cachedAdminDb) {
     throw new Error("Firestore database not initialized.");
   }
@@ -2694,8 +2686,8 @@ function getAdminMessaging() {
   if (cachedAdminMessaging) {
     return cachedAdminMessaging;
   }
-  const app3 = getAdminApp();
-  cachedAdminMessaging = getMessaging(app3);
+  const app2 = getAdminApp();
+  cachedAdminMessaging = getMessaging(app2);
   return cachedAdminMessaging;
 }
 
@@ -2781,13 +2773,13 @@ var startNotificationListener = async () => {
     console.error("[Server] Failed to initialize notification listener:", err);
   }
 };
-var app2 = express();
-app2.set("trust proxy", true);
+var app = express();
+app.set("trust proxy", true);
 var PORT = 3e3;
-app2.use(express.json({ limit: "50mb" }));
-app2.use(express.urlencoded({ limit: "50mb", extended: true }));
-app2.use(cors());
-app2.get("/api/health", (req, res) => {
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
+app.use(cors());
+app.get("/api/health", (req, res) => {
   res.json({
     status: "ok",
     env: process.env.NODE_ENV,
@@ -2795,7 +2787,7 @@ app2.get("/api/health", (req, res) => {
     allowedIpsConfigured: !!process.env.ALLOWED_IPS
   });
 });
-app2.get("/api/gemini/status", async (req, res) => {
+app.get("/api/gemini/status", async (req, res) => {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     return res.json({
@@ -2872,7 +2864,7 @@ var upload = multer({
   limits: { fileSize: 10 * 1024 * 1024 }
   // 10MB limit
 });
-app2.post("/api/cv/parse-gemini", upload.single("file"), async (req, res) => {
+app.post("/api/cv/parse-gemini", upload.single("file"), async (req, res) => {
   if (!req.file) return res.status(400).json({ error: "No file uploaded" });
   try {
     const parsed = await geminiParser2.parseBuffer(req.file.buffer, req.file.mimetype, req.file.originalname);
@@ -2888,7 +2880,7 @@ app2.post("/api/cv/parse-gemini", upload.single("file"), async (req, res) => {
     }
   }
 });
-app2.post("/api/cv/parse-text", async (req, res) => {
+app.post("/api/cv/parse-text", async (req, res) => {
   const { text } = req.body;
   if (!text) return res.status(400).json({ error: "Text is required" });
   try {
@@ -2905,7 +2897,7 @@ app2.post("/api/cv/parse-text", async (req, res) => {
     }
   }
 });
-app2.post("/api/cv/search-ai", async (req, res) => {
+app.post("/api/cv/search-ai", async (req, res) => {
   const { query, candidates, history, precision } = req.body;
   if (!query) return res.status(400).json({ error: "Query is required" });
   try {
@@ -2950,7 +2942,7 @@ app2.post("/api/cv/search-ai", async (req, res) => {
     });
   }
 });
-app2.post("/api/cv/parse-openai", upload.single("file"), async (req, res) => {
+app.post("/api/cv/parse-openai", upload.single("file"), async (req, res) => {
   if (!openai) return res.status(500).json({ error: "OpenAI not configured" });
   if (!req.file) return res.status(400).json({ error: "No file uploaded" });
   try {
@@ -2967,7 +2959,7 @@ app2.post("/api/cv/parse-openai", upload.single("file"), async (req, res) => {
     res.status(500).json({ error: "Failed to parse resume with OpenAI" });
   }
 });
-app2.post("/api/cv/parse-claude", upload.single("file"), async (req, res) => {
+app.post("/api/cv/parse-claude", upload.single("file"), async (req, res) => {
   if (!anthropic) return res.status(500).json({ error: "Anthropic not configured" });
   if (!req.file) return res.status(400).json({ error: "No file uploaded" });
   try {
@@ -2990,7 +2982,7 @@ app2.post("/api/cv/parse-claude", upload.single("file"), async (req, res) => {
     res.status(500).json({ error: "Failed to parse resume with Claude" });
   }
 });
-app2.post("/api/cv/parse-waterfall", upload.single("file"), async (req, res) => {
+app.post("/api/cv/parse-waterfall", upload.single("file"), async (req, res) => {
   if (!req.file) return res.status(400).json({ error: "No file uploaded" });
   const file = req.file;
   const parseResult = await resumeParser.parseBuffer(file.buffer, file.mimetype);
@@ -3025,7 +3017,7 @@ app2.post("/api/cv/parse-waterfall", upload.single("file"), async (req, res) => 
   }
   res.status(500).json({ error: "All AI providers are currently unavailable." });
 });
-app2.post("/api/batches", async (req, res) => {
+app.post("/api/batches", async (req, res) => {
   const { userId, totalFiles } = req.body;
   if (!userId || !totalFiles) return res.status(400).json({ error: "Missing userId or totalFiles" });
   if (!adminDb) return res.status(503).json({ error: "Database unavailable" });
@@ -3038,7 +3030,7 @@ app2.post("/api/batches", async (req, res) => {
   });
   res.json({ batchId: batchRef.id });
 });
-app2.post("/api/batches/:batchId/resumes", upload.single("file"), async (req, res) => {
+app.post("/api/batches/:batchId/resumes", upload.single("file"), async (req, res) => {
   const { batchId } = req.params;
   if (!req.file) return res.status(400).json({ error: "No file" });
   if (!adminDb) return res.status(503).json({ error: "Database unavailable" });
@@ -3196,7 +3188,7 @@ async function pollWordPressCrmLeads() {
             body: `New lead from ${lead.first_name || ""} ${lead.last_name || ""} (${lead.email}) successfully imported from WordPress CRM.`,
             type: "lead",
             read: false,
-            createdAt: admin3.firestore.FieldValue.serverTimestamp(),
+            createdAt: admin.firestore.FieldValue.serverTimestamp(),
             data: { candidateId: result.candidateId, email: lead.email, leadType: lead.lead_type }
           });
         }
@@ -3220,7 +3212,7 @@ async function pollWordPressCrmLeads() {
     return logEntry;
   }
 }
-app2.get(["/api/wordpress/live-leads", "/api/wordpress/crm-leads"], async (req, res) => {
+app.get(["/api/wordpress/live-leads", "/api/wordpress/crm-leads"], async (req, res) => {
   const wpUrl = process.env.WP_LEADS_API_URL || "https://aurrum.co/wp-json/aurrum/v1/crm-leads?limit=50";
   const apiKey = process.env.AURRUM_WP_API_KEY || process.env.WP_LEADS_API_KEY || "zUq2weZn8XxCB3Bb2wftyCy0uZuHjK49x07zo6DW";
   const fallbackLeads = [
@@ -3259,7 +3251,7 @@ app2.get(["/api/wordpress/live-leads", "/api/wordpress/crm-leads"], async (req, 
     return res.json({ success: true, count: fallbackLeads.length, leads: fallbackLeads });
   }
 });
-app2.get("/api/wordpress/poller-logs", (req, res) => {
+app.get("/api/wordpress/poller-logs", (req, res) => {
   const apiKeyConfigured = !!(process.env.AURRUM_WP_API_KEY || process.env.WP_LEADS_API_KEY);
   const apiKeySource = process.env.AURRUM_WP_API_KEY ? "AURRUM_WP_API_KEY" : process.env.WP_LEADS_API_KEY ? "WP_LEADS_API_KEY" : "none";
   const targetUrl = process.env.WP_LEADS_API_URL || "https://aurrum.co/wp-json/aurrum/v1/crm-leads?limit=50";
@@ -3272,7 +3264,7 @@ app2.get("/api/wordpress/poller-logs", (req, res) => {
     last5Runs: wordpressPollerRuns.slice(0, 5)
   });
 });
-app2.post("/api/wordpress/poll-now", async (req, res) => {
+app.post("/api/wordpress/poll-now", async (req, res) => {
   console.log("[Server] Manual WordPress poller trigger requested.");
   const result = await pollWordPressCrmLeads();
   res.json({
@@ -3284,7 +3276,7 @@ app2.post("/api/wordpress/poll-now", async (req, res) => {
 cron.schedule("*/2 * * * *", async () => {
   await pollWordPressCrmLeads();
 });
-app2.post(["/api/leads/ingest", "/api/leads/webhook"], async (req, res) => {
+app.post(["/api/leads/ingest", "/api/leads/webhook"], async (req, res) => {
   try {
     const body = req.body;
     const leads = Array.isArray(body) ? body : Array.isArray(body?.leads) ? body.leads : [body];
@@ -3328,7 +3320,7 @@ app2.post(["/api/leads/ingest", "/api/leads/webhook"], async (req, res) => {
           body: `Lead from ${lead.email} successfully imported as candidate.`,
           type: "lead",
           read: false,
-          createdAt: admin3.firestore.FieldValue.serverTimestamp(),
+          createdAt: admin.firestore.FieldValue.serverTimestamp(),
           data: { candidateId: result.candidateId, email: lead.email }
         });
       } else {
@@ -3341,7 +3333,7 @@ app2.post(["/api/leads/ingest", "/api/leads/webhook"], async (req, res) => {
     return res.status(500).json({ success: false, error: err.message });
   }
 });
-app2.post(["/api/wordpress/parse-lead-resume", "/api/wordpress/parse-resume"], async (req, res) => {
+app.post(["/api/wordpress/parse-lead-resume", "/api/wordpress/parse-resume"], async (req, res) => {
   try {
     const { leadId, resumeUrl, email, firstName, lastName, phone, company, service, country, message, leadType, resumeFileName, resumeFileType, resumeSize } = req.body;
     if (!resumeUrl) {
@@ -3398,7 +3390,7 @@ app2.post(["/api/wordpress/parse-lead-resume", "/api/wordpress/parse-resume"], a
       resumeFileType: mimeType,
       resumeSize: resumeSize || buffer.length,
       submittedAt: (/* @__PURE__ */ new Date()).toISOString(),
-      updatedAt: admin3.firestore.FieldValue.serverTimestamp(),
+      updatedAt: admin.firestore.FieldValue.serverTimestamp(),
       status: "Sourced",
       stage: "Screening",
       rating: parsedResume.parse_confidence === "high" ? 5 : 4,
@@ -3415,20 +3407,20 @@ app2.post(["/api/wordpress/parse-lead-resume", "/api/wordpress/parse-resume"], a
       const existingData = existingCandidateDoc.data();
       await existingCandidateDoc.ref.update({
         ...candidateData,
-        createdAt: existingData.createdAt || admin3.firestore.FieldValue.serverTimestamp(),
-        updatedAt: admin3.firestore.FieldValue.serverTimestamp()
+        createdAt: existingData.createdAt || admin.firestore.FieldValue.serverTimestamp(),
+        updatedAt: admin.firestore.FieldValue.serverTimestamp()
       });
       console.log(`[ParseLeadResume] Updated existing candidate ${candidateId}`);
     } else {
       const newDocRef = await adminDb.collection("candidates").add({
         ...candidateData,
-        createdAt: admin3.firestore.FieldValue.serverTimestamp()
+        createdAt: admin.firestore.FieldValue.serverTimestamp()
       });
       candidateId = newDocRef.id;
       console.log(`[ParseLeadResume] Created new candidate ${candidateId}`);
     }
     await adminDb.collection("activityLogs").add({
-      timestamp: admin3.firestore.FieldValue.serverTimestamp(),
+      timestamp: admin.firestore.FieldValue.serverTimestamp(),
       user: "Website Resume Parser",
       action: "Website Lead Resume Parsed",
       details: `Successfully parsed resume for lead ${candidateData.email} (Candidate ID: ${candidateId}, Confidence: ${parsedResume.parse_confidence})`,
@@ -3445,14 +3437,51 @@ app2.post(["/api/wordpress/parse-lead-resume", "/api/wordpress/parse-resume"], a
       parsedResume
     });
   } catch (err) {
-    console.error("[ParseLeadResume] Error:", err);
+    console.error("[ParseLeadResume] Technical Error Details:", err);
+    let stage = "gemini_parsing";
+    let errorCode = "PARSE_FAILED";
+    if (err.message?.includes("fetch") || err.message?.includes("network") || err.message?.includes("timeout") || err.message?.includes("HTTP")) {
+      stage = "network_fetch";
+      errorCode = "URL_UNREACHABLE";
+    } else if (err.message?.includes("size") || err.message?.includes("mime") || err.message?.includes("format")) {
+      stage = "file_validation";
+      errorCode = "INVALID_FILE_FORMAT";
+    } else if (err.message?.includes("PDF") || err.message?.includes("text") || err.message?.includes("buffer")) {
+      stage = "text_extraction";
+      errorCode = "PDF_EXTRACTION_FAILED";
+    } else if (err.message?.includes("Firestore") || err.message?.includes("database")) {
+      stage = "firestore_write";
+      errorCode = "FIRESTORE_WRITE_FAILED";
+    }
+    const structuredError = {
+      status: "failed",
+      stage,
+      error_code: errorCode,
+      error_message: err.message || String(err),
+      retryable: true,
+      last_attempt_at: (/* @__PURE__ */ new Date()).toISOString(),
+      attempt_count: 1,
+      resumeUrl: req.body?.resumeUrl || "",
+      email: req.body?.email || ""
+    };
+    try {
+      if (adminDb) {
+        await adminDb.collection("resumeParsingJobs").add({
+          ...structuredError,
+          createdAt: admin.firestore.FieldValue.serverTimestamp()
+        });
+      }
+    } catch (dbErr) {
+      console.error("[ParseLeadResume] Failed to record structured error in Firestore:", dbErr);
+    }
     return res.status(500).json({
       success: false,
-      error: "Resume parsing could not be completed. The resume has been queued for retry."
+      error: "Resume parsing could not be completed. The resume has been queued for retry.",
+      structuredError
     });
   }
 });
-app2.post("/api/cv/upload", upload.single("file"), async (req, res) => {
+app.post("/api/cv/upload", upload.single("file"), async (req, res) => {
   console.log("[Server] POST /api/cv/upload received. File:", req.file?.originalname);
   try {
     const { name, email, phone } = req.body;
@@ -3492,7 +3521,7 @@ app2.post("/api/cv/upload", upload.single("file"), async (req, res) => {
     res.status(500).json({ status: false, message: "Internal server error during upload" });
   }
 });
-app2.get("/api/cv/list", async (req, res) => {
+app.get("/api/cv/list", async (req, res) => {
   console.log("[Server] GET /api/cv/list received");
   try {
     const apiKey = process.env.AURRUM_API_KEY || "AURRUM_SECRET_123";
@@ -3520,7 +3549,7 @@ app2.get("/api/cv/list", async (req, res) => {
     res.status(500).json({ status: false, message: "Local fallback: List service unreachable" });
   }
 });
-app2.get("/api/bulk-import/report", async (req, res) => {
+app.get("/api/bulk-import/report", async (req, res) => {
   try {
     let dbCount = 0;
     if (adminDb) {
@@ -3557,7 +3586,7 @@ app2.get("/api/bulk-import/report", async (req, res) => {
     res.status(200).json({ status: false, error: err?.message || String(err), databaseCandidatesCount: 0 });
   }
 });
-app2.post("/api/wordpress/import", async (req, res) => {
+app.post("/api/wordpress/import", async (req, res) => {
   try {
     const { apiUrl = "https://auriic.co/wp-json/aurrum/v1/resumes", apiKey, batchSize = 50, startOffset = 0, parallelWorkers = 4 } = req.body;
     console.log(`[WordPressImport] Starting bulk import from ${apiUrl}, batchSize: ${batchSize}, startOffset: ${startOffset}, workers: ${parallelWorkers}`);
@@ -3684,7 +3713,7 @@ app2.post("/api/wordpress/import", async (req, res) => {
             source: "WordPress API Bulk Import",
             sourceFile: rawItem?.file_name || `resume_${candidateIndex}.pdf`,
             fileUrl,
-            createdAt: FieldValue.serverTimestamp(),
+            createdAt: FieldValue2.serverTimestamp(),
             isArchived: false
           };
           if (adminDb) {
@@ -3713,7 +3742,7 @@ app2.post("/api/wordpress/import", async (req, res) => {
     res.status(500).json({ status: false, error: err?.message || String(err) });
   }
 });
-app2.get("/api/wordpress/resumes", (req, res) => {
+app.get("/api/wordpress/resumes", (req, res) => {
   const uploadedBy = req.query.uploaded_by || "Heena";
   const sampleResumesMap = {
     "Heena": [
@@ -3740,7 +3769,7 @@ app2.get("/api/wordpress/resumes", (req, res) => {
     resumes: selectedResumes
   });
 });
-app2.post("/api/wordpress/queue-sync", async (req, res) => {
+app.post("/api/wordpress/queue-sync", async (req, res) => {
   try {
     const { apiUrl = "https://auriic.co/wp-json/aurrum/v1/resumes", modifiedAfter, cursor } = req.body;
     console.log(`[WordPressQueueSync] Triggering sync from ${apiUrl}, modifiedAfter: ${modifiedAfter || "none"}, cursor: ${cursor || "none"}`);
@@ -3839,8 +3868,8 @@ app2.post("/api/wordpress/queue-sync", async (req, res) => {
           modifiedDate: item.modified_date || (/* @__PURE__ */ new Date()).toISOString(),
           retryCount: 0,
           priority: 1,
-          createdAt: FieldValue.serverTimestamp(),
-          updatedAt: FieldValue.serverTimestamp()
+          createdAt: FieldValue2.serverTimestamp(),
+          updatedAt: FieldValue2.serverTimestamp()
         });
         queuedCount++;
       }
@@ -3848,7 +3877,7 @@ app2.post("/api/wordpress/queue-sync", async (req, res) => {
       await adminDb.collection("resume_import_logs").add({
         event: "Queue Initialized / Synchronized",
         details: `Successfully queued ${queuedCount} resumes from WordPress / Local sources.`,
-        createdAt: FieldValue.serverTimestamp()
+        createdAt: FieldValue2.serverTimestamp()
       });
     }
     res.json({
@@ -3861,7 +3890,7 @@ app2.post("/api/wordpress/queue-sync", async (req, res) => {
     res.status(500).json({ status: false, error: err?.message || String(err) });
   }
 });
-app2.post("/api/wordpress/queue-process", async (req, res) => {
+app.post("/api/wordpress/queue-process", async (req, res) => {
   try {
     const { batchSize = 25 } = req.body;
     if (!adminDb) {
@@ -3885,8 +3914,8 @@ app2.post("/api/wordpress/queue-process", async (req, res) => {
           modifiedDate: (/* @__PURE__ */ new Date()).toISOString(),
           retryCount: 0,
           priority: 1,
-          createdAt: FieldValue.serverTimestamp(),
-          updatedAt: FieldValue.serverTimestamp()
+          createdAt: FieldValue2.serverTimestamp(),
+          updatedAt: FieldValue2.serverTimestamp()
         });
         seeded++;
       }
@@ -3908,13 +3937,13 @@ app2.post("/api/wordpress/queue-process", async (req, res) => {
       const qData = queueDoc.data();
       const queueRef = queueDoc.ref;
       try {
-        await queueRef.update({ status: "processing", updatedAt: FieldValue.serverTimestamp() });
+        await queueRef.update({ status: "processing", updatedAt: FieldValue2.serverTimestamp() });
         const cleanName = (qData.fileName || "Candidate").replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
         const email = (`wp.${qData.fileName || Date.now()}`.replace(/[^a-zA-Z0-9]/g, "").toLowerCase() + "@auriic.co").slice(0, 40) + "@auriic.co";
         const phone = qData.phone || `+971 50 ${Math.floor(100 + Math.random() * 900)} ${Math.floor(1e3 + Math.random() * 9e3)}`;
         const linkedin = `https://linkedin.com/in/${cleanName.toLowerCase().replace(/\s+/g, "-")}`;
         if (existingEmails.has(email) || existingPhones.has(phone)) {
-          await queueRef.update({ status: "duplicate", updatedAt: FieldValue.serverTimestamp() });
+          await queueRef.update({ status: "duplicate", updatedAt: FieldValue2.serverTimestamp() });
           duplicates++;
           return;
         }
@@ -3936,11 +3965,11 @@ app2.post("/api/wordpress/queue-process", async (req, res) => {
           sourceFile: qData.fileName || "resume.pdf",
           fileUrl: qData.fileUrl || "https://auriic.co/aurrum-resume/resume.pdf",
           uploadedBy: qData.uploadedBy || "Heena",
-          createdAt: FieldValue.serverTimestamp(),
+          createdAt: FieldValue2.serverTimestamp(),
           isArchived: false
         };
         await adminDb.collection("candidates").add(candidateDoc);
-        await queueRef.update({ status: "completed", updatedAt: FieldValue.serverTimestamp() });
+        await queueRef.update({ status: "completed", updatedAt: FieldValue2.serverTimestamp() });
         completed++;
       } catch (itemErr) {
         failed++;
@@ -3950,7 +3979,7 @@ app2.post("/api/wordpress/queue-process", async (req, res) => {
           status: newStatus,
           retryCount,
           error: itemErr?.message || String(itemErr),
-          updatedAt: FieldValue.serverTimestamp()
+          updatedAt: FieldValue2.serverTimestamp()
         });
       }
     });
@@ -3968,7 +3997,7 @@ app2.post("/api/wordpress/queue-process", async (req, res) => {
     res.json({ status: true, processed: 25, completed: 25, duplicates: 0, failed: 0, message: "Processed batch successfully with auto-recovery." });
   }
 });
-app2.get("/api/wordpress/queue-status", async (req, res) => {
+app.get("/api/wordpress/queue-status", async (req, res) => {
   try {
     if (!adminDb) {
       return res.json({
@@ -4022,7 +4051,7 @@ app2.get("/api/wordpress/queue-status", async (req, res) => {
     });
   }
 });
-app2.post("/api/bulk-import/enqueue", upload.array("files"), async (req, res) => {
+app.post("/api/bulk-import/enqueue", upload.array("files"), async (req, res) => {
   try {
     const files = req.files;
     const userId = req.body.userId || "system_user";
@@ -4058,8 +4087,8 @@ app2.post("/api/bulk-import/enqueue", upload.array("files"), async (req, res) =>
           uploadedBy: userId,
           size: file.size,
           extension: file.originalname.split(".").pop() || "pdf",
-          createdAt: FieldValue.serverTimestamp(),
-          updatedAt: FieldValue.serverTimestamp()
+          createdAt: FieldValue2.serverTimestamp(),
+          updatedAt: FieldValue2.serverTimestamp()
         });
         skippedCount++;
         continue;
@@ -4077,8 +4106,8 @@ app2.post("/api/bulk-import/enqueue", upload.array("files"), async (req, res) =>
         extension: file.originalname.split(".").pop() || "pdf",
         fileContentBase64: file.size < 9e5 ? file.buffer.toString("base64") : null,
         retryCount: 0,
-        createdAt: FieldValue.serverTimestamp(),
-        updatedAt: FieldValue.serverTimestamp()
+        createdAt: FieldValue2.serverTimestamp(),
+        updatedAt: FieldValue2.serverTimestamp()
       });
       queuedCount++;
     }
@@ -4086,7 +4115,7 @@ app2.post("/api/bulk-import/enqueue", upload.array("files"), async (req, res) =>
     await adminDb.collection("resume_import_logs").add({
       event: "Manual Bulk Upload Enqueued",
       details: `Batch ${batchId}: Enqueued ${queuedCount} files, skipped ${skippedCount} duplicates/oversized.`,
-      createdAt: FieldValue.serverTimestamp()
+      createdAt: FieldValue2.serverTimestamp()
     });
     res.json({ status: true, batchId, queuedCount, skippedCount, message: `Successfully enqueued ${queuedCount} files into import queue.` });
   } catch (err) {
@@ -4094,7 +4123,7 @@ app2.post("/api/bulk-import/enqueue", upload.array("files"), async (req, res) =>
     res.status(500).json({ status: false, error: err?.message || String(err) });
   }
 });
-app2.post("/api/bulk-import/process", async (req, res) => {
+app.post("/api/bulk-import/process", async (req, res) => {
   try {
     const { batchId, concurrency = 12, limit = 50 } = req.body;
     if (!adminDb) {
@@ -4120,7 +4149,7 @@ app2.post("/api/bulk-import/process", async (req, res) => {
         const ref = docRef.ref;
         if (qData.status === "completed") return;
         try {
-          await ref.update({ status: "processing", updatedAt: FieldValue.serverTimestamp() });
+          await ref.update({ status: "processing", updatedAt: FieldValue2.serverTimestamp() });
           let parsedData = null;
           if (qData.fileContentBase64) {
             try {
@@ -4153,11 +4182,11 @@ app2.post("/api/bulk-import/process", async (req, res) => {
             fileUrl: qData.fileUrl || "https://auriic.co/aurrum-resume/resume.pdf",
             uploadedBy: qData.uploadedBy || "System",
             batchId: qData.batchId || null,
-            createdAt: FieldValue.serverTimestamp(),
+            createdAt: FieldValue2.serverTimestamp(),
             isArchived: false
           };
           await adminDb.collection("candidates").add(candidateDoc);
-          await ref.update({ status: "completed", updatedAt: FieldValue.serverTimestamp() });
+          await ref.update({ status: "completed", updatedAt: FieldValue2.serverTimestamp() });
           completed++;
         } catch (itemErr) {
           failed++;
@@ -4167,7 +4196,7 @@ app2.post("/api/bulk-import/process", async (req, res) => {
             status: newStatus,
             retryCount,
             error: itemErr?.message || String(itemErr),
-            updatedAt: FieldValue.serverTimestamp()
+            updatedAt: FieldValue2.serverTimestamp()
           });
         }
       }));
@@ -4185,7 +4214,7 @@ app2.post("/api/bulk-import/process", async (req, res) => {
     res.status(500).json({ status: false, error: err?.message || String(err) });
   }
 });
-app2.get("/api/bulk-import/progress", async (req, res) => {
+app.get("/api/bulk-import/progress", async (req, res) => {
   try {
     const batchId = req.query.batchId;
     if (!adminDb) {
@@ -4231,7 +4260,7 @@ cron.schedule("*/10 * * * *", async () => {
     if (failSnap.empty) return;
     const batch = adminDb.batch();
     failSnap.forEach((doc) => {
-      batch.update(doc.ref, { status: "retrying", updatedAt: FieldValue.serverTimestamp() });
+      batch.update(doc.ref, { status: "retrying", updatedAt: FieldValue2.serverTimestamp() });
     });
     await batch.commit();
     console.log(`[ScheduledRetry] Reset ${failSnap.size} failed queue items to 'retrying'.`);
@@ -4239,7 +4268,7 @@ cron.schedule("*/10 * * * *", async () => {
     console.error("[ScheduledRetry] Error:", err);
   }
 });
-app2.get("/api/candidates/check-today", async (req, res) => {
+app.get("/api/candidates/check-today", async (req, res) => {
   try {
     if (!adminDb) {
       return res.json({ status: true, totalCount: 480, todayCount: 0, message: "Firestore connected in client mode; 480 candidates live in CRM." });
@@ -4282,7 +4311,7 @@ app2.get("/api/candidates/check-today", async (req, res) => {
     res.json({ status: true, totalCount: 480, todayCount: 0, message: `Checked Firestore: 480 candidates live in CRM (Database check note: ${err?.message || "connected"})` });
   }
 });
-app2.post("/api/candidates/fix-experience", async (req, res) => {
+app.post("/api/candidates/fix-experience", async (req, res) => {
   try {
     if (!adminDb) {
       return res.status(400).json({ error: "Firestore admin database not initialized" });
@@ -4335,7 +4364,7 @@ app2.post("/api/candidates/fix-experience", async (req, res) => {
     res.status(500).json({ error: "Failed to fix candidate experience", details: error?.message || String(error) });
   }
 });
-app2.post("/api/candidates/audit-and-reparse", async (req, res) => {
+app.post("/api/candidates/audit-and-reparse", async (req, res) => {
   try {
     if (!adminDb) {
       return res.status(400).json({ error: "Firestore admin database not initialized" });
@@ -4397,7 +4426,7 @@ app2.post("/api/candidates/audit-and-reparse", async (req, res) => {
     res.status(500).json({ error: "Failed to audit and re-parse candidates", details: err?.message || String(err) });
   }
 });
-app2.post("/api/candidates/reparse-candidate", async (req, res) => {
+app.post("/api/candidates/reparse-candidate", async (req, res) => {
   try {
     if (!adminDb) {
       return res.status(400).json({ error: "Firestore admin database not initialized" });
@@ -4448,7 +4477,7 @@ app2.post("/api/candidates/reparse-candidate", async (req, res) => {
     res.status(500).json({ error: "Failed to re-parse candidate", details: err?.message || String(err) });
   }
 });
-app2.post("/api/bulk-import/sync", async (req, res) => {
+app.post("/api/bulk-import/sync", async (req, res) => {
   try {
     const batchPath = path2.join(process.cwd(), "parsed_candidates_batch.json");
     if (!fs2.existsSync(batchPath)) {
@@ -4476,7 +4505,7 @@ app2.post("/api/bulk-import/sync", async (req, res) => {
             if (existing.empty) {
               await colRef.add({
                 ...cand,
-                createdAt: FieldValue.serverTimestamp(),
+                createdAt: FieldValue2.serverTimestamp(),
                 isArchived: false
               });
               syncedCount++;
@@ -4484,7 +4513,7 @@ app2.post("/api/bulk-import/sync", async (req, res) => {
           } else {
             await colRef.add({
               ...cand,
-              createdAt: FieldValue.serverTimestamp(),
+              createdAt: FieldValue2.serverTimestamp(),
               isArchived: false
             });
             syncedCount++;
@@ -4500,7 +4529,7 @@ app2.post("/api/bulk-import/sync", async (req, res) => {
     res.status(200).json({ status: false, error: err?.message || String(err) });
   }
 });
-app2.get("/api/bulk-resumes/files", async (req, res) => {
+app.get("/api/bulk-resumes/files", async (req, res) => {
   try {
     const resumesDir = path2.join(process.cwd(), "bulk_resumes", "Heena");
     if (!fs2.existsSync(resumesDir)) {
@@ -4537,7 +4566,7 @@ app2.get("/api/bulk-resumes/files", async (req, res) => {
     res.status(500).json({ status: false, error: err?.message || String(err) });
   }
 });
-app2.post("/api/bulk-resumes/sync-single", async (req, res) => {
+app.post("/api/bulk-resumes/sync-single", async (req, res) => {
   try {
     const { fileName } = req.body;
     if (!fileName) {
@@ -4596,7 +4625,7 @@ app2.post("/api/bulk-resumes/sync-single", async (req, res) => {
       source: "Local Bulk Resumes Folder (Heena)",
       sourceFile: fileName,
       fileUrl: `/bulk_resumes/Heena/${encodeURIComponent(fileName)}`,
-      createdAt: FieldValue.serverTimestamp(),
+      createdAt: FieldValue2.serverTimestamp(),
       isArchived: false
     };
     if (adminDb) {
@@ -4612,7 +4641,7 @@ app2.post("/api/bulk-resumes/sync-single", async (req, res) => {
     res.status(500).json({ status: false, error: err?.message || String(err) });
   }
 });
-app2.post("/api/bulk-resumes/local-sync", async (req, res) => {
+app.post("/api/bulk-resumes/local-sync", async (req, res) => {
   try {
     const resumesDir = path2.join(process.cwd(), "bulk_resumes", "Heena");
     if (!fs2.existsSync(resumesDir)) {
@@ -4692,7 +4721,7 @@ app2.post("/api/bulk-resumes/local-sync", async (req, res) => {
           source: "Local Bulk Resumes Folder (Heena)",
           sourceFile: fileName,
           fileUrl: `/bulk_resumes/Heena/${encodeURIComponent(fileName)}`,
-          createdAt: FieldValue.serverTimestamp(),
+          createdAt: FieldValue2.serverTimestamp(),
           isArchived: false
         };
         if (adminDb) {
@@ -4719,7 +4748,7 @@ app2.post("/api/bulk-resumes/local-sync", async (req, res) => {
     res.status(500).json({ status: false, error: err?.message || String(err) });
   }
 });
-app2.get("/api/backup/download/:type", async (req, res) => {
+app.get("/api/backup/download/:type", async (req, res) => {
   const { type } = req.params;
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -4730,7 +4759,7 @@ app2.get("/api/backup/download/:type", async (req, res) => {
     return res.status(503).json({ status: false, message: "Backup service is temporarily unavailable: Firebase client is not connected." });
   }
   try {
-    const decoded = await admin3.auth().verifyIdToken(token);
+    const decoded = await admin.auth().verifyIdToken(token);
     const uid = decoded.uid;
     const userDoc = await adminDb.collection("users").doc(uid).get();
     const userData = userDoc.data();
@@ -4760,12 +4789,12 @@ async function bootstrap() {
       server: { middlewareMode: true },
       appType: "spa"
     });
-    app2.use(vite.middlewares);
+    app.use(vite.middlewares);
   } else {
     const distPath = path2.join(process.cwd(), "build");
-    app2.use(express.static(distPath));
+    app.use(express.static(distPath));
     if (!process.env.VERCEL) {
-      app2.get("*", (req, res) => {
+      app.get("*", (req, res) => {
         const indexPath = fs2.existsSync(path2.join(distPath, "index.html")) ? path2.join(distPath, "index.html") : path2.join(process.cwd(), "index.html");
         res.sendFile(indexPath);
       });
@@ -4773,7 +4802,7 @@ async function bootstrap() {
   }
   if (!process.env.VERCEL) {
     startNotificationListener();
-    const server = app2.listen(PORT, "0.0.0.0", () => {
+    const server = app.listen(PORT, "0.0.0.0", () => {
       console.log(`[Server] AURRUM Ready and listening at http://localhost:${PORT}`);
     });
     process.on("SIGTERM", () => {
@@ -4786,7 +4815,7 @@ async function bootstrap() {
 bootstrap().catch((err) => {
   console.error("[Server] Bootstrap Error:", err);
 });
-var server_default = app2;
+var server_default = app;
 export {
   server_default as default
 };

@@ -231,7 +231,7 @@ export const InvoiceBuilder = () => {
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-[var(--text-muted)] mb-1.5">Invoice Number</label>
               <input 
-                className="w-full p-3 bg-[var(--input-bg)] text-[var(--text-primary)] border border-[var(--input-border)] rounded-xl placeholder:text-[var(--text-muted)] focus:border-[var(--accent-color)] focus:ring-2 focus:ring-[var(--input-focus-ring)] outline-none transition-all font-mono font-semibold" 
+                className="w-full p-3 bg-[var(--input-bg)] text-[var(--text-primary)] border border-[var(--input-border)] rounded-xl placeholder:text-[var(--text-muted)] focus:border-[var(--accent-color)] focus:ring-2 focus:ring-[var(--input-focus-ring)] outline-none transition-all  font-semibold" 
                 placeholder="e.g. INV-2026-001" 
                 value={invoice.invoiceNumber} 
                 onChange={e => updateInvoice('invoiceNumber', e.target.value)} 
@@ -305,13 +305,13 @@ export const InvoiceBuilder = () => {
                   onChange={e => updateInvoice('bankBranch', e.target.value)} 
                 />
                 <input 
-                  className="p-3 bg-[var(--input-bg)] text-[var(--text-primary)] border border-[var(--input-border)] rounded-xl placeholder:text-[var(--text-muted)] focus:border-[var(--accent-color)] focus:ring-2 focus:ring-[var(--input-focus-ring)] outline-none transition-all text-xs font-mono" 
+                  className="p-3 bg-[var(--input-bg)] text-[var(--text-primary)] border border-[var(--input-border)] rounded-xl placeholder:text-[var(--text-muted)] focus:border-[var(--accent-color)] focus:ring-2 focus:ring-[var(--input-focus-ring)] outline-none transition-all text-xs " 
                   placeholder="Account Number" 
                   value={invoice.accountNumber} 
                   onChange={e => updateInvoice('accountNumber', e.target.value)} 
                 />
                 <input 
-                  className="p-3 bg-[var(--input-bg)] text-[var(--text-primary)] border border-[var(--input-border)] rounded-xl placeholder:text-[var(--text-muted)] focus:border-[var(--accent-color)] focus:ring-2 focus:ring-[var(--input-focus-ring)] outline-none transition-all text-xs font-mono" 
+                  className="p-3 bg-[var(--input-bg)] text-[var(--text-primary)] border border-[var(--input-border)] rounded-xl placeholder:text-[var(--text-muted)] focus:border-[var(--accent-color)] focus:ring-2 focus:ring-[var(--input-focus-ring)] outline-none transition-all text-xs " 
                   placeholder="Swift / BIC Code" 
                   value={invoice.swiftCode} 
                   onChange={e => updateInvoice('swiftCode', e.target.value)} 
@@ -362,7 +362,7 @@ export const InvoiceBuilder = () => {
                   <label className="block text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)] mb-1">Annual Salary (CTC)</label>
                   <input
                     type="number"
-                    className="w-full p-2.5 bg-[var(--input-bg)] text-[var(--text-primary)] border border-[var(--input-border)] rounded-xl font-mono text-xs focus:border-[var(--accent-color)] outline-none"
+                    className="w-full p-2.5 bg-[var(--input-bg)] text-[var(--text-primary)] border border-[var(--input-border)] rounded-xl  text-xs focus:border-[var(--accent-color)] outline-none"
                     value={annualSalary}
                     onChange={e => setAnnualSalary(parseFloat(e.target.value) || 0)}
                     placeholder="100000"
@@ -385,7 +385,7 @@ export const InvoiceBuilder = () => {
                   </label>
                   <input
                     type="number"
-                    className="w-full p-2.5 bg-[var(--input-bg)] text-[var(--text-primary)] border border-[var(--input-border)] rounded-xl font-mono text-xs focus:border-[var(--accent-color)] outline-none"
+                    className="w-full p-2.5 bg-[var(--input-bg)] text-[var(--text-primary)] border border-[var(--input-border)] rounded-xl  text-xs focus:border-[var(--accent-color)] outline-none"
                     value={feeRate}
                     onChange={e => setFeeRate(parseFloat(e.target.value) || 0)}
                     placeholder={feeType === 'percentage' ? '15' : '5000'}
@@ -396,7 +396,7 @@ export const InvoiceBuilder = () => {
               <div className="flex items-center justify-between pt-2 border-t border-[var(--border-color)]">
                 <div>
                   <span className="text-xs text-[var(--text-muted)]">Calculated Fee: </span>
-                  <span className="font-mono text-sm font-extrabold text-[var(--primary-gold)]">
+                  <span className=" text-sm font-extrabold text-[var(--primary-gold)]">
                     ${calculatedFee.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD
                   </span>
                   <span className="text-[10px] text-[var(--text-muted)] ml-2">
@@ -426,7 +426,7 @@ export const InvoiceBuilder = () => {
                   />
                   <input 
                     type="number" 
-                    className="w-28 p-3 bg-[var(--input-bg)] text-[var(--text-primary)] border border-[var(--input-border)] rounded-xl placeholder:text-[var(--text-muted)] focus:border-[var(--accent-color)] focus:ring-2 focus:ring-[var(--input-focus-ring)] outline-none transition-all font-mono text-sm" 
+                    className="w-28 p-3 bg-[var(--input-bg)] text-[var(--text-primary)] border border-[var(--input-border)] rounded-xl placeholder:text-[var(--text-muted)] focus:border-[var(--accent-color)] focus:ring-2 focus:ring-[var(--input-focus-ring)] outline-none transition-all  text-sm" 
                     placeholder="Amount (£)" 
                     value={item.amount || ''} 
                     onChange={e => updateItem(item.id, 'amount', parseFloat(e.target.value))} 

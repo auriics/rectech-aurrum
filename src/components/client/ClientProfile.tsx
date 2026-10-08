@@ -99,7 +99,7 @@ export const ClientProfile: React.FC<ClientProfileProps> = ({ user, role }) => {
             <User size={22} />
           </div>
           <div>
-            <h1 className="text-xl font-serif font-bold text-[var(--text-primary)]">Client Account Settings</h1>
+            <h1 className="text-xl  font-bold text-[var(--text-primary)]">Client Account Settings</h1>
             <p className="text-xs text-[var(--text-muted)] font-medium">Manage your personal information, security credentials, and alert preferences.</p>
           </div>
         </div>

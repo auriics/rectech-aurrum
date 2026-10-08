@@ -365,7 +365,7 @@ export const ClientCandidateReview: React.FC<ClientCandidateReviewProps> = ({
               <Sparkles size={20} />
             </span>
             <div>
-              <h1 className="text-xl font-serif font-bold text-[var(--text-primary)]">Candidate Review Queue</h1>
+              <h1 className="text-xl  font-bold text-[var(--text-primary)]">Candidate Review Queue</h1>
               <p className="text-xs text-[var(--text-muted)] font-medium">Evaluate assigned profiles, accept/reject submissions, and provide direct feedback.</p>
             </div>
           </div>
@@ -431,9 +431,9 @@ export const ClientCandidateReview: React.FC<ClientCandidateReviewProps> = ({
               <Code size={14} className="text-[#A98B56]" /> Boolean Search Quick Syntax
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-[11px]">
-              <div><span className="font-mono font-bold text-[#A98B56]">AND</span>: Evaluates candidates matching both terms (e.g., <code className="bg-black/10 px-1 rounded">React AND TypeScript</code>)</div>
-              <div><span className="font-mono font-bold text-[#A98B56]">OR</span>: Matches candidates with either term (e.g., <code className="bg-black/10 px-1 rounded">Python OR Java</code>)</div>
-              <div><span className="font-mono font-bold text-[#A98B56]">NOT</span>: Excludes candidates with term (e.g., <code className="bg-black/10 px-1 rounded">Frontend NOT Vue</code>)</div>
+              <div><span className=" font-bold text-[#A98B56]">AND</span>: Evaluates candidates matching both terms (e.g., <code className="bg-black/10 px-1 rounded">React AND TypeScript</code>)</div>
+              <div><span className=" font-bold text-[#A98B56]">OR</span>: Matches candidates with either term (e.g., <code className="bg-black/10 px-1 rounded">Python OR Java</code>)</div>
+              <div><span className=" font-bold text-[#A98B56]">NOT</span>: Excludes candidates with term (e.g., <code className="bg-black/10 px-1 rounded">Frontend NOT Vue</code>)</div>
             </div>
           </div>
         )}
@@ -618,7 +618,7 @@ export const ClientCandidateReview: React.FC<ClientCandidateReviewProps> = ({
         ) : (
           <div className="crm-card p-12 text-center text-[var(--text-muted)] font-medium space-y-3">
             <Sparkles size={36} className="mx-auto text-[#A98B56] opacity-40" />
-            <h3 className="text-lg font-serif font-bold text-[var(--text-primary)]">No Candidate Profiles Match Your Filter</h3>
+            <h3 className="text-lg  font-bold text-[var(--text-primary)]">No Candidate Profiles Match Your Filter</h3>
             <p className="text-xs max-w-md mx-auto">
               There are currently no candidates matching the "{activeTab}" filter or search query. Try clearing filters or contacting your recruitment lead.
             </p>
@@ -631,7 +631,7 @@ export const ClientCandidateReview: React.FC<ClientCandidateReviewProps> = ({
         <div className="fixed inset-0 bg-black/60 backdrop-blur-xs z-[1100] flex items-center justify-center p-4 animate-in fade-in duration-200">
           <div className="bg-[var(--card-bg)] border border-[var(--border-color)] max-w-lg w-full rounded-[2rem] p-6 sm:p-8 shadow-2xl space-y-6 relative">
             <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-4">
-              <h3 className="text-lg font-serif font-bold text-[var(--text-primary)] flex items-center gap-2">
+              <h3 className="text-lg  font-bold text-[var(--text-primary)] flex items-center gap-2">
                 {activeModal.type === 'accept' && <ThumbsUp className="text-emerald-500" size={20} />}
                 {activeModal.type === 'reject' && <ThumbsDown className="text-rose-500" size={20} />}
                 {activeModal.type === 'shortlist' && <Star className="text-[#A98B56]" size={20} />}

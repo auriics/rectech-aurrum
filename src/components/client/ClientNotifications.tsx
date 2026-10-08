@@ -84,7 +84,7 @@ export const ClientNotifications: React.FC<ClientNotificationsProps> = ({ user }
             <Bell size={22} />
           </div>
           <div>
-            <h1 className="text-xl font-serif font-bold text-[var(--text-primary)]">Client Notification Center</h1>
+            <h1 className="text-xl  font-bold text-[var(--text-primary)]">Client Notification Center</h1>
             <p className="text-xs text-[var(--text-muted)] font-medium">Alerts for new candidate assignments, status changes, and interview schedules.</p>
           </div>
         </div>

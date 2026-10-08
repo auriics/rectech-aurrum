@@ -56,7 +56,7 @@ export default function Login() {
                         transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                         className="w-12 h-12 border-4 border-[var(--primary-gold)] border-t-transparent rounded-full mb-6"
                     />
-                    <h2 className="text-2xl font-serif italic text-[var(--text-primary)]">Login Successful</h2>
+                    <h2 className="text-2xl  italic text-[var(--text-primary)]">Login Successful</h2>
                     <p className="text-[var(--text-secondary)] font-bold uppercase tracking-widest text-[9px] mt-2">Redirecting to Dashboard...</p>
                 </div>
             </motion.div>
@@ -69,7 +69,7 @@ export default function Login() {
         </div>
         
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-serif italic text-[var(--text-primary)] tracking-tight">Rectech Portal</h1>
+          <h1 className="text-2xl  italic text-[var(--text-primary)] tracking-tight">Rectech Portal</h1>
           <p className="text-[var(--text-secondary)] font-bold uppercase tracking-widest text-[9px] mt-2">Precision Talent Acquisition</p>
         </div>
         

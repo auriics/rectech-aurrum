@@ -1009,7 +1009,7 @@ export default function CandidateModal({ candidate, isOpen, onClose, onShortlist
             <input 
               type="text" 
               placeholder="Query expression or text keyword search..."
-              className="flex-1 bg-transparent border-none focus:outline-none text-xs font-mono placeholder:font-sans text-[var(--text-primary)]"
+              className="flex-1 bg-transparent border-none focus:outline-none text-xs  placeholder:font-sans text-[var(--text-primary)]"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -1071,7 +1071,7 @@ export default function CandidateModal({ candidate, isOpen, onClose, onShortlist
                   {(candidate.submitted_at || candidate.created_at) && (
                     <div className="bg-white/80 dark:bg-slate-900/60 p-3 rounded-xl border border-sky-100 dark:border-sky-900/30">
                       <span className="text-[9px] font-black text-sky-600 dark:text-sky-400 uppercase tracking-widest block mb-0.5">Submitted At</span>
-                      <span className="font-bold text-[var(--text-primary)] font-mono">{candidate.submitted_at || candidate.created_at}</span>
+                      <span className="font-bold text-[var(--text-primary)] ">{candidate.submitted_at || candidate.created_at}</span>
                     </div>
                   )}
                 </div>
@@ -2186,7 +2186,7 @@ export default function CandidateModal({ candidate, isOpen, onClose, onShortlist
                           <div key={i} className="text-[10px] text-[var(--text-secondary)] space-y-1 bg-[var(--bg-secondary)] p-2.5 rounded-xl border border-[var(--border-color)]">
                             <div className="flex justify-between items-center text-[8px]">
                               <span className="font-bold text-[var(--primary-gold)]">{log.author}</span>
-                              <span className="text-[var(--text-muted)] font-mono">{new Date(log.timestamp).toLocaleString()}</span>
+                              <span className="text-[var(--text-muted)] ">{new Date(log.timestamp).toLocaleString()}</span>
                             </div>
                             <p className="text-[10px] leading-relaxed select-text font-medium text-[var(--text-primary)]">{log.noteContent}</p>
                           </div>
@@ -2233,7 +2233,7 @@ export default function CandidateModal({ candidate, isOpen, onClose, onShortlist
                              <span className="font-extrabold text-indigo-500">
                                {log.author}
                              </span>
-                             <span className="text-[var(--text-muted)] font-mono text-[8px]">{new Date(log.timestamp).toLocaleString()}</span>
+                             <span className="text-[var(--text-muted)]  text-[8px]">{new Date(log.timestamp).toLocaleString()}</span>
                           </div>
                           <p className="leading-relaxed select-text font-medium">{log.noteContent}</p>
                         </div>
@@ -2251,7 +2251,7 @@ export default function CandidateModal({ candidate, isOpen, onClose, onShortlist
               <div className="space-y-3">
                 <div className="flex justify-between items-center border-b border-[var(--border-color)]/50 pb-2">
                   <span className="text-[var(--text-muted)]">Indexed on</span>
-                  <span className="font-mono text-[var(--text-secondary)]">{formatDate(candidate.createdAt)}</span>
+                  <span className=" text-[var(--text-secondary)]">{formatDate(candidate.createdAt)}</span>
                 </div>
                 <div className="flex justify-between items-center border-b border-[var(--border-color)]/50 pb-2">
                   <span className="text-[var(--text-muted)]">Uploaded by</span>

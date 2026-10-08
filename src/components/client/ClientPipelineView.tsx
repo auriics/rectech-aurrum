@@ -287,7 +287,7 @@ export const ClientPipelineView: React.FC<ClientPipelineViewProps> = ({
             </div>
             <div className="space-y-1">
               <div className="flex items-center gap-2 flex-wrap">
-                <h1 className="text-xl sm:text-2xl font-serif font-bold text-[var(--text-primary)]">
+                <h1 className="text-xl sm:text-2xl  font-bold text-[var(--text-primary)]">
                   Candidate Pipeline Tracker
                 </h1>
                 <span className="px-3 py-1 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 rounded-full text-[10px] font-black uppercase tracking-wider flex items-center gap-1">
@@ -732,7 +732,7 @@ export const ClientPipelineView: React.FC<ClientPipelineViewProps> = ({
                   {selectedCandidateForDetails.fullName ? selectedCandidateForDetails.fullName.substring(0, 2).toUpperCase() : 'CA'}
                 </div>
                 <div>
-                  <h3 className="text-lg font-serif font-bold text-[var(--text-primary)]">
+                  <h3 className="text-lg  font-bold text-[var(--text-primary)]">
                     {selectedCandidateForDetails.fullName}
                   </h3>
                   <p className="text-xs text-[var(--text-muted)] font-medium">

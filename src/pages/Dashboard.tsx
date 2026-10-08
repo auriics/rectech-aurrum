@@ -2060,7 +2060,7 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
               <Logo variant="header" size="sm" />
             </div>
             <ChevronRight className="hidden md:block w-3 h-3 text-[var(--text-muted)] opacity-60" />
-            <span className="text-[var(--text-primary)] italic font-serif normal-case text-base tracking-tight font-black">
+            <span className="text-[var(--text-primary)] italic  normal-case text-base tracking-tight font-black">
               {activeTab === 'candidates' 
                 ? 'Candidate List' 
                 : activeTab === 'activity_logs' 
@@ -2095,7 +2095,7 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
             >
               <Search size={12} className="text-[var(--primary-gold)]" />
               <span>Search index...</span>
-              <kbd className="bg-[var(--card-bg)] border border-[var(--border-color)] px-1.5 py-0.5 rounded text-[9px] font-mono shadow-sm normal-case">⌘K</kbd>
+              <kbd className="bg-[var(--card-bg)] border border-[var(--border-color)] px-1.5 py-0.5 rounded text-[9px]  shadow-sm normal-case">⌘K</kbd>
             </div>
 
             {/* Timezone Indicator */}
@@ -2384,7 +2384,7 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       placeholder="e.g. React AND Node NOT Java"
-                      className="flex-1 bg-transparent border-none focus:outline-none text-sm font-mono placeholder:font-sans text-[var(--text-primary)] font-semibold"
+                      className="flex-1 bg-transparent border-none focus:outline-none text-sm  placeholder:font-sans text-[var(--text-primary)] font-semibold"
                     />
                     <div className="h-6 w-px bg-[var(--border-color)] mx-2" />
                     <button className="crm-btn-gold text-[10px] uppercase font-black px-4 py-2 rounded-xl tracking-widest cursor-pointer">Execute</button>
@@ -2583,7 +2583,7 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
                 {/* Header Pagination bar */}
                 <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-bold text-[var(--text-secondary)] pb-4 border-b border-[var(--border-color)]">
                   <div>
-                    Showing <span className="font-mono text-[var(--primary-gold)] font-extrabold">{Math.min((searchPage - 1) * searchRowsPerPage + 1, filteredCandidates.length)}</span>–<span className="font-mono text-[var(--primary-gold)] font-extrabold">{Math.min(searchPage * searchRowsPerPage, filteredCandidates.length)}</span> of <span className="font-mono text-[var(--primary-gold)] font-extrabold">{filteredCandidates.length}</span> records
+                    Showing <span className=" text-[var(--primary-gold)] font-extrabold">{Math.min((searchPage - 1) * searchRowsPerPage + 1, filteredCandidates.length)}</span>–<span className=" text-[var(--primary-gold)] font-extrabold">{Math.min(searchPage * searchRowsPerPage, filteredCandidates.length)}</span> of <span className=" text-[var(--primary-gold)] font-extrabold">{filteredCandidates.length}</span> records
                   </div>
                   <div className="flex flex-wrap items-center gap-3.5">
                     <select 
@@ -2857,7 +2857,7 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
                 {/* Table Pagination bar */}
                 <div className="p-4 sm:p-5 border-t border-[var(--border-color)]/75 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-bold text-[var(--text-secondary)]">
                   <div>
-                    Showing <span className="font-mono text-[var(--primary-gold)]">{Math.min((searchPage - 1) * searchRowsPerPage + 1, filteredCandidates.length)}</span>–<span className="font-mono text-[var(--primary-gold)]">{Math.min(searchPage * searchRowsPerPage, filteredCandidates.length)}</span> of <span className="font-mono text-[var(--primary-gold)]">{filteredCandidates.length}</span> records
+                    Showing <span className=" text-[var(--primary-gold)]">{Math.min((searchPage - 1) * searchRowsPerPage + 1, filteredCandidates.length)}</span>–<span className=" text-[var(--primary-gold)]">{Math.min(searchPage * searchRowsPerPage, filteredCandidates.length)}</span> of <span className=" text-[var(--primary-gold)]">{filteredCandidates.length}</span> records
                   </div>
                   <div className="flex flex-wrap items-center gap-3.5">
                     <select 
@@ -2907,7 +2907,7 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
                     <Trash2 size={24} />
                   </div>
                   <div>
-                    <h3 className="text-xl font-serif text-[var(--text-primary)]">Candidate Trash</h3>
+                    <h3 className="text-xl  text-[var(--text-primary)]">Candidate Trash</h3>
                     <p className="text-[10px] uppercase font-bold tracking-widest text-[var(--text-muted)]">Review or permanently remove soft-deleted candidates</p>
                   </div>
                 </div>

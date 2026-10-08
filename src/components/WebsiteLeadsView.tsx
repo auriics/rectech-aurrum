@@ -323,7 +323,7 @@ export default function WebsiteLeadsView({ candidates = [], onRefresh }: Website
                         <FileText size={15} className="text-[var(--primary-gold)]" />
                         <div>
                           <p className="font-bold text-[var(--text-primary)]">{resumeFileName}</p>
-                          <p className="text-[10px] text-[var(--text-secondary)] font-mono uppercase">{resumeFileType}</p>
+                          <p className="text-[10px] text-[var(--text-secondary)]  uppercase">{resumeFileType}</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
@@ -383,7 +383,7 @@ export default function WebsiteLeadsView({ candidates = [], onRefresh }: Website
                         <div className="flex items-center justify-between">
                           <span className="text-[11px] font-extrabold text-[var(--text-primary)] uppercase tracking-wider">Parsed Candidate Insights</span>
                           {pState.candidateId && (
-                            <span className="text-[10px] font-mono text-[var(--text-secondary)]">Candidate ID: {pState.candidateId}</span>
+                            <span className="text-[10px]  text-[var(--text-secondary)]">Candidate ID: {pState.candidateId}</span>
                           )}
                         </div>
                         <p className="text-xs text-[var(--text-secondary)] line-clamp-2">{lead.parsedResume.summary || lead.parsedResume.profile || 'No summary available.'}</p>

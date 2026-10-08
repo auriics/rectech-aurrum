@@ -159,7 +159,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
             )}
           </div>
           <div>
-            <h1 className="text-xl font-serif font-bold text-[var(--text-primary)] flex items-center gap-2">
+            <h1 className="text-xl  font-bold text-[var(--text-primary)] flex items-center gap-2">
               Notification & SLA Activity Center
             </h1>
             <p className="text-xs text-[var(--text-muted)] font-medium mt-0.5">

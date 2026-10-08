@@ -90,7 +90,7 @@ export const InvoicePreview = React.forwardRef<HTMLDivElement, { invoice: Invoic
                   {invoice.status || 'Draft'}
                 </span>
               </div>
-              <p className="m-0 text-sm"><span className="text-[#64748b] font-bold">Invoice No:</span> <span className="font-mono font-bold text-[#002D38]">{invoice.invoiceNumber || '633011'}</span></p>
+              <p className="m-0 text-sm"><span className="text-[#64748b] font-bold">Invoice No:</span> <span className=" font-bold text-[#002D38]">{invoice.invoiceNumber || '633011'}</span></p>
               <p className="m-0 text-sm"><span className="text-[#64748b] font-bold">Issue Date:</span> <span className="font-semibold text-[#002D38]">{invoice.invoiceDate}</span></p>
               <p className="m-0 text-sm"><span className="text-[#64748b] font-bold">Due Date:</span> <span className="font-semibold text-[#002D38]">{invoice.dueDate}</span></p>
             </div>
@@ -126,7 +126,7 @@ export const InvoicePreview = React.forwardRef<HTMLDivElement, { invoice: Invoic
                 {invoice.items.map((item) => (
                   <tr key={item.id} className="hover:bg-[#f8fafc]">
                     <td className="py-4 px-6 text-[#002D38] font-bold text-base">{item.description}</td>
-                    <td className="py-4 px-6 text-right font-mono font-bold text-[#002D38] text-base">
+                    <td className="py-4 px-6 text-right  font-bold text-[#002D38] text-base">
                       $ {item.amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </td>
                   </tr>
@@ -140,17 +140,17 @@ export const InvoicePreview = React.forwardRef<HTMLDivElement, { invoice: Invoic
             <div className="w-80 space-y-1 text-base">
               <div className="flex justify-between text-[#64748b]">
                 <span className="font-bold">Subtotal:</span>
-                <span className="font-mono font-bold text-[#002D38]">$ {subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                <span className=" font-bold text-[#002D38]">$ {subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
               </div>
               {invoice.tax > 0 && (
                 <div className="flex justify-between text-[#64748b]">
                   <span className="font-bold">Tax:</span>
-                  <span className="font-mono font-bold text-[#002D38]">+$ {invoice.tax.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                  <span className=" font-bold text-[#002D38]">+$ {invoice.tax.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                 </div>
               )}
               <div className="flex justify-between text-lg font-black border-t-2 border-[#A98B56] bg-[#f1f5f9] p-2 rounded-lg text-[#002D38]">
                 <span className="text-base uppercase">Total Due:</span>
-                <span className="font-mono text-[#A98B56]">$ {invoice.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                <span className=" text-[#A98B56]">$ {invoice.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
               </div>
             </div>
           </div>
@@ -164,8 +164,8 @@ export const InvoicePreview = React.forwardRef<HTMLDivElement, { invoice: Invoic
                 <p className="font-black uppercase text-[#004564] tracking-wider m-0">Bank Payment Instructions</p>
                 {invoice.payeeName && <p className="m-0 text-[#334155]"><strong>Payee:</strong> {invoice.payeeName}</p>}
                 {invoice.bankName && <p className="m-0 text-[#334155]"><strong>Bank:</strong> {invoice.bankName}</p>}
-                {invoice.accountNumber && <p className="m-0 text-[#334155]"><strong>A/C:</strong> <span className="font-mono font-bold">{invoice.accountNumber}</span></p>}
-                {invoice.swiftCode && <p className="m-0 text-[#334155]"><strong>SWIFT:</strong> <span className="font-mono font-bold">{invoice.swiftCode}</span></p>}
+                {invoice.accountNumber && <p className="m-0 text-[#334155]"><strong>A/C:</strong> <span className=" font-bold">{invoice.accountNumber}</span></p>}
+                {invoice.swiftCode && <p className="m-0 text-[#334155]"><strong>SWIFT:</strong> <span className=" font-bold">{invoice.swiftCode}</span></p>}
               </div>
             ) : (
               <div className="text-sm text-[#64748b]">
@@ -184,7 +184,7 @@ export const InvoicePreview = React.forwardRef<HTMLDivElement, { invoice: Invoic
                 crossOrigin="anonymous" 
               />
             ) : (
-              <div className="font-serif italic text-3xl text-[#A98B56] font-black">
+              <div className=" italic text-3xl text-[#A98B56] font-black">
                 {cleanSignatoryName}
               </div>
             )}

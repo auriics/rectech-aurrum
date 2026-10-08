@@ -16,7 +16,7 @@ export default function Shortlist({ candidates, onCandidateSelect, onArchive, ro
                 <Star size={24} />
             </div>
             <div>
-                <h3 className="text-xl font-serif text-[var(--text-primary)]">Shortlist</h3>
+                <h3 className="text-xl  text-[var(--text-primary)]">Shortlist</h3>
                 <p className="text-[10px] uppercase font-bold tracking-widest text-[var(--text-muted)]">{shortlisted.length} candidates shortlisted</p>
             </div>
         </div>

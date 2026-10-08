@@ -307,7 +307,7 @@ export default function DashboardHome({
                     <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: p.color }} />
                     {p.name}:
                   </span>
-                  <span className="font-mono font-black text-[var(--primary-gold)] text-xs">{p.value}</span>
+                  <span className=" font-black text-[var(--primary-gold)] text-xs">{p.value}</span>
                 </div>
               ))
             ) : (
@@ -364,7 +364,7 @@ export default function DashboardHome({
               <Sparkles size={16} />
             </span>
             <h4 className="text-[10px] uppercase font-black text-[var(--text-muted)] tracking-[0.15em] mb-2">Daily Inspiration</h4>
-            <p className="font-serif italic text-base sm:text-lg text-[var(--text-primary)] leading-relaxed">
+            <p className=" italic text-base sm:text-lg text-[var(--text-primary)] leading-relaxed">
               "{quote}"
             </p>
           </div>

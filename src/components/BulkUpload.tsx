@@ -101,7 +101,7 @@ export default function BulkUpload({
             <p className="font-black">Developer Diagnostic: The following resumes exceed the size limit and will be skipped:</p>
             <ul className="list-disc pl-4 space-y-0.5 mt-1 font-medium">
               {largeFilesWarn.map(name => (
-                <li key={name} className="font-mono text-[11px] truncate max-w-lg">{name}</li>
+                <li key={name} className=" text-[11px] truncate max-w-lg">{name}</li>
               ))}
             </ul>
           </div>
@@ -118,7 +118,7 @@ export default function BulkUpload({
             <p className="font-black">Developer Diagnostic: The following resumes were skipped:</p>
             <ul className="list-disc pl-4 space-y-0.5 mt-1 font-medium">
               {skippedFiles.map(name => (
-                <li key={name} className="font-mono text-[11px] truncate max-w-lg">{name} - Duplicate Resume - Skipped</li>
+                <li key={name} className=" text-[11px] truncate max-w-lg">{name} - Duplicate Resume - Skipped</li>
               ))}
             </ul>
           </div>
@@ -169,7 +169,7 @@ export default function BulkUpload({
               <h4 className="text-xs font-black uppercase tracking-wider text-amber-600">Skipped:</h4>
               <ul className="space-y-1.5">
                 {uploadResultSummary.skippedFiles.map((item, idx) => (
-                  <li key={idx} className="text-xs font-mono bg-amber-50 dark:bg-amber-950/20 text-amber-900 dark:text-amber-200 p-2.5 rounded-xl border border-amber-200 dark:border-amber-900 flex items-center justify-between">
+                  <li key={idx} className="text-xs  bg-amber-50 dark:bg-amber-950/20 text-amber-900 dark:text-amber-200 p-2.5 rounded-xl border border-amber-200 dark:border-amber-900 flex items-center justify-between">
                     <span>{item.name}</span>
                     <span className="font-sans font-semibold text-[11px] px-2 py-0.5 bg-amber-100 dark:bg-amber-900/40 rounded-md">— {item.reason}</span>
                   </li>
@@ -183,7 +183,7 @@ export default function BulkUpload({
               <h4 className="text-xs font-black uppercase tracking-wider text-rose-600">Failed:</h4>
               <ul className="space-y-1.5">
                 {uploadResultSummary.failedFiles.map((item, idx) => (
-                  <li key={idx} className="text-xs font-mono bg-rose-50 dark:bg-rose-950/20 text-rose-900 dark:text-rose-200 p-2.5 rounded-xl border border-rose-200 dark:border-rose-900 flex items-center justify-between">
+                  <li key={idx} className="text-xs  bg-rose-50 dark:bg-rose-950/20 text-rose-900 dark:text-rose-200 p-2.5 rounded-xl border border-rose-200 dark:border-rose-900 flex items-center justify-between">
                     <span>{item.name}</span>
                     <span className="font-sans font-semibold text-[11px] px-2 py-0.5 bg-rose-100 dark:bg-rose-900/40 rounded-md">— {item.reason}</span>
                   </li>
