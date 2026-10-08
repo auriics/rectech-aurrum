@@ -335,14 +335,46 @@ export default function CandidateDetailsPage() {
         getUserRole(),
         `${action} candidate ${candidate.fullName} — ${purpose}`
       );
-      await createNotification(
-        message,
-        user!.uid,
-        getUserDisplayName(),
-        getUserRole(),
-        'all',
-        candidate.id
-      );
+      // Extract @mentions from the note
+      const mentionMatches = generalNotes.match(/@([a-zA-Z0-9_]+)/g);
+      const mentionedUIDs = new Set();
+      
+      if (mentionMatches) {
+        mentionMatches.forEach(m => {
+           const name = m.substring(1).toLowerCase();
+           const userMatch = fullTeamList.find(u => 
+             u.displayName?.toLowerCase().includes(name) || 
+             u.email?.toLowerCase().includes(name) || 
+             u.firstName?.toLowerCase().includes(name)
+           );
+           if (userMatch) {
+             mentionedUIDs.add(userMatch.uid || userMatch.id);
+           }
+        });
+      }
+      
+      const recipients = Array.from(mentionedUIDs);
+      
+      if (recipients.length === 0 && candidate.assignedTo && candidate.assignedTo !== user?.uid) {
+        recipients.push(candidate.assignedTo);
+      }
+      
+      if (recipients.length > 0) {
+          const notifyMessage = formatNotificationMessage(
+            getUserDisplayName(),
+            getUserRole(),
+            `${mentionMatches ? 'Mentioned you in a note' : 'Added a note'} for ${candidate.fullName}`
+          );
+          
+          await notifyMultiple(
+            notifyMessage,
+            user!.uid,
+            getUserDisplayName(),
+            getUserRole(),
+            recipients as string[],
+            candidate.id
+          );
+      }
 
       await logActivity(
         getUserDisplayName(),

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { collection, query, orderBy, onSnapshot, where, limit } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { useAuth } from '../contexts/AuthContext';
@@ -12,6 +13,7 @@ export default function ActivityLogList({ role }: { role: string | null }) {
   
   // Filter states
   const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
   const [userFilter, setUserFilter] = useState('All');
   const [moduleFilter, setModuleFilter] = useState('All');
   const [actionFilter, setActionFilter] = useState('All');
@@ -188,7 +190,26 @@ export default function ActivityLogList({ role }: { role: string | null }) {
                         </div>
 
                         <div className="text-sm text-[var(--text-secondary)] font-medium mb-2">
-                           {log.action} <span className="text-[var(--text-primary)] font-semibold">{log.candidateName}</span>
+                           {log.action}{' '}
+                           {log.entityId || (log as any).candidateId || log.action.includes('Assigned candidate') || log.module === 'CV Parsing' || log.module === 'Candidate Edit' ? (
+                             <button 
+                               onClick={() => {
+                                  // fallback: if we don't have entityId in old logs, we can't easily navigate unless we know the ID, but wait, older logs don't have entityId.
+                                  // I will only make it a button if entityId exists, or if candidateName exists and we want to do a search, but let's just stick to entityId
+                                  if (log.entityId || (log as any).candidateId) {
+                                      navigate(`/dashboard?tab=candidates&id=${log.entityId || (log as any).candidateId}`);
+                                  } else {
+                                      // just search
+                                      navigate(`/dashboard?tab=candidates&search=${encodeURIComponent(log.candidateName)}`);
+                                  }
+                               }}
+                               className="text-[var(--primary-gold)] hover:underline font-semibold"
+                             >
+                               {log.candidateName}
+                             </button>
+                           ) : (
+                             <span className="text-[var(--text-primary)] font-semibold">{log.candidateName}</span>
+                           )}
                         </div>
                         <div className="text-xs text-[var(--text-muted)]">{log.purpose}</div>
                     </div>

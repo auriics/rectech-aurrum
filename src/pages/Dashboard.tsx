@@ -996,15 +996,22 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
         );
         
         await logActivity(
-            getUserDisplayName(),
-            user?.uid || 'System',
-            getUserRole(),
-            "uploaded CV",
-            parsed.personal_info.full_name || file.name,
-            null,
-            "Resume parsing completed",
-            "CV Parsing"
-        );
+              getUserDisplayName(),
+              user?.uid || 'System',
+              getUserRole(),
+              "uploaded CV",
+              parsed.personal_info.full_name || file.name,
+              null,
+              "Resume parsing completed",
+              "CV Parsing",
+              "Success",
+              null,
+              null,
+              null,
+              null,
+              newCandidateRef.id,
+              "candidate"
+          );
         
         uploadedCount++;
         setParsingStatus(prev => ({ ...prev, [file.name]: { status: 'finished', progress: 100 } }));

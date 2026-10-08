@@ -14,7 +14,9 @@ export async function logActivity(
   ip: string | null = null,
   device: string | null = null,
   oldValue: string | null = null,
-  newValue: string | null = null
+  newValue: string | null = null,
+  entityId?: string,
+  entityType?: string
 ) {
   try {
     await addDoc(collection(db, 'activity_logs'), {
@@ -31,6 +33,8 @@ export async function logActivity(
       device,
       oldValue,
       newValue,
+      entityId: entityId || null,
+      entityType: entityType || null,
       timestamp: serverTimestamp()
     });
   } catch (error) {
