@@ -130,12 +130,14 @@ export default function Dashboard() {
   const [teamLoaded, setTeamLoaded] = useState(false);
   const [settingsLoaded, setSettingsLoaded] = useState(false);
   const [notificationsLoaded, setNotificationsLoaded] = useState(false);
+  const [activityLogsLoaded, setActivityLogsLoaded] = useState(false);
+  const [loadingError, setLoadingError] = useState(false);
 
   useEffect(() => {
-    if (!authLoading && candidatesLoaded && teamLoaded && settingsLoaded && notificationsLoaded) {
+    if (!authLoading && candidatesLoaded && teamLoaded && settingsLoaded && notificationsLoaded && activityLogsLoaded) {
       setIsInitialLoading(false);
     }
-  }, [authLoading, candidatesLoaded, teamLoaded, settingsLoaded, notificationsLoaded]);
+  }, [authLoading, candidatesLoaded, teamLoaded, settingsLoaded, notificationsLoaded, activityLogsLoaded]);
 
   // Fallback timer so global loader never gets stuck indefinitely
   useEffect(() => {
@@ -149,7 +151,7 @@ export default function Dashboard() {
     return () => clearTimeout(fallbackTimer);
   }, []);
 
-  const isGlobalLoading = authLoading || !candidatesLoaded || !teamLoaded || !settingsLoaded || !notificationsLoaded;
+  const isGlobalLoading = authLoading || !candidatesLoaded || !teamLoaded || !settingsLoaded || !notificationsLoaded || !activityLogsLoaded;
   const candidateMapRef = useRef(new Map<string, any>());
   const lastLogTimestampRef = useRef<number>(Date.now());
   const [activityLogs, setActivityLogs] = useState<any[]>([]);
@@ -587,6 +589,7 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
         : query(collection(db, 'activity_logs'), where('authorUid', '==', user?.uid), limit(100));
       
       unsubActivityLogs = onSnapshot(qLogs, (snapshot) => {
+          setActivityLogsLoaded(true);
         const logs = snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() }));
         const sortedLogs = logs.sort((a: any, b: any) => {
           const timeA = a.timestamp?.toMillis ? a.timestamp.toMillis() : new Date(a.timestamp || 0).getTime();
@@ -595,7 +598,8 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
         });
         setActivityLogs(sortedLogs);
       }, (err: any) => {
-        console.warn("Activity logs query error/index warning, falling back:", err);
+        setActivityLogsLoaded(true);
+          console.warn("Activity logs query error/index warning, falling back:", err);
         // Fallback or handle offline
       });
     }
@@ -1739,13 +1743,13 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
                 Initializing Workspace...
               </span>
               <span className="text-[var(--primary-gold)]">
-                {[!authLoading, candidatesLoaded, teamLoaded, settingsLoaded, notificationsLoaded].filter(Boolean).length} / 5
+                {[!authLoading, candidatesLoaded, teamLoaded, settingsLoaded, notificationsLoaded, activityLogsLoaded].filter(Boolean).length} / 6
               </span>
             </div>
             <div className="w-full bg-[var(--bg-secondary)] h-2 rounded-full overflow-hidden">
               <div 
                 className="bg-gradient-to-r from-[var(--primary-gold)] to-[#BC9B66] h-full transition-all duration-300 rounded-full"
-                style={{ width: `${([!authLoading, candidatesLoaded, teamLoaded, settingsLoaded, notificationsLoaded].filter(Boolean).length / 5) * 100}%` }}
+                style={{ width: `${([!authLoading, candidatesLoaded, teamLoaded, settingsLoaded, notificationsLoaded, activityLogsLoaded].filter(Boolean).length / 6) * 100}%` }}
               ></div>
             </div>
             <div className="space-y-1.5 pt-2 text-[11px] font-medium text-[var(--text-secondary)]">
