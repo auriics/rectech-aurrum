@@ -170,9 +170,9 @@ export const ClientCvRepository: React.FC<ClientCvRepositoryProps> = ({
       )}
 
       {/* Header Banner */}
-      <div className="crm-card p-6 border-l-4 border-l-[#A98B56] flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="crm-card p-6 border-l-4 border-l-[#BA9E6A] flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="flex items-center gap-3">
-          <div className="p-3 bg-[#A98B56]/10 text-[#A98B56] rounded-2xl">
+          <div className="p-3 bg-[#BA9E6A]/10 text-[#BA9E6A] rounded-2xl">
             <FileText size={22} />
           </div>
           <div>
@@ -189,7 +189,7 @@ export const ClientCvRepository: React.FC<ClientCvRepositoryProps> = ({
       {/* Filter & Boolean Search Bar */}
       <div className="crm-card p-4 space-y-3">
         <div className="flex flex-col md:flex-row items-center gap-4">
-          <div className="relative flex items-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-[#A98B56]/50 focus-within:border-[#A98B56] transition-all w-full md:w-auto flex-1">
+          <div className="relative flex items-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-[#BA9E6A]/50 focus-within:border-[#BA9E6A] transition-all w-full md:w-auto flex-1">
             <div className="pl-4 pr-2 text-[var(--text-muted)]">
               <Search size={16} />
             </div>
@@ -224,7 +224,7 @@ export const ClientCvRepository: React.FC<ClientCvRepositoryProps> = ({
         </div>
 
         <div className="text-[10px] text-[var(--text-muted)] flex items-center gap-2 pt-1 font-medium">
-          <span>Supports Boolean operators: <strong className="text-[#A98B56]">AND</strong>, <strong className="text-[#A98B56]">OR</strong>, <strong className="text-[#A98B56]">NOT</strong></span>
+          <span>Supports Boolean operators: <strong className="text-[#BA9E6A]">AND</strong>, <strong className="text-[#BA9E6A]">OR</strong>, <strong className="text-[#BA9E6A]">NOT</strong></span>
           <span>•</span>
           <span>Showing {filteredCandidates.length} Resumes</span>
         </div>
@@ -236,12 +236,12 @@ export const ClientCvRepository: React.FC<ClientCvRepositoryProps> = ({
           {filteredCandidates.map((candidate) => (
             <div
               key={candidate.id}
-              className="crm-card p-6 space-y-4 hover:border-[#A98B56] transition-all flex flex-col justify-between"
+              className="crm-card p-6 space-y-4 hover:border-[#BA9E6A] transition-all flex flex-col justify-between"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between text-[11px] bg-[var(--bg-secondary)] px-2.5 py-1.5 rounded-xl border border-[var(--border-color)]">
                   <span className="flex items-center gap-1 text-[var(--text-muted)] font-bold">
-                    <Building size={12} className="text-[#A98B56]" /> Assigned Client:
+                    <Building size={12} className="text-[#BA9E6A]" /> Assigned Client:
                   </span>
                   <span className="text-[var(--text-primary)] font-extrabold truncate max-w-[145px]" title={getAssignedClientName(candidate)}>
                     {getAssignedClientName(candidate)}
@@ -250,7 +250,7 @@ export const ClientCvRepository: React.FC<ClientCvRepositoryProps> = ({
 
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#004564] to-[#002D38] text-white font-bold text-xs flex items-center justify-center shrink-0">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#003E5A] to-[#002233] text-white font-bold text-xs flex items-center justify-center shrink-0">
                       {candidate.fullName ? candidate.fullName.substring(0, 2).toUpperCase() : 'CV'}
                     </div>
                     <div>
@@ -260,7 +260,7 @@ export const ClientCvRepository: React.FC<ClientCvRepositoryProps> = ({
                   </div>
 
                   {candidate.domainFocus && (
-                    <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded bg-[#A98B56]/10 text-[#A98B56] border border-[#A98B56]/20">
+                    <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded bg-[#BA9E6A]/10 text-[#BA9E6A] border border-[#BA9E6A]/20">
                       {candidate.domainFocus}
                     </span>
                   )}
@@ -296,7 +296,7 @@ export const ClientCvRepository: React.FC<ClientCvRepositoryProps> = ({
         </div>
       ) : (
         <div className="crm-card p-12 text-center text-[var(--text-muted)] font-medium space-y-3">
-          <FileText size={36} className="mx-auto text-[#A98B56] opacity-40" />
+          <FileText size={36} className="mx-auto text-[#BA9E6A] opacity-40" />
           <h3 className="text-lg  font-bold text-[var(--text-primary)]">No Resumes Match Search Criteria</h3>
           <p className="text-xs max-w-md mx-auto">Try clearing your search query or choosing a different domain filter.</p>
         </div>

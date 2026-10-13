@@ -149,7 +149,7 @@ function LogoUploader({
           className={`w-full p-3 rounded-xl border flex items-center justify-center min-h-[64px] ${
             bgMode === 'light' 
               ? 'bg-white border-slate-200' 
-              : 'bg-[#002D38] border-slate-800'
+              : 'bg-[#002233] border-slate-800'
           }`}
         >
           <img 

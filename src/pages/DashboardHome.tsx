@@ -470,8 +470,8 @@ export default function DashboardHome({
                     wrapperStyle={{ fontSize: 10, fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.05em', paddingTop: 20 }}
                   />
                   <Line type="monotone" name="CV Uploads" dataKey="CV Uploads" stroke="#CFB57B" strokeWidth={3} dot={false} activeDot={{ r: 6 }} />
-                  <Line type="monotone" name="Resume Parsing" dataKey="Resume Parsing" stroke="#BC9B66" strokeWidth={3} dot={false} activeDot={{ r: 6 }} />
-                  <Line type="monotone" name="Candidate Updates" dataKey="Candidate Updates" stroke="#A98B56" strokeWidth={3} dot={false} activeDot={{ r: 6 }} />
+                  <Line type="monotone" name="Resume Parsing" dataKey="Resume Parsing" stroke="#CBB285" strokeWidth={3} dot={false} activeDot={{ r: 6 }} />
+                  <Line type="monotone" name="Candidate Updates" dataKey="Candidate Updates" stroke="#BA9E6A" strokeWidth={3} dot={false} activeDot={{ r: 6 }} />
                   <Line type="monotone" name="Assignments" dataKey="Assignments" stroke="#9B7E50" strokeWidth={3} dot={false} activeDot={{ r: 6 }} />
                   <Line type="monotone" name="Follow-ups" dataKey="Follow-ups" stroke="#8C6E42" strokeWidth={3} dot={false} activeDot={{ r: 6 }} />
                   <Line type="monotone" name="Shortlists" dataKey="Shortlists" stroke="#A08151" strokeWidth={3} dot={false} activeDot={{ r: 6 }} />

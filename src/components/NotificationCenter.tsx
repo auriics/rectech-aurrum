@@ -142,15 +142,15 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
     if (text.includes('viewed resume') || text.includes('view')) return <Eye size={16} className="text-sky-500" />;
     if (text.includes('feedback') || text.includes('comment') || text.includes('discussion')) return <MessageSquare size={16} className="text-amber-500" />;
     if (text.includes('interview')) return <Calendar size={16} className="text-purple-500" />;
-    return <Bell size={16} className="text-[#A98B56]" />;
+    return <Bell size={16} className="text-[#BA9E6A]" />;
   };
 
   return (
     <div className="max-w-6xl mx-auto space-y-6 animate-in fade-in duration-300 pb-12">
       {/* Top Banner */}
-      <div className="crm-card p-6 border-l-4 border-l-[#A98B56] flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="crm-card p-6 border-l-4 border-l-[#BA9E6A] flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <div className="p-3 bg.A98B56/10 bg-[#A98B56]/10 text-[#A98B56] rounded-2xl relative">
+          <div className="p-3 bg.A98B56/10 bg-[#BA9E6A]/10 text-[#BA9E6A] rounded-2xl relative">
             <Bell size={24} />
             {unreadCount > 0 && (
               <span className="absolute -top-1 -right-1 bg-rose-500 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center animate-bounce shadow-sm">
@@ -171,9 +171,9 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
         {unreadCount > 0 && (
           <button
             onClick={handleMarkAllRead}
-            className="px-4 py-2 bg-[var(--bg-secondary)] border border-[var(--border-color)] hover:border-[#A98B56] text-[var(--text-primary)] rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer self-start md:self-auto shadow-xs"
+            className="px-4 py-2 bg-[var(--bg-secondary)] border border-[var(--border-color)] hover:border-[#BA9E6A] text-[var(--text-primary)] rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer self-start md:self-auto shadow-xs"
           >
-            <CheckCheck size={14} className="text-[#A98B56]" /> Mark All as Read ({unreadCount})
+            <CheckCheck size={14} className="text-[#BA9E6A]" /> Mark All as Read ({unreadCount})
           </button>
         )}
       </div>
@@ -203,7 +203,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
           </div>
 
           <div className="flex items-center gap-2 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-xl px-3 py-1.5 w-full sm:w-64">
-            <Search size={14} className="text-[#A98B56]" />
+            <Search size={14} className="text-[#BA9E6A]" />
             <input
               type="text"
               value={searchQuery}
@@ -231,13 +231,13 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                   key={n.id}
                   className={`p-4 rounded-2xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
                     !n.read 
-                      ? 'bg-[#A98B56]/5 border-[#A98B56]/40 shadow-xs' 
+                      ? 'bg-[#BA9E6A]/5 border-[#BA9E6A]/40 shadow-xs' 
                       : 'bg-[var(--bg-secondary)] border-[var(--border-color)] text-[var(--text-secondary)]'
                   }`}
                 >
                   <div className="flex items-start gap-3.5">
                     <div className={`p-2.5 rounded-xl shrink-0 mt-0.5 ${
-                      !n.read ? 'bg-[#A98B56]/15 border border-[#A98B56]/30' : 'bg-[var(--card-bg)] border border-[var(--border-color)]'
+                      !n.read ? 'bg-[#BA9E6A]/15 border border-[#BA9E6A]/30' : 'bg-[var(--card-bg)] border border-[var(--border-color)]'
                     }`}>
                       {getActionIcon(n)}
                     </div>
@@ -248,7 +248,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                           {n.title || 'Client Action Notification'}
                         </h3>
                         {!n.read && (
-                          <span className="w-2 h-2 rounded-full bg-[#A98B56] animate-ping" />
+                          <span className="w-2 h-2 rounded-full bg-[#BA9E6A] animate-ping" />
                         )}
                         {sla && (
                           <span className={`px-2 py-0.5 rounded-md border text-[9px] font-black uppercase ${sla.badgeBg}`}>
@@ -283,7 +283,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                           if (!n.read) handleMarkAsRead(n.id);
                           onSelectCandidate(candId);
                         }}
-                        className="px-3 py-1.5 bg-[var(--card-bg)] border border-[var(--border-color)] hover:border-[#A98B56] text-[var(--text-primary)] hover:text-[#A98B56] rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
+                        className="px-3 py-1.5 bg-[var(--card-bg)] border border-[var(--border-color)] hover:border-[#BA9E6A] text-[var(--text-primary)] hover:text-[#BA9E6A] rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
                       >
                         <ExternalLink size={12} /> View Profile
                       </button>
@@ -293,7 +293,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                       {!n.read && (
                         <button
                           onClick={() => handleMarkAsRead(n.id)}
-                          className="p-1.5 rounded-lg text-[var(--text-muted)] hover:text-[#A98B56] hover:bg-[var(--card-bg)] transition-all cursor-pointer"
+                          className="p-1.5 rounded-lg text-[var(--text-muted)] hover:text-[#BA9E6A] hover:bg-[var(--card-bg)] transition-all cursor-pointer"
                           title="Mark as Read"
                         >
                           <CheckCheck size={14} />
@@ -314,7 +314,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
           </div>
         ) : (
           <div className="py-16 text-center text-[var(--text-muted)] space-y-2">
-            <Bell size={36} className="mx-auto opacity-30 text-[#A98B56]" />
+            <Bell size={36} className="mx-auto opacity-30 text-[#BA9E6A]" />
             <h3 className="text-sm font-bold text-[var(--text-primary)]">No Notifications Found</h3>
             <p className="text-xs">You're all caught up! Updates for client actions and candidate reviews will appear here.</p>
           </div>

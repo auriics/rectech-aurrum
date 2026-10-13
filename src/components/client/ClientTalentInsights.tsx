@@ -128,9 +128,9 @@ export const ClientTalentInsights: React.FC<ClientTalentInsightsProps> = ({
       )}
 
       {/* Header Banner */}
-      <div className="crm-card p-6 border-l-4 border-l-[#A98B56] flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="crm-card p-6 border-l-4 border-l-[#BA9E6A] flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="flex items-center gap-3">
-          <div className="p-3 bg-[#A98B56]/10 text-[#A98B56] rounded-2xl">
+          <div className="p-3 bg-[#BA9E6A]/10 text-[#BA9E6A] rounded-2xl">
             <BarChart2 size={22} />
           </div>
           <div>
@@ -140,8 +140,8 @@ export const ClientTalentInsights: React.FC<ClientTalentInsightsProps> = ({
         </div>
 
         <div className="px-4 py-2 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl text-xs font-extrabold flex items-center gap-2 text-[var(--text-primary)]">
-          <Sparkles size={16} className="text-[#A98B56]" />
-          <span>Client Decision Rate: <strong className="text-[#A98B56]">{metrics.conversionRate}%</strong></span>
+          <Sparkles size={16} className="text-[#BA9E6A]" />
+          <span>Client Decision Rate: <strong className="text-[#BA9E6A]">{metrics.conversionRate}%</strong></span>
         </div>
       </div>
 
@@ -199,7 +199,7 @@ export const ClientTalentInsights: React.FC<ClientTalentInsightsProps> = ({
         <div className="crm-card p-6 space-y-4">
           <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
             <h3 className="text-sm font-bold text-[var(--text-primary)] flex items-center gap-2">
-              <Award size={18} className="text-[#A98B56]" /> Top Skill Distribution
+              <Award size={18} className="text-[#BA9E6A]" /> Top Skill Distribution
             </h3>
             <span className="text-[10px] uppercase font-bold text-[var(--text-muted)]">In Candidate Pool</span>
           </div>
@@ -212,11 +212,11 @@ export const ClientTalentInsights: React.FC<ClientTalentInsightsProps> = ({
                   <div key={skill} className="space-y-1">
                     <div className="flex justify-between text-xs font-bold text-[var(--text-primary)]">
                       <span>{skill}</span>
-                      <span className="text-[#A98B56]">{count} ({percentage}%)</span>
+                      <span className="text-[#BA9E6A]">{count} ({percentage}%)</span>
                     </div>
                     <div className="w-full h-2.5 bg-[var(--bg-secondary)] rounded-full overflow-hidden border border-[var(--border-color)]">
                       <div 
-                        className="h-full bg-gradient-to-r from-[#004564] to-[#A98B56] rounded-full transition-all duration-500"
+                        className="h-full bg-gradient-to-r from-[#003E5A] to-[#BA9E6A] rounded-full transition-all duration-500"
                         style={{ width: `${Math.min(percentage * 2, 100)}%` }}
                       />
                     </div>
@@ -233,7 +233,7 @@ export const ClientTalentInsights: React.FC<ClientTalentInsightsProps> = ({
         <div className="crm-card p-6 space-y-4">
           <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
             <h3 className="text-sm font-bold text-[var(--text-primary)] flex items-center gap-2">
-              <Briefcase size={18} className="text-[#A98B56]" /> Experience Seniority Breakdown
+              <Briefcase size={18} className="text-[#BA9E6A]" /> Experience Seniority Breakdown
             </h3>
             <span className="text-[10px] uppercase font-bold text-[var(--text-muted)]">Years in Field</span>
           </div>
@@ -242,7 +242,7 @@ export const ClientTalentInsights: React.FC<ClientTalentInsightsProps> = ({
             {Object.entries(metrics.experienceMap).map(([label, count]) => (
               <div key={label} className="p-4 bg-[var(--bg-secondary)] rounded-2xl border border-[var(--border-color)] space-y-1 text-center">
                 <span className="text-[10px] uppercase font-extrabold text-[var(--text-muted)] block">{label}</span>
-                <p className="text-2xl  font-bold text-[#A98B56]">{count}</p>
+                <p className="text-2xl  font-bold text-[#BA9E6A]">{count}</p>
                 <span className="text-[9px] text-[var(--text-muted)] font-semibold">candidates</span>
               </div>
             ))}
@@ -254,7 +254,7 @@ export const ClientTalentInsights: React.FC<ClientTalentInsightsProps> = ({
       <div className="crm-card p-6 space-y-4">
         <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
           <h3 className="text-sm font-bold text-[var(--text-primary)] flex items-center gap-2">
-            <MapPin size={18} className="text-[#A98B56]" /> Top Candidate Locations
+            <MapPin size={18} className="text-[#BA9E6A]" /> Top Candidate Locations
           </h3>
           <span className="text-[10px] uppercase font-bold text-[var(--text-muted)]">Geographic Distribution</span>
         </div>
@@ -265,7 +265,7 @@ export const ClientTalentInsights: React.FC<ClientTalentInsightsProps> = ({
               <p className="text-xs font-extrabold text-[var(--text-primary)] truncate">{loc}</p>
               <div className="flex items-center justify-between">
                 <span className="text-[10px] text-[var(--text-muted)] font-bold">Candidates:</span>
-                <span className="text-sm font-black text-[#A98B56]">{count}</span>
+                <span className="text-sm font-black text-[#BA9E6A]">{count}</span>
               </div>
             </div>
           ))}

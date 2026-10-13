@@ -617,7 +617,7 @@ ${c.rawResumeText || 'N/A'}
             {/* Header / Info / Controls */}
             <div className="flex items-center justify-between gap-4 border-b border-[var(--border-color)] pb-4 flex-wrap">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#A98B56] to-[#BC9B66] text-white flex items-center justify-center shrink-0 shadow-xs">
+                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#BA9E6A] to-[#CBB285] text-white flex items-center justify-center shrink-0 shadow-xs">
                   <Bot size={20} />
                 </div>
                 <div>
@@ -742,14 +742,14 @@ ${c.rawResumeText || 'N/A'}
                 chatMessages.map((msg, idx) => (
                   <div key={idx} className={`flex gap-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                     {msg.role === 'assistant' && (
-                      <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#A98B56] to-[#BC9B66] text-white flex items-center justify-center shrink-0 shadow-xs mt-0.5">
+                      <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#BA9E6A] to-[#CBB285] text-white flex items-center justify-center shrink-0 shadow-xs mt-0.5">
                         <Bot size={15} />
                       </div>
                     )}
                     
                     <div className={`relative group max-w-[85%] rounded-2xl p-4 text-xs font-medium leading-relaxed shadow-xs ${
                       msg.role === 'user'
-                        ? 'bg-[#004564] dark:bg-[#003649] text-white rounded-tr-none border border-[#005472] dark:border-[#002D38]'
+                        ? 'bg-[#003E5A] dark:bg-[#00334A] text-white rounded-tr-none border border-[#004C6D] dark:border-[#002233]'
                         : 'bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-primary)] rounded-tl-none'
                     }`}>
                       {msg.role === 'user' ? (

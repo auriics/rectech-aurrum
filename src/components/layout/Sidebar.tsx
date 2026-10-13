@@ -131,7 +131,7 @@ export default function Sidebar({
                   title={!isOpen ? item.label : undefined}
                   className={`group relative flex items-center ${isOpen ? 'gap-3 px-3 py-2.5' : 'justify-center p-3'} w-full rounded-xl transition-all duration-200 text-left cursor-pointer ${
                     isActive 
-                      ? 'bg-gradient-to-r from-[#A98B56]/20 to-[#BC9B66]/10 text-white font-semibold border border-[#A98B56]/40 shadow-sm' 
+                      ? 'bg-gradient-to-r from-[#BA9E6A]/20 to-[#CBB285]/10 text-white font-semibold border border-[#BA9E6A]/40 shadow-sm' 
                       : 'text-[#DCE6EC] hover:text-white hover:bg-white/5'
                   }`}
                 >
@@ -140,7 +140,7 @@ export default function Sidebar({
                       size={20} 
                       className={`shrink-0 transition-transform duration-200 ${
                         isActive 
-                          ? 'text-[#BC9B66] scale-110' 
+                          ? 'text-[#CBB285] scale-110' 
                           : 'text-[#A9C2CE] group-hover:text-white group-hover:scale-105'
                       }`} 
                     />
@@ -150,7 +150,7 @@ export default function Sidebar({
                     <span className="text-sm font-medium tracking-wide truncate">{item.label}</span>
                   ) : (
                     /* Floating Tooltip when collapsed */
-                    <div className="absolute left-full ml-3 px-3 py-1.5 bg-[#002D38] text-white text-xs font-semibold rounded-lg shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 border border-[#005472]">
+                    <div className="absolute left-full ml-3 px-3 py-1.5 bg-[#002233] text-white text-xs font-semibold rounded-lg shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 border border-[#004C6D]">
                       {item.label}
                     </div>
                   )}
@@ -173,14 +173,14 @@ export default function Sidebar({
             {userProfile?.photoURL ? (
               <img src={userProfile.photoURL} alt="Profile" className="w-8 h-8 rounded-lg object-cover shrink-0 border border-white/10" />
             ) : (
-              <div className="w-8 h-8 rounded-lg bg-[#A98B56] text-white flex items-center justify-center font-bold text-xs shrink-0">
+              <div className="w-8 h-8 rounded-lg bg-[#BA9E6A] text-white flex items-center justify-center font-bold text-xs shrink-0">
                 {userProfile?.name ? userProfile.name.substring(0, 2).toUpperCase() : (user.email ? user.email.substring(0, 2).toUpperCase() : 'AU')}
               </div>
             )}
             <div className="flex flex-col min-w-0 flex-1">
               <span className="text-xs font-semibold text-white truncate">{userProfile?.name || user.email || 'User'}</span>
               <span className="text-[10px] text-[#A9C2CE] flex items-center gap-1 uppercase font-bold tracking-wider">
-                <Shield size={10} className="text-[#BC9B66]" /> {role || 'Recruiter'}
+                <Shield size={10} className="text-[#CBB285]" /> {role || 'Recruiter'}
               </span>
             </div>
           </div>

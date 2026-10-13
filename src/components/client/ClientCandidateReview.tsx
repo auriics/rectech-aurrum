@@ -361,10 +361,10 @@ export const ClientCandidateReview: React.FC<ClientCandidateReviewProps> = ({
       )}
 
       {/* Header Title Section */}
-      <div className="crm-card p-6 border-l-4 border-l-[#A98B56] flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="crm-card p-6 border-l-4 border-l-[#BA9E6A] flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <div className="flex items-center gap-2">
-            <span className="p-2 rounded-xl bg-[#A98B56]/10 text-[#A98B56]">
+            <span className="p-2 rounded-xl bg-[#BA9E6A]/10 text-[#BA9E6A]">
               <Sparkles size={20} />
             </span>
             <div>
@@ -402,7 +402,7 @@ export const ClientCandidateReview: React.FC<ClientCandidateReviewProps> = ({
       {/* Search Bar & Boolean Controls */}
       <div className="crm-card p-5 space-y-3">
         <div className="flex flex-col sm:flex-row items-center gap-3">
-          <div className="relative flex items-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-[#A98B56]/50 focus-within:border-[#A98B56] transition-all">
+          <div className="relative flex items-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-[#BA9E6A]/50 focus-within:border-[#BA9E6A] transition-all">
             <div className="pl-4 pr-2 text-[var(--text-muted)]">
               <Search size={16} />
             </div>
@@ -420,7 +420,7 @@ export const ClientCandidateReview: React.FC<ClientCandidateReviewProps> = ({
             )}
             <button
               onClick={() => setShowBooleanGuide(!showBooleanGuide)}
-              className="px-4 py-3.5 text-[10px] uppercase font-bold text-[#A98B56] hover:bg-[#A98B56]/10 flex items-center gap-1.5 transition-colors border-l border-[var(--border-color)] whitespace-nowrap"
+              className="px-4 py-3.5 text-[10px] uppercase font-bold text-[#BA9E6A] hover:bg-[#BA9E6A]/10 flex items-center gap-1.5 transition-colors border-l border-[var(--border-color)] whitespace-nowrap"
             >
               <HelpCircle size={14} /> Boolean Syntax Guide
             </button>
@@ -431,12 +431,12 @@ export const ClientCandidateReview: React.FC<ClientCandidateReviewProps> = ({
         {showBooleanGuide && (
           <div className="p-4 bg-[var(--bg-secondary)] rounded-xl border border-[var(--border-color)] text-xs text-[var(--text-secondary)] space-y-2 animate-in fade-in duration-200">
             <h4 className="font-bold text-[var(--text-primary)] flex items-center gap-2">
-              <Code size={14} className="text-[#A98B56]" /> Boolean Search Quick Syntax
+              <Code size={14} className="text-[#BA9E6A]" /> Boolean Search Quick Syntax
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-[11px]">
-              <div><span className=" font-bold text-[#A98B56]">AND</span>: Evaluates candidates matching both terms (e.g., <code className="bg-black/10 px-1 rounded">React AND TypeScript</code>)</div>
-              <div><span className=" font-bold text-[#A98B56]">OR</span>: Matches candidates with either term (e.g., <code className="bg-black/10 px-1 rounded">Python OR Java</code>)</div>
-              <div><span className=" font-bold text-[#A98B56]">NOT</span>: Excludes candidates with term (e.g., <code className="bg-black/10 px-1 rounded">Frontend NOT Vue</code>)</div>
+              <div><span className=" font-bold text-[#BA9E6A]">AND</span>: Evaluates candidates matching both terms (e.g., <code className="bg-black/10 px-1 rounded">React AND TypeScript</code>)</div>
+              <div><span className=" font-bold text-[#BA9E6A]">OR</span>: Matches candidates with either term (e.g., <code className="bg-black/10 px-1 rounded">Python OR Java</code>)</div>
+              <div><span className=" font-bold text-[#BA9E6A]">NOT</span>: Excludes candidates with term (e.g., <code className="bg-black/10 px-1 rounded">Frontend NOT Vue</code>)</div>
             </div>
           </div>
         )}
@@ -453,12 +453,12 @@ export const ClientCandidateReview: React.FC<ClientCandidateReviewProps> = ({
             return (
               <div
                 key={candidate.id}
-                className="crm-card p-6 space-y-5 border-l-4 transition-all duration-300 hover:border-l-[#A98B56]"
+                className="crm-card p-6 space-y-5 border-l-4 transition-all duration-300 hover:border-l-[#BA9E6A]"
               >
                 {/* Top Row: Identity, Domain, Status Badge */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[var(--border-color)]">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#004564] to-[#002D38] text-white font-black text-lg flex items-center justify-center shrink-0 shadow-md">
+                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#003E5A] to-[#002233] text-white font-black text-lg flex items-center justify-center shrink-0 shadow-md">
                       {candidate.fullName ? candidate.fullName.substring(0, 2).toUpperCase() : 'CA'}
                     </div>
 
@@ -468,7 +468,7 @@ export const ClientCandidateReview: React.FC<ClientCandidateReviewProps> = ({
                           {candidate.fullName}
                         </h3>
                         {candidate.domainFocus && (
-                          <span className="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-[#A98B56]/10 text-[#A98B56] border border-[#A98B56]/20">
+                          <span className="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-[#BA9E6A]/10 text-[#BA9E6A] border border-[#BA9E6A]/20">
                             {candidate.domainFocus}
                           </span>
                         )}
@@ -479,7 +479,7 @@ export const ClientCandidateReview: React.FC<ClientCandidateReviewProps> = ({
                       </p>
 
                       {candidate.locationInfo && (
-                        <p className="text-[10px] font-bold text-[#A98B56] flex items-center gap-1 mt-1">
+                        <p className="text-[10px] font-bold text-[#BA9E6A] flex items-center gap-1 mt-1">
                           <MapPin size={11} /> {candidate.locationInfo.city || ''} {candidate.locationInfo.country || ''}
                         </p>
                       )}
@@ -595,7 +595,7 @@ export const ClientCandidateReview: React.FC<ClientCandidateReviewProps> = ({
                 {isExpanded && (
                   <div className="p-4 bg-[var(--bg-secondary)] rounded-2xl border border-[var(--border-color)] space-y-3 animate-in fade-in duration-200">
                     <h4 className="text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider flex items-center gap-2">
-                      <History size={14} className="text-[#A98B56]" /> Activity & Review History
+                      <History size={14} className="text-[#BA9E6A]" /> Activity & Review History
                     </h4>
 
                     {Array.isArray(candidate.clientInteractions) && candidate.clientInteractions.length > 0 ? (
@@ -603,7 +603,7 @@ export const ClientCandidateReview: React.FC<ClientCandidateReviewProps> = ({
                         {candidate.clientInteractions.map((act: any, idx: number) => (
                           <div key={idx} className="p-3 bg-[var(--card-bg)] rounded-xl border border-[var(--border-color)] text-xs space-y-1">
                             <div className="flex items-center justify-between text-[11px] font-bold text-[var(--text-muted)]">
-                              <span className="text-[#A98B56]">{act.userName || 'Client Partner'} ({act.userRole || 'Client'})</span>
+                              <span className="text-[#BA9E6A]">{act.userName || 'Client Partner'} ({act.userRole || 'Client'})</span>
                               <span>{formatDate(act.timestamp)}</span>
                             </div>
                             <p className="font-semibold text-[var(--text-primary)]">{act.action}: "{act.feedback || 'No comment provided'}"</p>
@@ -620,7 +620,7 @@ export const ClientCandidateReview: React.FC<ClientCandidateReviewProps> = ({
           })
         ) : (
           <div className="crm-card p-12 text-center text-[var(--text-muted)] font-medium space-y-3">
-            <Sparkles size={36} className="mx-auto text-[#A98B56] opacity-40" />
+            <Sparkles size={36} className="mx-auto text-[#BA9E6A] opacity-40" />
             <h3 className="text-lg  font-bold text-[var(--text-primary)]">No Candidate Profiles Match Your Filter</h3>
             <p className="text-xs max-w-md mx-auto">
               There are currently no candidates matching the "{activeTab}" filter or search query. Try clearing filters or contacting your recruitment lead.
@@ -637,7 +637,7 @@ export const ClientCandidateReview: React.FC<ClientCandidateReviewProps> = ({
               <h3 className="text-lg  font-bold text-[var(--text-primary)] flex items-center gap-2">
                 {activeModal.type === 'accept' && <ThumbsUp className="text-emerald-500" size={20} />}
                 {activeModal.type === 'reject' && <ThumbsDown className="text-rose-500" size={20} />}
-                {activeModal.type === 'shortlist' && <Star className="text-[#A98B56]" size={20} />}
+                {activeModal.type === 'shortlist' && <Star className="text-[#BA9E6A]" size={20} />}
                 {activeModal.type === 'discussion' && <MessageSquare className="text-sky-500" size={20} />}
                 
                 {activeModal.type === 'accept' && 'Accept Candidate Submission'}

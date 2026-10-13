@@ -78,9 +78,9 @@ export const ClientNotifications: React.FC<ClientNotificationsProps> = ({ user }
   return (
     <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in duration-300 pb-12">
       {/* Header Banner */}
-      <div className="crm-card p-6 border-l-4 border-l-[#A98B56] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="crm-card p-6 border-l-4 border-l-[#BA9E6A] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="p-3 bg-[#A98B56]/10 text-[#A98B56] rounded-2xl">
+          <div className="p-3 bg-[#BA9E6A]/10 text-[#BA9E6A] rounded-2xl">
             <Bell size={22} />
           </div>
           <div>
@@ -92,9 +92,9 @@ export const ClientNotifications: React.FC<ClientNotificationsProps> = ({ user }
         {notifications.some(n => !n.read) && (
           <button
             onClick={handleMarkAllRead}
-            className="px-4 py-2 bg-[var(--bg-secondary)] border border-[var(--border-color)] hover:border-[#A98B56] text-[var(--text-primary)] rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer self-start sm:self-auto"
+            className="px-4 py-2 bg-[var(--bg-secondary)] border border-[var(--border-color)] hover:border-[#BA9E6A] text-[var(--text-primary)] rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer self-start sm:self-auto"
           >
-            <CheckCheck size={14} className="text-[#A98B56]" /> Mark All as Read
+            <CheckCheck size={14} className="text-[#BA9E6A]" /> Mark All as Read
           </button>
         )}
       </div>
@@ -110,13 +110,13 @@ export const ClientNotifications: React.FC<ClientNotificationsProps> = ({ user }
                 key={n.id}
                 className={`p-4 rounded-2xl border transition-all flex items-start justify-between gap-4 ${
                   !n.read 
-                    ? 'bg-[#A98B56]/5 border-[#A98B56]/30 font-semibold' 
+                    ? 'bg-[#BA9E6A]/5 border-[#BA9E6A]/30 font-semibold' 
                     : 'bg-[var(--bg-secondary)] border-[var(--border-color)] text-[var(--text-secondary)]'
                 }`}
               >
                 <div className="flex items-start gap-3">
                   <div className={`p-2.5 rounded-xl shrink-0 ${
-                    !n.read ? 'bg-[#A98B56] text-white' : 'bg-[var(--card-bg)] text-[var(--text-muted)] border border-[var(--border-color)]'
+                    !n.read ? 'bg-[#BA9E6A] text-white' : 'bg-[var(--card-bg)] text-[var(--text-muted)] border border-[var(--border-color)]'
                   }`}>
                     {n.title?.toLowerCase().includes('candidate') ? (
                       <UserCheck size={16} />
@@ -131,7 +131,7 @@ export const ClientNotifications: React.FC<ClientNotificationsProps> = ({ user }
                     <div className="flex items-center gap-2">
                       <h3 className="text-xs font-bold text-[var(--text-primary)]">{n.title || 'Notification'}</h3>
                       {!n.read && (
-                        <span className="w-2 h-2 rounded-full bg-[#A98B56] animate-pulse" />
+                        <span className="w-2 h-2 rounded-full bg-[#BA9E6A] animate-pulse" />
                       )}
                     </div>
                     <p className="text-xs leading-relaxed text-[var(--text-primary)]">{n.message}</p>
@@ -145,7 +145,7 @@ export const ClientNotifications: React.FC<ClientNotificationsProps> = ({ user }
                   {!n.read && (
                     <button
                       onClick={() => handleMarkAsRead(n.id)}
-                      className="p-1.5 rounded-lg text-[var(--text-muted)] hover:text-[#A98B56] hover:bg-[var(--card-bg)] transition-all cursor-pointer"
+                      className="p-1.5 rounded-lg text-[var(--text-muted)] hover:text-[#BA9E6A] hover:bg-[var(--card-bg)] transition-all cursor-pointer"
                       title="Mark as Read"
                     >
                       <CheckCheck size={14} />
@@ -164,7 +164,7 @@ export const ClientNotifications: React.FC<ClientNotificationsProps> = ({ user }
           </div>
         ) : (
           <div className="py-12 text-center text-[var(--text-muted)] space-y-2">
-            <Bell size={32} className="mx-auto opacity-40 text-[#A98B56]" />
+            <Bell size={32} className="mx-auto opacity-40 text-[#BA9E6A]" />
             <h3 className="text-sm font-bold text-[var(--text-primary)]">No Notifications Yet</h3>
             <p className="text-xs">You're all caught up! You'll receive updates when new candidates are assigned or interviewed.</p>
           </div>

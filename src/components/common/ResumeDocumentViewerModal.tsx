@@ -136,7 +136,7 @@ export const ResumeDocumentViewerModal: React.FC<ResumeDocumentViewerModalProps>
         {/* Header Bar */}
         <div className="px-6 py-4 border-b border-[var(--border-color)] flex items-center justify-between bg-[var(--bg-secondary)] shrink-0">
           <div className="flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-2xl bg-[#A98B56]/15 border border-[#A98B56]/30 text-[#A98B56] flex items-center justify-center font-bold">
+            <div className="w-11 h-11 rounded-2xl bg-[#BA9E6A]/15 border border-[#BA9E6A]/30 text-[#BA9E6A] flex items-center justify-center font-bold">
               <FileText size={22} />
             </div>
             <div>
@@ -220,7 +220,7 @@ export const ResumeDocumentViewerModal: React.FC<ResumeDocumentViewerModalProps>
                       href={finalUrl || candidate.cvBase64}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-2.5 py-1 bg-[#A98B56] hover:bg-[#BC9B66] text-white rounded-lg text-xs font-bold flex items-center gap-1 transition-all"
+                      className="px-2.5 py-1 bg-[#BA9E6A] hover:bg-[#CBB285] text-white rounded-lg text-xs font-bold flex items-center gap-1 transition-all"
                     >
                       <ExternalLink size={12} /> Open in New Tab
                     </a>
@@ -234,7 +234,7 @@ export const ResumeDocumentViewerModal: React.FC<ResumeDocumentViewerModalProps>
                 </div>
               ) : (
                 <div className="flex-1 flex flex-col items-center justify-center text-center p-8 space-y-4 crm-card m-auto max-w-lg">
-                  <AlertCircle size={40} className="text-[#A98B56]" />
+                  <AlertCircle size={40} className="text-[#BA9E6A]" />
                   <h3 className="text-base font-bold text-[var(--text-primary)]">Document Preview Restricted or Unavailable</h3>
                   <p className="text-xs text-[var(--text-muted)] leading-relaxed">
                     Some browser security policies restrict direct embedding of remote storage documents. You can download the original file instantly or open it in a new browser tab.
@@ -252,7 +252,7 @@ export const ResumeDocumentViewerModal: React.FC<ResumeDocumentViewerModalProps>
                     )}
                     <button
                       onClick={() => setActiveTab('parsed')}
-                      className="px-4 py-2.5 bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-primary)] hover:border-[#A98B56] text-xs font-bold uppercase rounded-xl cursor-pointer"
+                      className="px-4 py-2.5 bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-primary)] hover:border-[#BA9E6A] text-xs font-bold uppercase rounded-xl cursor-pointer"
                     >
                       View Parsed Details
                     </button>
@@ -264,7 +264,7 @@ export const ResumeDocumentViewerModal: React.FC<ResumeDocumentViewerModalProps>
             <div className="flex-1 overflow-y-auto p-6 sm:p-8 space-y-6 custom-scrollbar">
               {/* Summary Card */}
               <div className="crm-card p-5 sm:p-6 space-y-2">
-                <h3 className="text-xs font-black uppercase tracking-widest text-[#A98B56] flex items-center gap-2">
+                <h3 className="text-xs font-black uppercase tracking-widest text-[#BA9E6A] flex items-center gap-2">
                   <Sparkles size={14} /> Executive Summary
                 </h3>
                 <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed italic">
@@ -290,14 +290,14 @@ export const ResumeDocumentViewerModal: React.FC<ResumeDocumentViewerModalProps>
               {Array.isArray(candidate.experience) && candidate.experience.length > 0 && (
                 <div className="crm-card p-5 sm:p-6 space-y-4">
                   <h3 className="text-xs font-black uppercase tracking-widest text-[var(--text-muted)] flex items-center gap-2">
-                    <Briefcase size={14} className="text-[#A98B56]" /> Professional Experience
+                    <Briefcase size={14} className="text-[#BA9E6A]" /> Professional Experience
                   </h3>
                   <div className="space-y-4">
                     {candidate.experience.map((exp: any, idx: number) => (
                       <div key={idx} className="p-4 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-xl space-y-1.5">
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                           <h4 className="text-xs sm:text-sm font-extrabold text-[var(--text-primary)]">{exp.role || exp.title}</h4>
-                          <span className="text-[10px] font-bold text-[#A98B56] bg-[#A98B56]/10 px-2 py-0.5 rounded">
+                          <span className="text-[10px] font-bold text-[#BA9E6A] bg-[#BA9E6A]/10 px-2 py-0.5 rounded">
                             {exp.duration || exp.period || 'Present'}
                           </span>
                         </div>
@@ -336,16 +336,16 @@ export const ResumeDocumentViewerModal: React.FC<ResumeDocumentViewerModalProps>
           <div className="flex items-center gap-2 w-full sm:w-auto">
             <button
               onClick={handleDownload}
-              className="flex-1 sm:flex-none px-4 py-2.5 bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-primary)] hover:border-[#A98B56] rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer shadow-xs transition-all"
+              className="flex-1 sm:flex-none px-4 py-2.5 bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-primary)] hover:border-[#BA9E6A] rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer shadow-xs transition-all"
             >
               <Download size={15} className="text-emerald-500" /> Download Original Resume
             </button>
             <button
               onClick={handlePrint}
-              className="px-4 py-2.5 bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-primary)] hover:border-[#A98B56] rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer shadow-xs transition-all"
+              className="px-4 py-2.5 bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-primary)] hover:border-[#BA9E6A] rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer shadow-xs transition-all"
               title="Print Resume Document"
             >
-              <Printer size={15} className="text-[#A98B56]" /> <span className="hidden sm:inline">Print</span>
+              <Printer size={15} className="text-[#BA9E6A]" /> <span className="hidden sm:inline">Print</span>
             </button>
           </div>
 

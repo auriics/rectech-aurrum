@@ -125,7 +125,7 @@ export const ClientDashboardHome: React.FC<ClientDashboardHomeProps> = ({
       { name: 'Pending Review', value: metrics.pending, color: '#F59E0B' },
       { name: 'Accepted', value: metrics.accepted, color: '#22C55E' },
       { name: 'Under Discussion', value: metrics.discussion, color: '#3B82F6' },
-      { name: 'Shortlisted', value: metrics.shortlisted, color: '#A98B56' },
+      { name: 'Shortlisted', value: metrics.shortlisted, color: '#BA9E6A' },
       { name: 'Rejected', value: metrics.rejected, color: '#EF4444' }
     ].filter(d => d.value > 0 || clientCandidates.length === 0);
   }, [metrics, clientCandidates.length]);
@@ -223,12 +223,12 @@ export const ClientDashboardHome: React.FC<ClientDashboardHomeProps> = ({
       )}
 
       {/* Client Welcome Hero Banner */}
-      <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-r from-[#003649] via-[#004564] to-[#002D38] p-8 text-white shadow-xl border border-white/10">
-        <div className="absolute right-0 top-0 -mt-12 -mr-12 w-96 h-96 bg-[#A98B56]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-r from-[#00334A] via-[#003E5A] to-[#002233] p-8 text-white shadow-xl border border-white/10">
+        <div className="absolute right-0 top-0 -mt-12 -mr-12 w-96 h-96 bg-[#BA9E6A]/10 rounded-full blur-3xl pointer-events-none" />
         
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#A98B56]/20 border border-[#A98B56]/40 text-[#BC9B66] text-xs font-bold uppercase tracking-widest">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#BA9E6A]/20 border border-[#BA9E6A]/40 text-[#CBB285] text-xs font-bold uppercase tracking-widest">
               <Sparkles size={14} /> Client Portal Executive Overview
             </div>
             <h1 className="text-3xl  font-bold text-white tracking-tight">
@@ -301,7 +301,7 @@ export const ClientDashboardHome: React.FC<ClientDashboardHomeProps> = ({
             key={idx}
             whileHover={{ y: -3 }}
             onClick={item.onClick}
-            className="crm-card p-6 flex flex-col justify-between cursor-pointer transition-all duration-300 hover:border-[#A98B56]/50 group"
+            className="crm-card p-6 flex flex-col justify-between cursor-pointer transition-all duration-300 hover:border-[#BA9E6A]/50 group"
           >
             <div className="flex items-start justify-between gap-3 mb-4">
               <div className={`p-3 rounded-2xl border ${item.iconBg} transition-transform group-hover:scale-110`}>
@@ -320,7 +320,7 @@ export const ClientDashboardHome: React.FC<ClientDashboardHomeProps> = ({
               </div>
             </div>
 
-            <div className="mt-4 pt-3 border-t border-[var(--border-color)] flex items-center justify-between text-[10px] font-bold text-[#A98B56] group-hover:translate-x-1 transition-transform">
+            <div className="mt-4 pt-3 border-t border-[var(--border-color)] flex items-center justify-between text-[10px] font-bold text-[#BA9E6A] group-hover:translate-x-1 transition-transform">
               <span>Explore Details</span>
               <ChevronRight size={14} />
             </div>
@@ -335,11 +335,11 @@ export const ClientDashboardHome: React.FC<ClientDashboardHomeProps> = ({
           <div className="flex items-center justify-between pb-4 border-b border-[var(--border-color)] mb-4">
             <div>
               <h3 className="text-base font-bold text-[var(--text-primary)] flex items-center gap-2">
-                <BarChart2 size={18} className="text-[#A98B56]" /> Candidate Review Status
+                <BarChart2 size={18} className="text-[#BA9E6A]" /> Candidate Review Status
               </h3>
               <p className="text-[10px] uppercase font-bold text-[var(--text-muted)] tracking-wider">Breakdown of submitted talent reviews</p>
             </div>
-            <span className="text-xs font-bold text-[#A98B56] bg-[#A98B56]/10 px-2.5 py-1 rounded-lg">
+            <span className="text-xs font-bold text-[#BA9E6A] bg-[#BA9E6A]/10 px-2.5 py-1 rounded-lg">
               {metrics.total} Total
             </span>
           </div>
@@ -391,13 +391,13 @@ export const ClientDashboardHome: React.FC<ClientDashboardHomeProps> = ({
           <div className="flex items-center justify-between pb-4 border-b border-[var(--border-color)] mb-4">
             <div>
               <h3 className="text-base font-bold text-[var(--text-primary)] flex items-center gap-2">
-                <Briefcase size={18} className="text-[#A98B56]" /> Sourced Domain Distribution
+                <Briefcase size={18} className="text-[#BA9E6A]" /> Sourced Domain Distribution
               </h3>
               <p className="text-[10px] uppercase font-bold text-[var(--text-muted)] tracking-wider">Candidate volume across specialization verticals</p>
             </div>
             <button
               onClick={() => onNavigate('candidates')}
-              className="text-xs font-bold text-[#A98B56] hover:underline flex items-center gap-1 cursor-pointer"
+              className="text-xs font-bold text-[#BA9E6A] hover:underline flex items-center gap-1 cursor-pointer"
             >
               Full List <ArrowRight size={12} />
             </button>
@@ -422,7 +422,7 @@ export const ClientDashboardHome: React.FC<ClientDashboardHomeProps> = ({
                   />
                   <Bar dataKey="Pending Review" stackId="a" fill="#F59E0B" radius={[0, 0, 4, 4]} />
                   <Bar dataKey="Accepted" stackId="a" fill="#22C55E" />
-                  <Bar dataKey="Shortlisted" stackId="a" fill="#A98B56" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="Shortlisted" stackId="a" fill="#BA9E6A" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             ) : (
@@ -459,21 +459,21 @@ export const ClientDashboardHome: React.FC<ClientDashboardHomeProps> = ({
                 <div 
                   key={c.id} 
                   onClick={() => onSelectCandidate && onSelectCandidate(c)}
-                  className="p-4 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)] hover:border-[#A98B56] transition-all flex items-center justify-between gap-4 cursor-pointer group"
+                  className="p-4 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)] hover:border-[#BA9E6A] transition-all flex items-center justify-between gap-4 cursor-pointer group"
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#004564] to-[#002D38] text-white font-extrabold text-sm flex items-center justify-center shrink-0 shadow-xs">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#003E5A] to-[#002233] text-white font-extrabold text-sm flex items-center justify-center shrink-0 shadow-xs">
                       {c.fullName ? c.fullName.substring(0, 2).toUpperCase() : 'CA'}
                     </div>
                     <div className="min-w-0">
-                      <h4 className="text-xs font-extrabold text-[var(--text-primary)] group-hover:text-[#A98B56] transition-colors truncate">
+                      <h4 className="text-xs font-extrabold text-[var(--text-primary)] group-hover:text-[#BA9E6A] transition-colors truncate">
                         {c.fullName}
                       </h4>
                       <p className="text-[11px] font-medium text-[var(--text-muted)] truncate">
                         {c.position || c.domainFocus || c.domain || 'Software Engineer'}
                       </p>
                       {c.locationInfo && (
-                        <div className="flex items-center gap-1 text-[9px] text-[#A98B56] font-bold mt-0.5">
+                        <div className="flex items-center gap-1 text-[9px] text-[#BA9E6A] font-bold mt-0.5">
                           <MapPin size={10} />
                           <span>{c.locationInfo.city || c.locationInfo.country || 'Remote'}</span>
                         </div>
@@ -490,7 +490,7 @@ export const ClientDashboardHome: React.FC<ClientDashboardHomeProps> = ({
                         e.stopPropagation();
                         if (onSelectCandidate) onSelectCandidate(c);
                       }}
-                      className="text-[10px] font-bold text-[#A98B56] hover:underline flex items-center gap-1"
+                      className="text-[10px] font-bold text-[#BA9E6A] hover:underline flex items-center gap-1"
                     >
                       View Profile <ChevronRight size={12} />
                     </button>
@@ -520,7 +520,7 @@ export const ClientDashboardHome: React.FC<ClientDashboardHomeProps> = ({
             </div>
             <button 
               onClick={() => onNavigate('client-portal')}
-              className="text-xs font-bold text-[#A98B56] hover:underline flex items-center gap-1 cursor-pointer"
+              className="text-xs font-bold text-[#BA9E6A] hover:underline flex items-center gap-1 cursor-pointer"
             >
               Review Queue <ArrowRight size={12} />
             </button>
@@ -531,7 +531,7 @@ export const ClientDashboardHome: React.FC<ClientDashboardHomeProps> = ({
               recentActivities.map((act, i) => (
                 <div key={act.id || i} className="flex gap-3 text-xs">
                   <div className="relative flex flex-col items-center">
-                    <div className="w-7 h-7 rounded-full bg-[var(--bg-secondary)] border border-[var(--border-color)] flex items-center justify-center text-[#A98B56] shrink-0 font-bold text-[10px]">
+                    <div className="w-7 h-7 rounded-full bg-[var(--bg-secondary)] border border-[var(--border-color)] flex items-center justify-center text-[#BA9E6A] shrink-0 font-bold text-[10px]">
                       {act.action?.includes('ACCEPT') ? (
                         <CheckCircle2 size={14} className="text-emerald-500" />
                       ) : act.action?.includes('REJECT') ? (
@@ -578,15 +578,15 @@ export const ClientDashboardHome: React.FC<ClientDashboardHomeProps> = ({
       </div>
 
       {/* Account Partnership Card */}
-      <div className="crm-card p-6 border-l-4 border-l-[#A98B56] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+      <div className="crm-card p-6 border-l-4 border-l-[#BA9E6A] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#004564] to-[#002D38] text-white flex items-center justify-center font-black text-lg shrink-0 shadow-md">
-            <ShieldCheck size={24} className="text-[#A98B56]" />
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#003E5A] to-[#002233] text-white flex items-center justify-center font-black text-lg shrink-0 shadow-md">
+            <ShieldCheck size={24} className="text-[#BA9E6A]" />
           </div>
           <div>
             <div className="flex items-center gap-2">
               <h4 className="text-sm font-extrabold text-[var(--text-primary)]">{assignedRecruiter.displayName}</h4>
-              <span className="text-[9px] uppercase font-extrabold px-2 py-0.5 rounded bg-[#A98B56]/10 text-[#A98B56]">
+              <span className="text-[9px] uppercase font-extrabold px-2 py-0.5 rounded bg-[#BA9E6A]/10 text-[#BA9E6A]">
                 {assignedRecruiter.role || 'Advisory Lead'}
               </span>
             </div>
@@ -601,7 +601,7 @@ export const ClientDashboardHome: React.FC<ClientDashboardHomeProps> = ({
             href={`mailto:${assignedRecruiter.email}`}
             className="flex-1 sm:flex-none px-4 py-2 bg-[var(--bg-secondary)] hover:bg-[var(--card-hover-bg)] border border-[var(--border-color)] text-[var(--text-primary)] rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2"
           >
-            <Mail size={14} className="text-[#A98B56]" /> Email Partner
+            <Mail size={14} className="text-[#BA9E6A]" /> Email Partner
           </a>
           <button
             onClick={() => onNavigate('client-portal')}

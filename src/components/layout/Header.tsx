@@ -44,7 +44,7 @@ export default function Header({ onToggleMobileMenu }: { onToggleMobileMenu: () 
         {userProfile?.photoURL ? (
           <img src={userProfile.photoURL} alt="Profile" className="w-9 h-9 rounded-xl object-cover shadow-sm border border-[var(--border-color)]" />
         ) : (
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#004564] to-[#005472] text-white flex items-center justify-center font-bold text-sm shadow-sm border border-[var(--border-color)]">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#003E5A] to-[#004C6D] text-white flex items-center justify-center font-bold text-sm shadow-sm border border-[var(--border-color)]">
             {userProfile?.name ? userProfile.name.substring(0, 2).toUpperCase() : (user?.email ? user.email.substring(0, 2).toUpperCase() : 'AU')}
           </div>
         )}

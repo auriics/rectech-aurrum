@@ -134,9 +134,9 @@ export const ClientShortlist: React.FC<ClientShortlistProps> = ({
       )}
 
       {/* Title Header */}
-      <div className="crm-card p-6 border-l-4 border-l-[#A98B56] flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="crm-card p-6 border-l-4 border-l-[#BA9E6A] flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="flex items-center gap-3">
-          <div className="p-3 bg-[#A98B56]/10 text-[#A98B56] rounded-2xl">
+          <div className="p-3 bg-[#BA9E6A]/10 text-[#BA9E6A] rounded-2xl">
             <Star size={22} />
           </div>
           <div>
@@ -147,7 +147,7 @@ export const ClientShortlist: React.FC<ClientShortlistProps> = ({
 
         {/* Search */}
         <div className="flex items-center gap-2 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-xl px-3.5 py-2 w-full md:w-72">
-          <Search size={14} className="text-[#A98B56]" />
+          <Search size={14} className="text-[#BA9E6A]" />
           <input
             type="text"
             value={searchQuery}
@@ -171,12 +171,12 @@ export const ClientShortlist: React.FC<ClientShortlistProps> = ({
             return (
               <div
                 key={candidate.id}
-                className="crm-card p-6 space-y-4 border-t-4 border-t-[#A98B56] hover:border-[#A98B56] transition-all flex flex-col justify-between"
+                className="crm-card p-6 space-y-4 border-t-4 border-t-[#BA9E6A] hover:border-[#BA9E6A] transition-all flex flex-col justify-between"
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between text-[11px] bg-[var(--bg-secondary)] px-2.5 py-1.5 rounded-xl border border-[var(--border-color)]">
                     <span className="flex items-center gap-1 text-[var(--text-muted)] font-bold">
-                      <Building size={12} className="text-[#A98B56]" /> Assigned Client:
+                      <Building size={12} className="text-[#BA9E6A]" /> Assigned Client:
                     </span>
                     <span className="text-[var(--text-primary)] font-extrabold truncate max-w-[145px]" title={getAssignedClientName(candidate)}>
                       {getAssignedClientName(candidate)}
@@ -186,7 +186,7 @@ export const ClientShortlist: React.FC<ClientShortlistProps> = ({
                   {/* Header Row */}
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#004564] to-[#002D38] text-white font-black text-sm flex items-center justify-center shrink-0">
+                      <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#003E5A] to-[#002233] text-white font-black text-sm flex items-center justify-center shrink-0">
                         {candidate.fullName ? candidate.fullName.substring(0, 2).toUpperCase() : 'CA'}
                       </div>
                       <div>
@@ -212,7 +212,7 @@ export const ClientShortlist: React.FC<ClientShortlistProps> = ({
                   <div className="p-3 bg-[var(--bg-secondary)] rounded-xl border border-[var(--border-color)] space-y-2 text-xs">
                     <div className="flex items-center justify-between text-[11px]">
                       <span className="font-bold text-[var(--text-muted)] flex items-center gap-1">
-                        <Calendar size={12} className="text-[#A98B56]" /> Interview Status:
+                        <Calendar size={12} className="text-[#BA9E6A]" /> Interview Status:
                       </span>
                       <span className="font-extrabold text-[var(--text-primary)]">
                         {candidate.interviewStatus || candidate.pipelineStage || 'Shortlisted'}
@@ -260,7 +260,7 @@ export const ClientShortlist: React.FC<ClientShortlistProps> = ({
         </div>
       ) : (
         <div className="crm-card p-12 text-center text-[var(--text-muted)] font-medium space-y-3">
-          <Star size={36} className="mx-auto text-[#A98B56] opacity-40" />
+          <Star size={36} className="mx-auto text-[#BA9E6A] opacity-40" />
           <h3 className="text-lg  font-bold text-[var(--text-primary)]">No Shortlisted Candidates Yet</h3>
           <p className="text-xs max-w-md mx-auto">
             Candidates you accept or shortlist during the Candidate Review process will automatically appear in this dedicated pipeline list.

@@ -49,11 +49,11 @@ export const defaultInvoiceDesign: InvoiceDesignConfig = {
   watermarkOpacity: 0.035,
   watermarkPosition: 'center',
   signatureAlign: 'right',
-  primaryColor: '#004564',
-  goldColor: '#A98B56',
-  textColor: '#002D38',
+  primaryColor: '#003E5A',
+  goldColor: '#BA9E6A',
+  textColor: '#002233',
   borderColor: '#cbd5e1',
-  tableHeaderBg: '#004564',
+  tableHeaderBg: '#003E5A',
   textAlign: 'left',
 };
 

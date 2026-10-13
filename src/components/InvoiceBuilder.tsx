@@ -457,7 +457,7 @@ export const InvoiceBuilder = () => {
           <div className="pt-6 border-t border-[var(--border-color)]">
             <button 
               onClick={saveInvoice} 
-              className="w-full py-3.5 bg-gradient-to-r from-[#A98B56] to-[#BC9B66] hover:from-[#BC9B66] hover:to-[#A98B56] text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-all duration-300 shadow-md cursor-pointer"
+              className="w-full py-3.5 bg-gradient-to-r from-[#BA9E6A] to-[#CBB285] hover:from-[#CBB285] hover:to-[#BA9E6A] text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-all duration-300 shadow-md cursor-pointer"
             >
               {loading ? <Loader2 className="animate-spin" size={18} /> : <Save size={18} />} Save Invoice
             </button>

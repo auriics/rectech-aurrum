@@ -865,7 +865,7 @@ export default function CandidateModal({ candidate, isOpen, onClose, onShortlist
           <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
             <div className="flex items-center gap-4 sm:gap-5">
               {/* Dynamic Gradients Initial Avatar Circle */}
-              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-tr from-[#004564] via-[#005472] to-[#A98B56] rounded-2xl flex items-center justify-center text-white text-lg sm:text-2xl font-black shadow-md uppercase shrink-0">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-tr from-[#003E5A] via-[#004C6D] to-[#BA9E6A] rounded-2xl flex items-center justify-center text-white text-lg sm:text-2xl font-black shadow-md uppercase shrink-0">
                 {(candidate.fullName || '??').slice(0, 2)}
               </div>
               <div className="min-w-0 flex-1">
@@ -2026,7 +2026,7 @@ export default function CandidateModal({ candidate, isOpen, onClose, onShortlist
               <section className="bg-[var(--card-bg)] p-5 sm:p-6 rounded-[2rem] border border-[var(--border-color)] shadow-sm space-y-4">
                 <div className="flex items-center justify-between">
                   <h3 className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] flex items-center gap-2">
-                    <Clock size={12} className="text-[#A98B56]" /> Client SLA & Review Tracking
+                    <Clock size={12} className="text-[#BA9E6A]" /> Client SLA & Review Tracking
                   </h3>
                   {(() => {
                     const sla = getSLAInfo(candidate);
@@ -2073,7 +2073,7 @@ export default function CandidateModal({ candidate, isOpen, onClose, onShortlist
                             <span className="font-extrabold text-[var(--text-primary)]">{act.userName || 'Client'}</span>
                             <span className="text-[var(--text-muted)]">{act.timestamp ? new Date(act.timestamp).toLocaleString() : ''}</span>
                           </div>
-                          <p className="text-[11px] font-bold text-[#A98B56]">{act.action}</p>
+                          <p className="text-[11px] font-bold text-[#BA9E6A]">{act.action}</p>
                           {act.feedback && (
                             <p className="text-[10px] text-[var(--text-secondary)] italic bg-[var(--card-bg)] p-1.5 rounded-lg border border-[var(--border-color)]">
                               "{act.feedback}"

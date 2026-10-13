@@ -195,7 +195,7 @@ export default function BulkUpload({
           <div className="flex gap-3 pt-4 border-t border-[var(--border-color)]">
             <button
               onClick={() => onNavigate?.('candidates')}
-              className="flex-1 py-3.5 bg-gradient-to-r from-[#A98B56] to-[#BC9B66] hover:from-[#BC9B66] hover:to-[#A98B56] text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer"
+              className="flex-1 py-3.5 bg-gradient-to-r from-[#BA9E6A] to-[#CBB285] hover:from-[#CBB285] hover:to-[#BA9E6A] text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer"
             >
               View Candidates
             </button>

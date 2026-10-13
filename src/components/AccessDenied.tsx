@@ -34,7 +34,7 @@ export default function AccessDenied({ userIp, onRetry }: AccessDeniedProps) {
       <div className="w-full max-w-lg bg-[var(--card-bg)] border border-[var(--border-color)] rounded-2xl shadow-xl overflow-hidden transition-all duration-300">
         
         {/* Top Accent Strip */}
-        <div className="h-2 bg-gradient-to-r from-red-500 via-[#A98B56] to-red-600 w-full" />
+        <div className="h-2 bg-gradient-to-r from-red-500 via-[#BA9E6A] to-red-600 w-full" />
         
         <div className="p-8">
           {/* Main Icon Indicator */}

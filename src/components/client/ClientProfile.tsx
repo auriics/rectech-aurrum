@@ -93,9 +93,9 @@ export const ClientProfile: React.FC<ClientProfileProps> = ({ user, role }) => {
   return (
     <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in duration-300 pb-12">
       {/* Header Banner */}
-      <div className="crm-card p-6 border-l-4 border-l-[#A98B56] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="crm-card p-6 border-l-4 border-l-[#BA9E6A] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="p-3 bg-[#A98B56]/10 text-[#A98B56] rounded-2xl">
+          <div className="p-3 bg-[#BA9E6A]/10 text-[#BA9E6A] rounded-2xl">
             <User size={22} />
           </div>
           <div>
@@ -123,14 +123,14 @@ export const ClientProfile: React.FC<ClientProfileProps> = ({ user, role }) => {
       {/* Personal Information Form */}
       <form onSubmit={handleUpdateProfile} className="crm-card p-6 space-y-6">
         <div className="flex items-center gap-2 border-b border-[var(--border-color)] pb-3">
-          <User size={18} className="text-[#A98B56]" />
+          <User size={18} className="text-[#BA9E6A]" />
           <h2 className="text-sm font-bold text-[var(--text-primary)]">Personal Details & Corporate Profile</h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-1.5">
             <label className="text-xs font-bold text-[var(--text-primary)] flex items-center gap-1">
-              <User size={12} className="text-[#A98B56]" /> Full Name
+              <User size={12} className="text-[#BA9E6A]" /> Full Name
             </label>
             <input
               type="text"
@@ -144,7 +144,7 @@ export const ClientProfile: React.FC<ClientProfileProps> = ({ user, role }) => {
 
           <div className="space-y-1.5">
             <label className="text-xs font-bold text-[var(--text-primary)] flex items-center gap-1">
-              <Mail size={12} className="text-[#A98B56]" /> Email Address (Read-Only)
+              <Mail size={12} className="text-[#BA9E6A]" /> Email Address (Read-Only)
             </label>
             <input
               type="email"
@@ -156,7 +156,7 @@ export const ClientProfile: React.FC<ClientProfileProps> = ({ user, role }) => {
 
           <div className="space-y-1.5">
             <label className="text-xs font-bold text-[var(--text-primary)] flex items-center gap-1">
-              <Building size={12} className="text-[#A98B56]" /> Company Name
+              <Building size={12} className="text-[#BA9E6A]" /> Company Name
             </label>
             <input
               type="text"
@@ -169,7 +169,7 @@ export const ClientProfile: React.FC<ClientProfileProps> = ({ user, role }) => {
 
           <div className="space-y-1.5">
             <label className="text-xs font-bold text-[var(--text-primary)] flex items-center gap-1">
-              <Briefcase size={12} className="text-[#A98B56]" /> Job Title / Designation
+              <Briefcase size={12} className="text-[#BA9E6A]" /> Job Title / Designation
             </label>
             <input
               type="text"
@@ -182,7 +182,7 @@ export const ClientProfile: React.FC<ClientProfileProps> = ({ user, role }) => {
 
           <div className="space-y-1.5">
             <label className="text-xs font-bold text-[var(--text-primary)] flex items-center gap-1">
-              <Phone size={12} className="text-[#A98B56]" /> Contact Phone Number
+              <Phone size={12} className="text-[#BA9E6A]" /> Contact Phone Number
             </label>
             <input
               type="tel"
@@ -197,7 +197,7 @@ export const ClientProfile: React.FC<ClientProfileProps> = ({ user, role }) => {
         {/* Notification Preferences Section */}
         <div className="pt-4 border-t border-[var(--border-color)] space-y-4">
           <div className="flex items-center gap-2">
-            <Bell size={18} className="text-[#A98B56]" />
+            <Bell size={18} className="text-[#BA9E6A]" />
             <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">Email Notification Preferences</h3>
           </div>
 
@@ -208,7 +208,7 @@ export const ClientProfile: React.FC<ClientProfileProps> = ({ user, role }) => {
                 type="checkbox"
                 checked={emailAlerts}
                 onChange={(e) => setEmailAlerts(e.target.checked)}
-                className="w-4 h-4 accent-[#A98B56] cursor-pointer"
+                className="w-4 h-4 accent-[#BA9E6A] cursor-pointer"
               />
             </label>
 
@@ -218,7 +218,7 @@ export const ClientProfile: React.FC<ClientProfileProps> = ({ user, role }) => {
                 type="checkbox"
                 checked={interviewAlerts}
                 onChange={(e) => setInterviewAlerts(e.target.checked)}
-                className="w-4 h-4 accent-[#A98B56] cursor-pointer"
+                className="w-4 h-4 accent-[#BA9E6A] cursor-pointer"
               />
             </label>
 
@@ -228,7 +228,7 @@ export const ClientProfile: React.FC<ClientProfileProps> = ({ user, role }) => {
                 type="checkbox"
                 checked={weeklyDigest}
                 onChange={(e) => setWeeklyDigest(e.target.checked)}
-                className="w-4 h-4 accent-[#A98B56] cursor-pointer"
+                className="w-4 h-4 accent-[#BA9E6A] cursor-pointer"
               />
             </label>
           </div>
@@ -249,7 +249,7 @@ export const ClientProfile: React.FC<ClientProfileProps> = ({ user, role }) => {
       {/* Password Update Form (Hidden temporarily per user request)
       <form onSubmit={handleUpdatePassword} className="crm-card p-6 space-y-6">
         <div className="flex items-center gap-2 border-b border-[var(--border-color)] pb-3">
-          <KeyRound size={18} className="text-[#A98B56]" />
+          <KeyRound size={18} className="text-[#BA9E6A]" />
           <h2 className="text-sm font-bold text-[var(--text-primary)]">Security & Password</h2>
         </div>
 
@@ -285,7 +285,7 @@ export const ClientProfile: React.FC<ClientProfileProps> = ({ user, role }) => {
             disabled={savingPassword || !newPassword}
             className="px-6 py-2.5 bg-[var(--bg-secondary)] hover:bg-[var(--card-hover-bg)] text-[var(--text-primary)] border border-[var(--border-color)] rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
           >
-            <Lock size={14} className="text-[#A98B56]" />
+            <Lock size={14} className="text-[#BA9E6A]" />
             {savingPassword ? 'Updating Password...' : 'Update Password'}
           </button>
         </div>
@@ -295,7 +295,7 @@ export const ClientProfile: React.FC<ClientProfileProps> = ({ user, role }) => {
       {/* Billing Settings Form (Hidden temporarily per user request)
       <form onSubmit={handleUpdateProfile} className="crm-card p-6 space-y-6">
         <div className="flex items-center gap-2 border-b border-[var(--border-color)] pb-3">
-          <Building size={18} className="text-[#A98B56]" />
+          <Building size={18} className="text-[#BA9E6A]" />
           <h2 className="text-sm font-bold text-[var(--text-primary)]">Client Billing Configuration</h2>
         </div>
 

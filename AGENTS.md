@@ -17,19 +17,19 @@ This file contains the persistent custom instructions, architectural guidelines,
 
 ### 2. Official Brand Palette & Color Tokens
 
-#### Primary Blue Palette
-- `#004564` — **Primary Brand Color**
-- `#005472` — Dark Blue
-- `#003649` — Dark Blue 3
-- `#002D38` — Darkest Blue
-- `#003E51` — Dark Blue 2
+#### Primary Navy Palette
+- `#003E5A` — **Primary Aurrum Navy** (Sidebar, Navigation, Primary Buttons, Headings)
+- `#004C6D` — Navy Light
+- `#00334A` — Dark Navy 3
+- `#002233` — Deepest Navy
+- `#002E42` — Dark Navy Surface
 
-#### Primary Gold Accent Palette
-- `#A98B56` — **Primary Gold Accent**
-- `#BC9B66` — Gold Light
-- `#9B7E50` — Gold Medium
-- `#8C6E42` — Dark Gold
-- `#A08151` — Gold Dark
+#### Premium Gold Accent Palette
+- `#BA9E6A` — **Premium Aurrum Gold** (Highlights, Selected Tabs, Badges, Borders)
+- `#CBB285` — Gold Light
+- `#A88D5B` — Gold Medium
+- `#8A6E3F` — Dark Gold
+- `#977B4B` — Gold Dark
 
 #### Status & Semantic Indicators
 - **Success**: `#22C55E` (Emerald Green)
@@ -39,9 +39,9 @@ This file contains the persistent custom instructions, architectural guidelines,
 
 #### Text Tokens & Contrast Rules
 - **Light Theme**:
-  - `--text-primary`: `#002D38` (Darkest Blue, solid high contrast)
-  - `--text-secondary`: `#003649` (Dark Blue 3)
-  - `--text-muted`: `#005472` (Readable Mid-Blue)
+  - `--text-primary`: `#002233` (Deep Navy, solid high contrast)
+  - `--text-secondary`: `#00334A` (Dark Navy 3)
+  - `--text-muted`: `#004C6D` (Readable Navy Mid)
 - **Dark Theme**:
   - `--text-primary`: `#FFFFFF` (Pure White)
   - `--text-secondary`: `#E2E8F0` (Light Slate)

@@ -295,11 +295,11 @@ export default function Analytics({
       {/* Top Cards */}
       <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
         {[
-          { label: 'Total Candidates', value: candidates.length, icon: Users, color: 'text-[#004564] dark:text-[#A98B56]', bg: 'bg-[var(--bg-secondary)]' },
+          { label: 'Total Candidates', value: candidates.length, icon: Users, color: 'text-[#003E5A] dark:text-[#BA9E6A]', bg: 'bg-[var(--bg-secondary)]' },
           { label: 'Shortlisted', value: candidates.filter(c => c.isShortlisted).length, icon: Target, color: 'text-emerald-600', bg: 'bg-emerald-50 dark:bg-emerald-950/40' },
           { label: 'Unique Domains', value: Object.keys(domainDataMap).length, icon: Briefcase, color: 'text-amber-600', bg: 'bg-amber-50 dark:bg-amber-950/40' },
           { label: 'Total Actions', value: activityLogs.length, icon: Activity, color: 'text-[var(--text-secondary)]', bg: 'bg-[var(--bg-secondary)]' },
-          { label: 'Avg Skills/CV', value: (candidates.reduce((acc, c) => acc + (c.skills?.length || 0), 0) / (candidates.length || 1)).toFixed(1), icon: TrendingUp, color: 'text-[#A98B56]', bg: 'bg-[var(--bg-secondary)]' },
+          { label: 'Avg Skills/CV', value: (candidates.reduce((acc, c) => acc + (c.skills?.length || 0), 0) / (candidates.length || 1)).toFixed(1), icon: TrendingUp, color: 'text-[#BA9E6A]', bg: 'bg-[var(--bg-secondary)]' },
         ].map((item, idx) => (
           <div key={idx} className="bg-[var(--card-bg)] p-6 rounded-[2rem] border border-[var(--border-color)] shadow-sm hover:shadow-md transition-all duration-300">
             <div className={`w-10 h-10 ${item.bg} rounded-xl flex items-center justify-center ${item.color} mb-4 border border-[var(--border-color)]`}>
@@ -328,8 +328,8 @@ export default function Analytics({
                   wrapperStyle={{ fontSize: 10, fontWeight: 'bold', paddingTop: 15 }}
                 />
                 <Bar name="CV Uploads" dataKey="uploads" stackId="a" fill="#CFB57B" />
-                <Bar name="Resume Parsing" dataKey="parsing" stackId="a" fill="#BC9B66" />
-                <Bar name="Candidate Updates" dataKey="updates" stackId="a" fill="#A98B56" />
+                <Bar name="Resume Parsing" dataKey="parsing" stackId="a" fill="#CBB285" />
+                <Bar name="Candidate Updates" dataKey="updates" stackId="a" fill="#BA9E6A" />
                 <Bar name="Assignments" dataKey="assignments" stackId="a" fill="#9B7E50" />
                 <Bar name="Follow-ups" dataKey="followUps" stackId="a" fill="#8C6E42" />
                 <Bar name="Shortlists" dataKey="shortlists" stackId="a" fill="#A08151" />
@@ -407,7 +407,7 @@ export default function Analytics({
                 <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 9, fill: 'var(--text-muted)', fontWeight: 'bold' }} />
                 <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: 'var(--text-muted)' }} />
                 <Tooltip contentStyle={chartTooltipStyle} itemStyle={itemStyle} cursor={{ fill: 'var(--border-color)', opacity: 0.1 }} />
-                <Bar dataKey="value" name="Candidates" fill="#A98B56" radius={[10, 10, 0, 0]} barSize={36} />
+                <Bar dataKey="value" name="Candidates" fill="#BA9E6A" radius={[10, 10, 0, 0]} barSize={36} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -436,7 +436,7 @@ export default function Analytics({
                       <XAxis type="number" hide />
                       <YAxis dataKey="name" type="category" width={120} tick={{ fontSize: 10, fill: 'var(--text-muted)' }} axisLine={false} tickLine={false} />
                       <Tooltip contentStyle={chartTooltipStyle} itemStyle={itemStyle} />
-                      <Bar dataKey="count" fill="#A98B56" radius={[0, 10, 10, 0]} barSize={20} />
+                      <Bar dataKey="count" fill="#BA9E6A" radius={[0, 10, 10, 0]} barSize={20} />
                     </BarChart>
                  </ResponsiveContainer>
             </div>

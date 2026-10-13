@@ -210,9 +210,9 @@ export const ClientAssignedCandidates: React.FC<ClientAssignedCandidatesProps> =
       )}
 
       {/* Title & Stats Banner */}
-      <div className="crm-card p-6 border-l-4 border-l-[#A98B56] flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="crm-card p-6 border-l-4 border-l-[#BA9E6A] flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="flex items-center gap-3">
-          <div className="p-3 bg-[#A98B56]/10 text-[#A98B56] rounded-2xl">
+          <div className="p-3 bg-[#BA9E6A]/10 text-[#BA9E6A] rounded-2xl">
             <Users size={22} />
           </div>
           <div>
@@ -249,9 +249,9 @@ export const ClientAssignedCandidates: React.FC<ClientAssignedCandidatesProps> =
         {/* Boolean Input */}
         <div className="space-y-1.5">
           <label className="text-[10px] font-black uppercase text-[var(--text-muted)] tracking-wider flex items-center gap-1.5">
-            <Search size={12} className="text-[#A98B56]" /> Boolean Search Expression Engine
+            <Search size={12} className="text-[#BA9E6A]" /> Boolean Search Expression Engine
           </label>
-          <div className="relative flex items-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-[#A98B56]/50 focus-within:border-[#A98B56] transition-all">
+          <div className="relative flex items-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-[#BA9E6A]/50 focus-within:border-[#BA9E6A] transition-all">
             <div className="pl-4 pr-2 text-[var(--text-muted)]">
               <Search size={14} />
             </div>
@@ -269,7 +269,7 @@ export const ClientAssignedCandidates: React.FC<ClientAssignedCandidatesProps> =
             )}
             <button
               onClick={() => setShowBooleanGuide(!showBooleanGuide)}
-              className="px-4 py-3 text-[10px] uppercase font-bold text-[#A98B56] hover:bg-[#A98B56]/10 flex items-center gap-1.5 transition-colors border-l border-[var(--border-color)]"
+              className="px-4 py-3 text-[10px] uppercase font-bold text-[#BA9E6A] hover:bg-[#BA9E6A]/10 flex items-center gap-1.5 transition-colors border-l border-[var(--border-color)]"
             >
               <HelpCircle size={12} /> Syntax Help
             </button>
@@ -280,7 +280,7 @@ export const ClientAssignedCandidates: React.FC<ClientAssignedCandidatesProps> =
         {showBooleanGuide && (
           <div className="p-3 bg-[var(--bg-secondary)] rounded-xl border border-[var(--border-color)] text-xs text-[var(--text-secondary)] space-y-1">
             <div className="font-bold text-[var(--text-primary)] flex items-center gap-2 text-[11px]">
-              <Code size={12} className="text-[#A98B56]" /> Boolean Syntax Examples
+              <Code size={12} className="text-[#BA9E6A]" /> Boolean Syntax Examples
             </div>
             <p className="text-[10px] text-[var(--text-muted)]">
               Use AND, OR, NOT and quotes for exact phrase match (e.g., <code className="bg-black/10 px-1 rounded ">"Senior Engineer" AND (React OR Vue) NOT Angular</code>).
@@ -344,7 +344,7 @@ export const ClientAssignedCandidates: React.FC<ClientAssignedCandidatesProps> =
                 }),
                 option: (provided: any, state: any) => ({
                   ...provided,
-                  backgroundColor: state.isSelected ? '#004564' : state.isFocused ? 'var(--card-hover-bg)' : 'var(--card-bg)',
+                  backgroundColor: state.isSelected ? '#003E5A' : state.isFocused ? 'var(--card-hover-bg)' : 'var(--card-bg)',
                   color: state.isSelected ? '#FFFFFF' : 'var(--text-primary)',
                   fontSize: '11px',
                   fontWeight: '600'
@@ -395,11 +395,11 @@ export const ClientAssignedCandidates: React.FC<ClientAssignedCandidatesProps> =
                       >
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-3">
-                            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#004564] to-[#002D38] text-white font-black text-xs flex items-center justify-center shrink-0">
+                            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#003E5A] to-[#002233] text-white font-black text-xs flex items-center justify-center shrink-0">
                               {c.fullName ? c.fullName.substring(0, 2).toUpperCase() : 'CA'}
                             </div>
                             <div>
-                              <div className="font-extrabold text-[var(--text-primary)] group-hover:text-[#A98B56] transition-colors">
+                              <div className="font-extrabold text-[var(--text-primary)] group-hover:text-[#BA9E6A] transition-colors">
                                 {c.fullName}
                               </div>
                               <div className="text-[10px] text-[var(--text-muted)]">
@@ -410,14 +410,14 @@ export const ClientAssignedCandidates: React.FC<ClientAssignedCandidatesProps> =
                         </td>
 
                         <td className="px-6 py-4">
-                          <span className="px-2.5 py-1 bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[#A98B56] rounded-lg text-[10px] font-bold uppercase">
+                          <span className="px-2.5 py-1 bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[#BA9E6A] rounded-lg text-[10px] font-bold uppercase">
                             {getNormalizedDomain(c)}
                           </span>
                         </td>
 
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-1.5 text-xs font-bold text-[var(--text-primary)]">
-                            <Building size={13} className="text-[#A98B56]" />
+                            <Building size={13} className="text-[#BA9E6A]" />
                             <span className="truncate max-w-[150px]" title={getAssignedClientName(c)}>
                               {getAssignedClientName(c)}
                             </span>
@@ -469,7 +469,7 @@ export const ClientAssignedCandidates: React.FC<ClientAssignedCandidatesProps> =
                 ) : (
                   <tr>
                     <td colSpan={5} className="px-6 py-16 text-center text-[var(--text-muted)] font-medium italic">
-                      <Users size={32} className="mx-auto mb-2 opacity-30 text-[#A98B56]" />
+                      <Users size={32} className="mx-auto mb-2 opacity-30 text-[#BA9E6A]" />
                       No assigned candidates match your search expression or filter criteria.
                     </td>
                   </tr>
@@ -481,7 +481,7 @@ export const ClientAssignedCandidates: React.FC<ClientAssignedCandidatesProps> =
           {/* Table Pagination Bar */}
           <div className="p-4 bg-[var(--bg-secondary)] border-t border-[var(--border-color)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-bold text-[var(--text-secondary)]">
             <div>
-              Showing <span className="text-[#A98B56] ">{Math.min((currentPage - 1) * rowsPerPage + 1, filteredCandidates.length)}</span>–<span className="text-[#A98B56] ">{Math.min(currentPage * rowsPerPage, filteredCandidates.length)}</span> of <span className="text-[#A98B56] ">{filteredCandidates.length}</span> assigned candidates
+              Showing <span className="text-[#BA9E6A] ">{Math.min((currentPage - 1) * rowsPerPage + 1, filteredCandidates.length)}</span>–<span className="text-[#BA9E6A] ">{Math.min(currentPage * rowsPerPage, filteredCandidates.length)}</span> of <span className="text-[#BA9E6A] ">{filteredCandidates.length}</span> assigned candidates
             </div>
 
             <div className="flex items-center gap-3">
@@ -510,7 +510,7 @@ export const ClientAssignedCandidates: React.FC<ClientAssignedCandidatesProps> =
                 >
                   <ChevronLeft size={14} />
                 </button>
-                <span className="px-3 py-1.5 text-xs  font-bold text-[#A98B56]">
+                <span className="px-3 py-1.5 text-xs  font-bold text-[#BA9E6A]">
                   {currentPage} / {totalPages}
                 </span>
                 <button
@@ -540,15 +540,15 @@ export const ClientAssignedCandidates: React.FC<ClientAssignedCandidatesProps> =
               <div
                 key={c.id}
                 onClick={() => onSelectCandidate && onSelectCandidate(c)}
-                className="crm-card p-6 flex flex-col justify-between space-y-4 hover:border-[#A98B56] transition-all cursor-pointer group"
+                className="crm-card p-6 flex flex-col justify-between space-y-4 hover:border-[#BA9E6A] transition-all cursor-pointer group"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#004564] to-[#002D38] text-white font-black text-sm flex items-center justify-center shrink-0">
+                    <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#003E5A] to-[#002233] text-white font-black text-sm flex items-center justify-center shrink-0">
                       {c.fullName ? c.fullName.substring(0, 2).toUpperCase() : 'CA'}
                     </div>
                     <div>
-                      <h3 className="text-sm font-extrabold text-[var(--text-primary)] group-hover:text-[#A98B56] transition-colors">
+                      <h3 className="text-sm font-extrabold text-[var(--text-primary)] group-hover:text-[#BA9E6A] transition-colors">
                         {c.fullName}
                       </h3>
                       <p className="text-xs text-[var(--text-muted)] font-medium">
@@ -565,7 +565,7 @@ export const ClientAssignedCandidates: React.FC<ClientAssignedCandidatesProps> =
                 <div className="space-y-2 text-xs">
                   <div className="flex items-center justify-between text-[11px] bg-[var(--bg-secondary)] px-2.5 py-1.5 rounded-xl border border-[var(--border-color)]">
                     <span className="flex items-center gap-1 text-[var(--text-muted)] font-bold">
-                      <Building size={12} className="text-[#A98B56]" /> Assigned Client:
+                      <Building size={12} className="text-[#BA9E6A]" /> Assigned Client:
                     </span>
                     <span className="text-[var(--text-primary)] font-extrabold truncate max-w-[145px]" title={getAssignedClientName(c)}>
                       {getAssignedClientName(c)}
@@ -574,7 +574,7 @@ export const ClientAssignedCandidates: React.FC<ClientAssignedCandidatesProps> =
 
                   <div className="flex items-center justify-between text-[11px] text-[var(--text-muted)] font-semibold">
                     <span>Domain:</span>
-                    <span className="text-[#A98B56] font-bold">{getNormalizedDomain(c)}</span>
+                    <span className="text-[#BA9E6A] font-bold">{getNormalizedDomain(c)}</span>
                   </div>
 
                   {c.summary && (

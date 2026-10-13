@@ -72,18 +72,18 @@ export default function Logo({
   return (
     <div className={`flex items-center gap-3 select-none ${className}`} id="aurrum-logo">
       {/* Golden Sparkling Brand Mark Emblem */}
-      <div className={`${currentSize.box} bg-gradient-to-br from-[#A98B56] to-[#BC9B66] flex items-center justify-center shadow-md shrink-0 rounded-xl`}>
+      <div className={`${currentSize.box} bg-gradient-to-br from-[#BA9E6A] to-[#CBB285] flex items-center justify-center shadow-md shrink-0 rounded-xl`}>
         <Sparkles className="text-white" size={currentSize.icon} />
       </div>
       
       {!collapsed && (
         <div className="flex flex-col text-left leading-none">
           <span className={`font-extrabold tracking-tight font-sans leading-none ${currentSize.title} ${
-            isDarkBg ? 'text-white' : 'text-[#002D38]'
+            isDarkBg ? 'text-white' : 'text-[#002233]'
           }`}>
-            Aurrum <span className="text-[#A98B56] text-xs font-bold uppercase tracking-wider ml-1">CRM</span>
+            Aurrum <span className="text-[#BA9E6A] text-xs font-bold uppercase tracking-wider ml-1">CRM</span>
           </span>
-          <span className="text-[10px] font-bold uppercase tracking-wider text-[#A98B56] mt-1">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-[#BA9E6A] mt-1">
             Talent Insights
           </span>
         </div>

@@ -23,7 +23,7 @@ export default function ThemeToggle({
         onClick={toggleTheme}
         type="button"
         title={theme === 'dark' ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
-        className={`relative w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 border border-[var(--sidebar-border)] bg-[#00222B]/80 hover:bg-[#003649] hover:border-[#A98B56]/50 text-white cursor-pointer group shadow-xs focus:outline-none focus:ring-2 focus:ring-[#A98B56]/40 ${className}`}
+        className={`relative w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 border border-[var(--sidebar-border)] bg-[#00222B]/80 hover:bg-[#00334A] hover:border-[#BA9E6A]/50 text-white cursor-pointer group shadow-xs focus:outline-none focus:ring-2 focus:ring-[#BA9E6A]/40 ${className}`}
         aria-label="Toggle Theme"
       >
         <motion.div
@@ -34,9 +34,9 @@ export default function ThemeToggle({
           className="flex items-center justify-center"
         >
           {theme === 'dark' ? (
-            <Sun size={18} className="text-[#BC9B66] group-hover:scale-110 transition-transform duration-300" />
+            <Sun size={18} className="text-[#CBB285] group-hover:scale-110 transition-transform duration-300" />
           ) : (
-            <Moon size={18} className="text-[#BC9B66] group-hover:scale-110 transition-transform duration-300" />
+            <Moon size={18} className="text-[#CBB285] group-hover:scale-110 transition-transform duration-300" />
           )}
         </motion.div>
       </button>
@@ -68,7 +68,7 @@ export default function ThemeToggle({
           }`}
           title="Switch to Light Theme"
         >
-          <Sun size={14} className={theme === 'light' ? 'text-[#A98B56]' : 'text-[var(--text-muted)]'} />
+          <Sun size={14} className={theme === 'light' ? 'text-[#BA9E6A]' : 'text-[var(--text-muted)]'} />
           <span className="text-[11px] font-extrabold uppercase tracking-wider">Light</span>
         </button>
 
@@ -80,7 +80,7 @@ export default function ThemeToggle({
           }`}
           title="Switch to Dark Theme"
         >
-          <Moon size={14} className={theme === 'dark' ? 'text-[#A98B56]' : 'text-[var(--text-muted)]'} />
+          <Moon size={14} className={theme === 'dark' ? 'text-[#BA9E6A]' : 'text-[var(--text-muted)]'} />
           <span className="text-[11px] font-extrabold uppercase tracking-wider">Dark</span>
         </button>
       </div>
@@ -94,7 +94,7 @@ export default function ThemeToggle({
     >
       {/* Sliding Active Highlight Pill */}
       <motion.div
-        className="absolute top-1 bottom-1 rounded-lg bg-gradient-to-r from-[#004564] to-[#005472] border border-[#A98B56]/50 shadow-sm z-0"
+        className="absolute top-1 bottom-1 rounded-lg bg-gradient-to-r from-[#003E5A] to-[#004C6D] border border-[#BA9E6A]/50 shadow-sm z-0"
         initial={false}
         animate={{
           left: theme === 'light' ? '0.25rem' : 'calc(50% + 0.125rem)',
@@ -114,7 +114,7 @@ export default function ThemeToggle({
         <Sun
           size={15}
           className={`shrink-0 transition-all duration-300 ${
-            theme === 'light' ? 'text-[#BC9B66] scale-110' : 'text-[#A9C2CE]'
+            theme === 'light' ? 'text-[#CBB285] scale-110' : 'text-[#A9C2CE]'
           }`}
         />
         <span className="text-[11px] font-bold uppercase tracking-wider">Light</span>
@@ -131,7 +131,7 @@ export default function ThemeToggle({
         <Moon
           size={15}
           className={`shrink-0 transition-all duration-300 ${
-            theme === 'dark' ? 'text-[#BC9B66] scale-110' : 'text-[#A9C2CE]'
+            theme === 'dark' ? 'text-[#CBB285] scale-110' : 'text-[#A9C2CE]'
           }`}
         />
         <span className="text-[11px] font-bold uppercase tracking-wider">Dark</span>

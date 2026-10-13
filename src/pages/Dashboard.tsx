@@ -1752,7 +1752,7 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
             </div>
             <div className="w-full bg-[var(--bg-secondary)] h-2 rounded-full overflow-hidden">
               <div 
-                className="bg-gradient-to-r from-[var(--primary-gold)] to-[#BC9B66] h-full transition-all duration-300 rounded-full"
+                className="bg-gradient-to-r from-[var(--primary-gold)] to-[#CBB285] h-full transition-all duration-300 rounded-full"
                 style={{ width: `${([!authLoading, candidatesLoaded, teamLoaded, settingsLoaded, notificationsLoaded, activityLogsLoaded].filter(Boolean).length / 6) * 100}%` }}
               ></div>
             </div>
@@ -2043,7 +2043,7 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
                           setSearchQuery(duplicateNotification.searchQuery || '');
                           setDuplicateNotification({ isOpen: false, message: '', searchQuery: '' });
                         }}
-                        className="w-full py-2 px-3 bg-[#004564] hover:bg-[#003649] text-white rounded-xl text-xs font-bold transition-colors flex items-center justify-center gap-2 shadow-sm"
+                        className="w-full py-2 px-3 bg-[#003E5A] hover:bg-[#00334A] text-white rounded-xl text-xs font-bold transition-colors flex items-center justify-center gap-2 shadow-sm"
                       >
                         <Search size={14} />
                         <span>Find in Candidate List</span>
@@ -2158,16 +2158,16 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
                               if (cand) setSelectedCandidate(cand);
                             }
                           }}
-                          className={`text-xs p-3 rounded-xl transition-all cursor-pointer ${n.read ? 'text-[var(--text-secondary)] opacity-60 hover:opacity-100' : 'text-[var(--text-primary)] bg-[#A98B56]/10 border-l-2 border-[#A98B56]'} flex flex-col gap-1 hover:bg-[var(--card-hover-bg)]`}
+                          className={`text-xs p-3 rounded-xl transition-all cursor-pointer ${n.read ? 'text-[var(--text-secondary)] opacity-60 hover:opacity-100' : 'text-[var(--text-primary)] bg-[#BA9E6A]/10 border-l-2 border-[#BA9E6A]'} flex flex-col gap-1 hover:bg-[var(--card-hover-bg)]`}
                         >
                           <div className="flex items-center justify-between">
                             <p className="font-bold text-[var(--text-primary)]">{n.title || 'Notification'}</p>
-                            {!n.read && <span className="w-2 h-2 rounded-full bg-[#A98B56]" />}
+                            {!n.read && <span className="w-2 h-2 rounded-full bg-[#BA9E6A]" />}
                           </div>
                           <p className="text-[11px] font-medium text-[var(--text-secondary)] line-clamp-2">{n.text || n.message}</p>
                           <div className="flex items-center justify-between text-[10px] text-[var(--text-muted)] pt-1">
                             <span>{n.createdAt?.toDate ? formatDate(n.createdAt.toDate()) : 'Just now'}</span>
-                            {candId && <span className="text-[#A98B56] font-bold">View Profile →</span>}
+                            {candId && <span className="text-[#BA9E6A] font-bold">View Profile →</span>}
                           </div>
                         </div>
                       );
@@ -2475,7 +2475,7 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
                         }),
                         option: (provided: any, state: any) => ({
                           ...provided,
-                          backgroundColor: state.isSelected ? '#004564' : state.isFocused ? 'var(--card-hover-bg)' : 'var(--card-bg)',
+                          backgroundColor: state.isSelected ? '#003E5A' : state.isFocused ? 'var(--card-hover-bg)' : 'var(--card-bg)',
                           color: state.isSelected ? '#FFFFFF' : 'var(--text-primary)',
                           fontSize: '12px',
                           fontWeight: '600',

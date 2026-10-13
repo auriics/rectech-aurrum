@@ -116,7 +116,7 @@ export default function Login() {
           </div>
           <button 
             type="submit"
-            className="w-full bg-[var(--brand-color)] text-white p-3 rounded-lg font-bold hover:bg-[#A98B56] transition-all shadow-md mt-2 flex items-center justify-center gap-2 text-sm"
+            className="w-full bg-[var(--brand-color)] text-white p-3 rounded-lg font-bold hover:bg-[#BA9E6A] transition-all shadow-md mt-2 flex items-center justify-center gap-2 text-sm"
           >
             {isLoggingIn ? <Loader2 size={16} className="animate-spin" /> : <LogIn size={16} />}
             Secure Login

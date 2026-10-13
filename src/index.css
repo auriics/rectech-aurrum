@@ -18,18 +18,20 @@
   --font-mono: "Poppins", ui-sans-serif, system-ui, sans-serif;
   
   /* Brand Palette - Blues */
-  --color-primary-blue: #004564;
-  --color-dark-blue: #005472;
+  --color-primary-navy: #003E5A;
+  --color-primary-blue: #003E5A;
+  --color-dark-blue: #004C6D;
   --color-dark-blue-2: #003E51;
-  --color-dark-blue-3: #003649;
-  --color-darkest-blue: #002D38;
+  --color-dark-blue-3: #00334A;
+  --color-darkest-blue: #002233;
   
   /* Brand Palette - Golds */
-  --color-primary-gold: #A98B56;
-  --color-gold-light: #BC9B66;
-  --color-gold-medium: #9B7E50;
-  --color-gold-dark: #A08151;
-  --color-dark-gold: #8C6E42;
+  --color-primary-gold: #BA9E6A;
+  --color-gold-aurrum: #BA9E6A;
+  --color-gold-light: #CBB285;
+  --color-gold-medium: #A88D5B;
+  --color-gold-dark: #977B4B;
+  --color-dark-gold: #8A6E3F;
   
   /* Status Colors */
   --color-success: #22C55E;
@@ -57,11 +59,11 @@
   
   --sidebar-bg: #FFFFFF;
   --sidebar-border: #E2E8F0;
-  --sidebar-text: #002D38;
-  --sidebar-text-muted: #005472;
+  --sidebar-text: #002233;
+  --sidebar-text-muted: #004C6D;
   --sidebar-hover: #F1F4F9;
-  --sidebar-item-hover-text: #A98B56;
-  --sidebar-active-bg: linear-gradient(135deg, #A98B56 0%, #BC9B66 100%);
+  --sidebar-item-hover-text: #BA9E6A;
+  --sidebar-active-bg: linear-gradient(135deg, #BA9E6A 0%, #CBB285 100%);
   --sidebar-active-text: #FFFFFF;
   --sidebar-user-panel-bg: #F8FAFC;
   --sidebar-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
@@ -69,15 +71,15 @@
   --navbar-bg: #FFFFFF;
   --navbar-border: #E2E8F0;
   
-  --primary-btn: #A98B56;
-  --primary-btn-hover: #BC9B66;
+  --primary-btn: #003E5A;
+  --primary-btn-hover: #004C6D;
   --primary-btn-text: #FFFFFF;
-  --gold-gradient: linear-gradient(135deg, #A98B56 0%, #BC9B66 100%);
-  --gold-gradient-hover: linear-gradient(135deg, #BC9B66 0%, #A98B56 100%);
+  --gold-gradient: linear-gradient(135deg, #BA9E6A 0%, #CBB285 100%);
+  --gold-gradient-hover: linear-gradient(135deg, #CBB285 0%, #BA9E6A 100%);
   
-  --text-primary: #002D38;
-  --text-secondary: #003649;
-  --text-muted: #005472;
+  --text-primary: #002233;
+  --text-secondary: #00334A;
+  --text-muted: #004C6D;
   --text-inverse: #FFFFFF;
   
   --border-color: #E2E8F0;
@@ -85,10 +87,10 @@
   
   --input-bg: #FFFFFF;
   --input-border: #CBD5E1;
-  --input-focus-ring: rgba(169, 139, 86, 0.25);
+  --input-focus-ring: rgba(186, 158, 106, 0.25);
   
-  --brand-color: #004564;
-  --accent-color: #A98B56;
+  --brand-color: #003E5A;
+  --accent-color: #BA9E6A;
 
   /* Status Tokens Light */
   --status-success-bg: rgba(34, 197, 94, 0.1);
@@ -103,48 +105,48 @@
 
 .dark {
   /* --- Dark Theme --- */
-  --bg-primary: #002D38;
-  --bg-secondary: #003649;
-  --bg-tertiary: #003E51;
+  --bg-primary: #002233;
+  --bg-secondary: #00334A;
+  --bg-tertiary: #003E5A;
   
-  --card-bg: #003E51;
-  --card-border: #005472;
-  --card-hover-bg: #004564;
+  --card-bg: #002E42;
+  --card-border: #004C6D;
+  --card-hover-bg: #003E5A;
   
-  --sidebar-bg: #002D38;
-  --sidebar-border: #005472;
+  --sidebar-bg: #002233;
+  --sidebar-border: #004C6D;
   --sidebar-text: #FFFFFF;
   --sidebar-text-muted: #A9C2CE;
-  --sidebar-hover: #003649;
+  --sidebar-hover: #00334A;
   --sidebar-item-hover-text: #FFFFFF;
-  --sidebar-active-bg: linear-gradient(135deg, #A98B56 0%, #BC9B66 100%);
+  --sidebar-active-bg: linear-gradient(135deg, #BA9E6A 0%, #CBB285 100%);
   --sidebar-active-text: #FFFFFF;
-  --sidebar-user-panel-bg: #003649;
+  --sidebar-user-panel-bg: #00334A;
   --sidebar-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
   
-  --navbar-bg: #003649;
-  --navbar-border: #005472;
+  --navbar-bg: #00334A;
+  --navbar-border: #004C6D;
   
-  --primary-btn: #A98B56;
-  --primary-btn-hover: #BC9B66;
+  --primary-btn: #003E5A;
+  --primary-btn-hover: #004C6D;
   --primary-btn-text: #FFFFFF;
-  --gold-gradient: linear-gradient(135deg, #A98B56 0%, #BC9B66 100%);
-  --gold-gradient-hover: linear-gradient(135deg, #BC9B66 0%, #A98B56 100%);
+  --gold-gradient: linear-gradient(135deg, #BA9E6A 0%, #CBB285 100%);
+  --gold-gradient-hover: linear-gradient(135deg, #CBB285 0%, #BA9E6A 100%);
   
   --text-primary: #FFFFFF;
   --text-secondary: #DCE6EC;
   --text-muted: #A9C2CE;
-  --text-inverse: #002D38;
+  --text-inverse: #002233;
   
-  --border-color: #005472;
-  --border-subtle: #003E51;
+  --border-color: #004C6D;
+  --border-subtle: #003E5A;
   
-  --input-bg: #003649;
-  --input-border: #005472;
-  --input-focus-ring: rgba(188, 155, 102, 0.3);
+  --input-bg: #00334A;
+  --input-border: #004C6D;
+  --input-focus-ring: rgba(186, 158, 106, 0.3);
   
-  --brand-color: #BC9B66;
-  --accent-color: #A98B56;
+  --brand-color: #003E5A;
+  --accent-color: #BA9E6A;
 
   /* Status Tokens Dark */
   --status-success-bg: rgba(34, 197, 94, 0.2);
@@ -181,7 +183,7 @@
 
 .animate-blink-red {
   animation: pulse-red 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  color: #004564; 
+  color: #003E5A; 
 }
 
 .animate-float {
@@ -290,7 +292,7 @@ input, select, textarea {
   background: var(--gold-gradient);
   color: #FFFFFF;
   border: none;
-  box-shadow: 0 2px 4px rgba(169, 139, 86, 0.2);
+  box-shadow: 0 2px 4px rgba(186, 158, 106, 0.2);
   transition: all 0.2s ease;
   cursor: pointer;
   white-space: nowrap;
@@ -298,7 +300,7 @@ input, select, textarea {
 
 .crm-btn-gold:hover {
   background: var(--gold-gradient-hover);
-  box-shadow: 0 4px 8px rgba(169, 139, 86, 0.3);
+  box-shadow: 0 4px 8px rgba(186, 158, 106, 0.3);
   transform: translateY(-1px);
 }
 
@@ -312,7 +314,7 @@ input, select, textarea {
   font-size: 0.875rem;
   padding: 0.625rem 1.25rem;
   border-radius: var(--radius-btn);
-  background-color: var(--color-primary-blue);
+  background-color: #003E5A;
   color: #FFFFFF;
   border: none;
   transition: all 0.2s ease;
@@ -409,7 +411,7 @@ input, select, textarea {
 }
 
 .crm-badge-gold {
-  background-color: rgba(169, 139, 86, 0.15);
+  background-color: rgba(186, 158, 106, 0.15);
   color: var(--color-primary-gold);
 }
 

@@ -180,40 +180,40 @@ export const InvoiceList = () => {
       container.style.padding = '40px';
       container.style.boxSizing = 'border-box';
       container.style.fontFamily = "'Poppins', sans-serif";
-      container.style.color = '#002D38';
+      container.style.color = '#002233';
       container.style.overflow = 'hidden';
 
       const effectiveSubForPdf = getEffectiveSubtotal(inv);
       const isFlatInvoice = inv.useFlatSubtotal || (effectiveSubForPdf > 0 && (!inv.candidates || inv.candidates.length === 0));
       const candidateRows = isFlatInvoice ? `
         <tr style="border-bottom: 1px solid #cbd5e1;">
-          <td style="padding: 10px 12px; text-align: center; color: #002D38;">1</td>
-          <td style="padding: 10px 12px; font-weight: 600; color: #002D38;" colspan="3">${inv.serviceDescription || 'Placement Fee - Recruitment Services'}</td>
-          <td style="padding: 10px 12px; text-align: right; font-family: 'Poppins', sans-serif; font-weight: 600; color: #002D38;">$${effectiveSubForPdf.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+          <td style="padding: 10px 12px; text-align: center; color: #002233;">1</td>
+          <td style="padding: 10px 12px; font-weight: 600; color: #002233;" colspan="3">${inv.serviceDescription || 'Placement Fee - Recruitment Services'}</td>
+          <td style="padding: 10px 12px; text-align: right; font-family: 'Poppins', sans-serif; font-weight: 600; color: #002233;">$${effectiveSubForPdf.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
         </tr>
       ` : (inv.candidates || []).map((c: any, index: number) => `
         <tr style="border-bottom: 1px solid #cbd5e1;">
-          <td style="padding: 8px 12px; text-align: center; color: #002D38;">${index + 1}</td>
-          <td style="padding: 8px 12px; font-weight: 600; color: #002D38;">${c.candidateName}</td>
+          <td style="padding: 8px 12px; text-align: center; color: #002233;">${index + 1}</td>
+          <td style="padding: 8px 12px; font-weight: 600; color: #002233;">${c.candidateName}</td>
           <td style="padding: 8px 12px; color: #475569;">${c.position || 'N/A'}</td>
           <td style="padding: 8px 12px;"><span style="background-color: #f1f5f9; color: #475569; padding: 2px 6px; border-radius: 4px; font-size: 14px; font-weight: 600;">${c.billingType || 'Placement'}</span></td>
-          <td style="padding: 8px 12px; text-align: right; font-family: 'Poppins', sans-serif; font-weight: 600; color: #002D38;">$${Number(c.fee || c.amount || 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+          <td style="padding: 8px 12px; text-align: right; font-family: 'Poppins', sans-serif; font-weight: 600; color: #002233;">$${Number(c.fee || c.amount || 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
         </tr>
       `).join('');
 
       const tableHeader = isFlatInvoice ? `
         <tr>
-          <th style="width: 50px; text-align: center; background: #004564; color: #fff; padding: 10px 12px; font-size: 15px; font-weight: 800; text-transform: uppercase;">#</th>
-          <th colspan="3" style="background: #004564; color: #fff; padding: 10px 12px; text-align: left; font-size: 15px; font-weight: 800; text-transform: uppercase;">Service Description</th>
-          <th style="text-align: right; width: 130px; background: #004564; color: #fff; padding: 10px 12px; font-size: 15px; font-weight: 800; text-transform: uppercase;">Amount</th>
+          <th style="width: 50px; text-align: center; background: #003E5A; color: #fff; padding: 10px 12px; font-size: 15px; font-weight: 800; text-transform: uppercase;">#</th>
+          <th colspan="3" style="background: #003E5A; color: #fff; padding: 10px 12px; text-align: left; font-size: 15px; font-weight: 800; text-transform: uppercase;">Service Description</th>
+          <th style="text-align: right; width: 130px; background: #003E5A; color: #fff; padding: 10px 12px; font-size: 15px; font-weight: 800; text-transform: uppercase;">Amount</th>
         </tr>
       ` : `
         <tr>
-          <th style="width: 50px; text-align: center; background: #004564; color: #fff; padding: 10px 12px; font-size: 15px; font-weight: 800; text-transform: uppercase;">#</th>
-          <th style="background: #004564; color: #fff; padding: 10px 12px; text-align: left; font-size: 15px; font-weight: 800; text-transform: uppercase;">Placed Candidate</th>
-          <th style="background: #004564; color: #fff; padding: 10px 12px; text-align: left; font-size: 15px; font-weight: 800; text-transform: uppercase;">Position/Role</th>
-          <th style="background: #004564; color: #fff; padding: 10px 12px; text-align: left; font-size: 15px; font-weight: 800; text-transform: uppercase;">Type</th>
-          <th style="text-align: right; width: 130px; background: #004564; color: #fff; padding: 10px 12px; font-size: 15px; font-weight: 800; text-transform: uppercase;">Amount</th>
+          <th style="width: 50px; text-align: center; background: #003E5A; color: #fff; padding: 10px 12px; font-size: 15px; font-weight: 800; text-transform: uppercase;">#</th>
+          <th style="background: #003E5A; color: #fff; padding: 10px 12px; text-align: left; font-size: 15px; font-weight: 800; text-transform: uppercase;">Placed Candidate</th>
+          <th style="background: #003E5A; color: #fff; padding: 10px 12px; text-align: left; font-size: 15px; font-weight: 800; text-transform: uppercase;">Position/Role</th>
+          <th style="background: #003E5A; color: #fff; padding: 10px 12px; text-align: left; font-size: 15px; font-weight: 800; text-transform: uppercase;">Type</th>
+          <th style="text-align: right; width: 130px; background: #003E5A; color: #fff; padding: 10px 12px; font-size: 15px; font-weight: 800; text-transform: uppercase;">Amount</th>
         </tr>
       `;
 
@@ -242,36 +242,36 @@ export const InvoiceList = () => {
       const watermarkText = inv.watermarkText || 'AURRUM';
 
       container.innerHTML = `
-        <div style="font-family: 'Poppins', sans-serif; color: #002D38; background: #ffffff; position: relative; width: 794px; height: 1123px; display: flex; flex-direction: column;  box-sizing: border-box; padding: 24px;">
+        <div style="font-family: 'Poppins', sans-serif; color: #002233; background: #ffffff; position: relative; width: 794px; height: 1123px; display: flex; flex-direction: column;  box-sizing: border-box; padding: 24px;">
           <!-- Centered Background Watermark Image or Text -->
           <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; z-index: 0;">
             ${inv.watermarkUrl 
               ? `<img src="${inv.watermarkUrl}" alt="Watermark" style="width: 340px; height: 340px; object-fit: contain; opacity: 0.05;" crossorigin="anonymous" />`
               : (inv.watermarkText 
-                  ? `<div style="font-weight: 900; font-size: 80px; text-transform: uppercase; letter-spacing: 0.1em; color: #002D38; opacity: 0.04; transform: rotate(-25deg); user-select: none;">${inv.watermarkText}</div>`
+                  ? `<div style="font-weight: 900; font-size: 80px; text-transform: uppercase; letter-spacing: 0.1em; color: #002233; opacity: 0.04; transform: rotate(-25deg); user-select: none;">${inv.watermarkText}</div>`
                   : `<img src="${watermarkImg}" alt="Watermark" style="width: 340px; height: 340px; object-fit: contain; opacity: 0.05;" crossorigin="anonymous" />`)}
           </div>
 
           <div style="position: relative; z-index: 10; flex: 1; display: flex; flex-direction: column;">
             <!-- Header -->
-            <div style="display: flex;  align-items: flex-start; border-bottom: 2px solid #004564; padding-bottom: 16px; margin-bottom: 20px;">
+            <div style="display: flex;  align-items: flex-start; border-bottom: 2px solid #003E5A; padding-bottom: 16px; margin-bottom: 20px;">
               <div style="display: flex; align-items: flex-start; gap: 12px;">
                 <div style="${logoContainerStyle}">
                   <img src="${displayLogo}" alt="Logo" style="width: auto; height: 100%; max-width: 100%; object-fit: contain;" />
                 </div>
                 <div>
-                  <h1 style="font-size: 21px; font-weight: 800; color: #002D38; margin: 0 0 2px 0;">${inv.senderName || 'AURRUM SERVICES'}</h1>
-                  <p style="margin: 0; color: #005472; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">${inv.senderTagline || 'Talent Insights & Recruitment Services'}</p>
+                  <h1 style="font-size: 21px; font-weight: 800; color: #002233; margin: 0 0 2px 0;">${inv.senderName || 'AURRUM SERVICES'}</h1>
+                  <p style="margin: 0; color: #004C6D; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">${inv.senderTagline || 'Talent Insights & Recruitment Services'}</p>
                   <p style="margin: 3px 0 0 0; color: #64748b; font-size: 13px; max-width: 340px; line-height: 1.3;">${inv.senderAddress || '513, 5th Floor, Shivalik Shilp Iskcon Cross Road, Sarkhej - Gandhinagar Hwy, Ahmedabad - 380015'}</p>
-                  <p style="margin: 3px 0 0 0; color: #A98B56; font-size: 14px; font-weight: 700;">${inv.senderEmail || 'auriicsservices@gmail.com'} | ${inv.senderWeb || 'aurrum.co'}</p>
+                  <p style="margin: 3px 0 0 0; color: #BA9E6A; font-size: 14px; font-weight: 700;">${inv.senderEmail || 'auriicsservices@gmail.com'} | ${inv.senderWeb || 'aurrum.co'}</p>
                 </div>
               </div>
               <div style="text-align: right; background: #f8fafc; padding: 16px 24px; border-radius: 10px; border: 1px solid #cbd5e1; min-width: 260px;">
                 <div style="display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin-bottom: 4px;">
-                  <h2 style="font-size: 25px; font-weight: 900; color: #002D38; margin: 0;">INVOICE</h2>
+                  <h2 style="font-size: 25px; font-weight: 900; color: #002233; margin: 0;">INVOICE</h2>
                   <span style="padding: 2px 6px; border: 1px solid #93c5fd; background: #eff6ff; color: #1d4ed8; border-radius: 6px; font-weight: 800; text-transform: uppercase; font-size: 13px;">${inv.status}</span>
                 </div>
-                <p style="margin: 2px 0; font-size: 14px;"><strong style="color: #64748b;">Invoice No:</strong> <span style="font-family: 'Poppins', sans-serif; font-weight: bold; color: #002D38;">${inv.invoiceNumber}</span></p>
+                <p style="margin: 2px 0; font-size: 14px;"><strong style="color: #64748b;">Invoice No:</strong> <span style="font-family: 'Poppins', sans-serif; font-weight: bold; color: #002233;">${inv.invoiceNumber}</span></p>
                 <p style="margin: 2px 0; font-size: 14px;"><strong style="color: #64748b;">Issue Date:</strong> ${formattedDate}</p>
                 <p style="margin: 2px 0; font-size: 14px;"><strong style="color: #64748b;">Due Date:</strong> ${formattedDueDate}</p>
               </div>
@@ -280,14 +280,14 @@ export const InvoiceList = () => {
             <!-- Client & Service Box -->
             <div style="page-break-inside: avoid; display: grid; grid-template-columns: 1fr 1fr; border: 1px solid #cbd5e1; border-radius: 10px; padding: 20px; margin-bottom: 20px; background: #f8fafc;">
               <div>
-                <h3 style="font-size: 13px; font-weight: 900; text-transform: uppercase; color: #A98B56; margin-bottom: 4px; letter-spacing: 0.05em;">Billed To</h3>
-                <p style="margin: 2px 0; font-size: 15px; font-weight: 800; color: #002D38;">${inv.clientName}</p>
-                ${inv.clientAddress ? `<p style="margin: 2px 0; font-size: 14px; color: #002D38; white-space: pre-wrap;">${inv.clientAddress}</p>` : ''}
-                ${inv.paymentTerms ? `<p style="margin: 3px 0 0 0; font-size: 14px; color: #002D38;"><strong>Payment Terms:</strong> ${inv.paymentTerms}</p>` : ''}
+                <h3 style="font-size: 13px; font-weight: 900; text-transform: uppercase; color: #BA9E6A; margin-bottom: 4px; letter-spacing: 0.05em;">Billed To</h3>
+                <p style="margin: 2px 0; font-size: 15px; font-weight: 800; color: #002233;">${inv.clientName}</p>
+                ${inv.clientAddress ? `<p style="margin: 2px 0; font-size: 14px; color: #002233; white-space: pre-wrap;">${inv.clientAddress}</p>` : ''}
+                ${inv.paymentTerms ? `<p style="margin: 3px 0 0 0; font-size: 14px; color: #002233;"><strong>Payment Terms:</strong> ${inv.paymentTerms}</p>` : ''}
               </div>
               <div style="text-align: right;">
-                <h3 style="font-size: 13px; font-weight: 900; text-transform: uppercase; color: #A98B56; margin-bottom: 4px; letter-spacing: 0.05em;">Service Description</h3>
-                <p style="margin: 2px 0; font-size: 14px; font-weight: 700; color: #002D38;">${inv.serviceDescription || 'Professional Recruitment & Talent Search Services'}</p>
+                <h3 style="font-size: 13px; font-weight: 900; text-transform: uppercase; color: #BA9E6A; margin-bottom: 4px; letter-spacing: 0.05em;">Service Description</h3>
+                <p style="margin: 2px 0; font-size: 14px; font-weight: 700; color: #002233;">${inv.serviceDescription || 'Professional Recruitment & Talent Search Services'}</p>
               </div>
             </div>
 
@@ -300,12 +300,12 @@ export const InvoiceList = () => {
             <!-- Totals -->
             <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
               <table style="page-break-inside: avoid; width: 340px; font-size: 15px; border-collapse: collapse;">
-                <tr><td style="padding: 5px 0; color: #64748b; font-weight: 700;">Subtotal:</td><td style="text-align: right; font-family: 'Poppins', sans-serif; font-weight: 700; padding: 5px 0; color: #002D38;">$${sub.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td></tr>
-                ${taxRate > 0 ? `<tr><td style="padding: 5px 0; color: #64748b; font-weight: 700;">Tax (${taxRate}%):</td><td style="text-align: right; font-family: 'Poppins', sans-serif; padding: 5px 0; color: #002D38;">+$${taxAmt.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td></tr>` : ''}
+                <tr><td style="padding: 5px 0; color: #64748b; font-weight: 700;">Subtotal:</td><td style="text-align: right; font-family: 'Poppins', sans-serif; font-weight: 700; padding: 5px 0; color: #002233;">$${sub.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td></tr>
+                ${taxRate > 0 ? `<tr><td style="padding: 5px 0; color: #64748b; font-weight: 700;">Tax (${taxRate}%):</td><td style="text-align: right; font-family: 'Poppins', sans-serif; padding: 5px 0; color: #002233;">+$${taxAmt.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td></tr>` : ''}
                 ${disc > 0 ? `<tr><td style="padding: 5px 0; color: #64748b; font-weight: 700;">Discount:</td><td style="text-align: right; font-family: 'Poppins', sans-serif; color: #ef4444; padding: 5px 0;">-$${disc.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td></tr>` : ''}
-                <tr style="border-top: 2px solid #A98B56; background-color: #f1f5f9; font-size: 18px; font-weight: 900; color: #A98B56;">
-                  <td style="padding: 8px 8px; text-transform: uppercase; font-size: 14px; color: #002D38;">Total Due:</td>
-                  <td style="text-align: right; font-family: 'Poppins', sans-serif; padding: 8px 8px; color: #A98B56;">$${total.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                <tr style="border-top: 2px solid #BA9E6A; background-color: #f1f5f9; font-size: 18px; font-weight: 900; color: #BA9E6A;">
+                  <td style="padding: 8px 8px; text-transform: uppercase; font-size: 14px; color: #002233;">Total Due:</td>
+                  <td style="text-align: right; font-family: 'Poppins', sans-serif; padding: 8px 8px; color: #BA9E6A;">$${total.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                 </tr>
               </table>
             </div>
@@ -315,7 +315,7 @@ export const InvoiceList = () => {
               <div style="width: 52%;">
                 ${(inv.bankName || inv.accountNumber || inv.payeeName) ? `
                   <div style="padding: 10px; background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px;">
-                    <strong style="display: block; margin-bottom: 3px; color: #004564; text-transform: uppercase; font-size: 13px; letter-spacing: 0.05em;">Bank Payment Instructions</strong>
+                    <strong style="display: block; margin-bottom: 3px; color: #003E5A; text-transform: uppercase; font-size: 13px; letter-spacing: 0.05em;">Bank Payment Instructions</strong>
                     ${inv.payeeName ? `<p style="margin: 2px 0; color: #334155;"><strong>Payee:</strong> ${inv.payeeName}</p>` : ''}
                     ${inv.bankName ? `<p style="margin: 2px 0; color: #334155;"><strong>Bank:</strong> ${inv.bankName}</p>` : ''}
                     ${inv.accountNumber ? `<p style="margin: 2px 0; color: #334155;"><strong>A/C:</strong> <span style="font-family: 'Poppins', sans-serif; font-weight: bold;">${inv.accountNumber}</span></p>` : ''}
@@ -323,7 +323,7 @@ export const InvoiceList = () => {
                   </div>
                 ` : `
                   <div style="font-size: 14px; color: #64748b;">
-                    <p style="font-weight: bold; color: #002D38; margin: 0 0 2px 0;">Thank you for your business!</p>
+                    <p style="font-weight: bold; color: #002233; margin: 0 0 2px 0;">Thank you for your business!</p>
                     <p style="margin: 0;">Please remit payment according to agreed terms.</p>
                   </div>
                 `}
@@ -331,8 +331,8 @@ export const InvoiceList = () => {
               <div style="text-align: right;">
                 ${inv.signatureUrl 
                   ? `<img src="${inv.signatureUrl}" alt="Signature" style="max-height: 48px; max-width: 160px; object-fit: contain; margin-bottom: 2px;" crossorigin="anonymous" />`
-                  : `<div style="font-family: 'Poppins', sans-serif; font-style: italic; font-size: 30px; color: #A98B56; font-weight: bold; margin-bottom: 2px;">${cleanSigName}</div>`}
-                <p style="margin: 0; font-weight: 900; font-size: 17px; color: #002D38;">${cleanSigName}</p>
+                  : `<div style="font-family: 'Poppins', sans-serif; font-style: italic; font-size: 30px; color: #BA9E6A; font-weight: bold; margin-bottom: 2px;">${cleanSigName}</div>`}
+                <p style="margin: 0; font-weight: 900; font-size: 17px; color: #002233;">${cleanSigName}</p>
                 <p style="margin: 2px 0 0 0; font-size: 13px; color: #64748b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">${cleanSigTitle}</p>
               </div>
             </div>
@@ -392,33 +392,33 @@ export const InvoiceList = () => {
     const isFlatInvoice = inv.useFlatSubtotal || (effectiveSubForPrint > 0 && (!inv.candidates || inv.candidates.length === 0));
     const candidateRows = isFlatInvoice ? `
       <tr style="border-bottom: 1px solid #cbd5e1;">
-        <td style="padding: 10px 12px; text-align: center; color: #002D38;">1</td>
-        <td style="padding: 10px 12px; font-weight: 600; color: #002D38;" colspan="3">${inv.serviceDescription || 'Placement Fee - Recruitment Services'}</td>
-        <td style="padding: 10px 12px; text-align: right; font-family: 'Poppins', sans-serif; font-weight: 600; color: #002D38;">$${effectiveSubForPrint.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+        <td style="padding: 10px 12px; text-align: center; color: #002233;">1</td>
+        <td style="padding: 10px 12px; font-weight: 600; color: #002233;" colspan="3">${inv.serviceDescription || 'Placement Fee - Recruitment Services'}</td>
+        <td style="padding: 10px 12px; text-align: right; font-family: 'Poppins', sans-serif; font-weight: 600; color: #002233;">$${effectiveSubForPrint.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
       </tr>
     ` : (inv.candidates || []).map((c: any, index: number) => `
       <tr style="border-bottom: 1px solid #cbd5e1;">
-        <td style="padding: 8px 12px; text-align: center; color: #002D38;">${index + 1}</td>
-        <td style="padding: 8px 12px; font-weight: 600; color: #002D38;">${c.candidateName}</td>
+        <td style="padding: 8px 12px; text-align: center; color: #002233;">${index + 1}</td>
+        <td style="padding: 8px 12px; font-weight: 600; color: #002233;">${c.candidateName}</td>
         <td style="padding: 8px 12px; color: #475569;">${c.position || 'N/A'}</td>
         <td style="padding: 8px 12px;"><span style="background-color: #f1f5f9; color: #475569; padding: 2px 6px; border-radius: 4px; font-size: 14px; font-weight: 600;">${c.billingType || 'Placement'}</span></td>
-        <td style="padding: 8px 12px; text-align: right; font-family: 'Poppins', sans-serif; font-weight: 600; color: #002D38;">$${Number(c.fee || c.amount || 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+        <td style="padding: 8px 12px; text-align: right; font-family: 'Poppins', sans-serif; font-weight: 600; color: #002233;">$${Number(c.fee || c.amount || 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
       </tr>
     `).join('');
 
     const tableHeader = isFlatInvoice ? `
       <tr>
-        <th style="width: 50px; text-align: center; background: #004564; color: #fff; padding: 10px 12px; font-size: 15px; font-weight: 800; text-transform: uppercase;">#</th>
-        <th colspan="3" style="background: #004564; color: #fff; padding: 10px 12px; text-align: left; font-size: 15px; font-weight: 800; text-transform: uppercase;">Service Description</th>
-        <th style="text-align: right; width: 130px; background: #004564; color: #fff; padding: 10px 12px; font-size: 15px; font-weight: 800; text-transform: uppercase;">Amount</th>
+        <th style="width: 50px; text-align: center; background: #003E5A; color: #fff; padding: 10px 12px; font-size: 15px; font-weight: 800; text-transform: uppercase;">#</th>
+        <th colspan="3" style="background: #003E5A; color: #fff; padding: 10px 12px; text-align: left; font-size: 15px; font-weight: 800; text-transform: uppercase;">Service Description</th>
+        <th style="text-align: right; width: 130px; background: #003E5A; color: #fff; padding: 10px 12px; font-size: 15px; font-weight: 800; text-transform: uppercase;">Amount</th>
       </tr>
     ` : `
       <tr>
-        <th style="width: 50px; text-align: center; background: #004564; color: #fff; padding: 10px 12px; font-size: 15px; font-weight: 800; text-transform: uppercase;">#</th>
-        <th style="background: #004564; color: #fff; padding: 10px 12px; text-align: left; font-size: 15px; font-weight: 800; text-transform: uppercase;">Placed Candidate</th>
-        <th style="background: #004564; color: #fff; padding: 10px 12px; text-align: left; font-size: 15px; font-weight: 800; text-transform: uppercase;">Position/Role</th>
-        <th style="background: #004564; color: #fff; padding: 10px 12px; text-align: left; font-size: 15px; font-weight: 800; text-transform: uppercase;">Type</th>
-        <th style="text-align: right; width: 130px; background: #004564; color: #fff; padding: 10px 12px; font-size: 15px; font-weight: 800; text-transform: uppercase;">Amount</th>
+        <th style="width: 50px; text-align: center; background: #003E5A; color: #fff; padding: 10px 12px; font-size: 15px; font-weight: 800; text-transform: uppercase;">#</th>
+        <th style="background: #003E5A; color: #fff; padding: 10px 12px; text-align: left; font-size: 15px; font-weight: 800; text-transform: uppercase;">Placed Candidate</th>
+        <th style="background: #003E5A; color: #fff; padding: 10px 12px; text-align: left; font-size: 15px; font-weight: 800; text-transform: uppercase;">Position/Role</th>
+        <th style="background: #003E5A; color: #fff; padding: 10px 12px; text-align: left; font-size: 15px; font-weight: 800; text-transform: uppercase;">Type</th>
+        <th style="text-align: right; width: 130px; background: #003E5A; color: #fff; padding: 10px 12px; font-size: 15px; font-weight: 800; text-transform: uppercase;">Amount</th>
       </tr>
     `;
 
@@ -459,7 +459,7 @@ export const InvoiceList = () => {
               padding: 0;
               background: #ffffff;
               font-family: 'Poppins', sans-serif;
-              color: #002D38;
+              color: #002233;
               -webkit-print-color-adjust: exact;
               print-color-adjust: exact;
             }
@@ -496,30 +496,30 @@ export const InvoiceList = () => {
               ${inv.watermarkUrl 
                 ? `<img src="${inv.watermarkUrl}" alt="Watermark" style="width: 340px; height: 340px; object-fit: contain; opacity: 0.05;" crossorigin="anonymous" />`
                 : (inv.watermarkText 
-                    ? `<div style="font-weight: 900; font-size: 80px; text-transform: uppercase; letter-spacing: 0.1em; color: #002D38; opacity: 0.04; transform: rotate(-25deg); user-select: none;">${inv.watermarkText}</div>`
+                    ? `<div style="font-weight: 900; font-size: 80px; text-transform: uppercase; letter-spacing: 0.1em; color: #002233; opacity: 0.04; transform: rotate(-25deg); user-select: none;">${inv.watermarkText}</div>`
                     : `<img src="${watermarkImg}" alt="Watermark" style="width: 340px; height: 340px; object-fit: contain; opacity: 0.05;" crossorigin="anonymous" />`)}
             </div>
 
             <div style="position: relative; z-index: 10; flex: 1; display: flex; flex-direction: column;">
               <!-- Header -->
-              <div style="display: flex;  align-items: flex-start; border-bottom: 2px solid #004564; padding-bottom: 16px; margin-bottom: 20px;">
+              <div style="display: flex;  align-items: flex-start; border-bottom: 2px solid #003E5A; padding-bottom: 16px; margin-bottom: 20px;">
                 <div style="display: flex; align-items: flex-start; gap: 12px;">
                   <div style="${logoContainerStyle}">
                     <img src="${displayLogo}" alt="Logo" style="width: auto; height: 100%; max-width: 100%; object-fit: contain;" />
                   </div>
                   <div>
-                    <h1 style="font-size: 21px; font-weight: 800; color: #002D38; margin: 0 0 2px 0;">${inv.senderName || 'AURRUM SERVICES'}</h1>
-                    <p style="margin: 0; color: #005472; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">${inv.senderTagline || 'Talent Insights & Recruitment Services'}</p>
+                    <h1 style="font-size: 21px; font-weight: 800; color: #002233; margin: 0 0 2px 0;">${inv.senderName || 'AURRUM SERVICES'}</h1>
+                    <p style="margin: 0; color: #004C6D; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">${inv.senderTagline || 'Talent Insights & Recruitment Services'}</p>
                     <p style="margin: 3px 0 0 0; color: #64748b; font-size: 13px; max-width: 340px; line-height: 1.3;">${inv.senderAddress || '513, 5th Floor, Shivalik Shilp Iskcon Cross Road, Sarkhej - Gandhinagar Hwy, Ahmedabad - 380015'}</p>
-                    <p style="margin: 3px 0 0 0; color: #A98B56; font-size: 14px; font-weight: 700;">${inv.senderEmail || 'auriicsservices@gmail.com'} | ${inv.senderWeb || 'aurrum.co'}</p>
+                    <p style="margin: 3px 0 0 0; color: #BA9E6A; font-size: 14px; font-weight: 700;">${inv.senderEmail || 'auriicsservices@gmail.com'} | ${inv.senderWeb || 'aurrum.co'}</p>
                   </div>
                 </div>
                 <div style="text-align: right; background: #f8fafc; padding: 16px 24px; border-radius: 10px; border: 1px solid #cbd5e1; min-width: 260px;">
                   <div style="display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin-bottom: 4px;">
-                    <h2 style="font-size: 25px; font-weight: 900; color: #002D38; margin: 0;">INVOICE</h2>
+                    <h2 style="font-size: 25px; font-weight: 900; color: #002233; margin: 0;">INVOICE</h2>
                     <span style="padding: 2px 6px; border: 1px solid #93c5fd; background: #eff6ff; color: #1d4ed8; border-radius: 6px; font-weight: 800; text-transform: uppercase; font-size: 13px;">${inv.status}</span>
                   </div>
-                  <p style="margin: 2px 0; font-size: 14px;"><strong style="color: #64748b;">Invoice No:</strong> <span style="font-family: 'Poppins', sans-serif; font-weight: bold; color: #002D38;">${inv.invoiceNumber}</span></p>
+                  <p style="margin: 2px 0; font-size: 14px;"><strong style="color: #64748b;">Invoice No:</strong> <span style="font-family: 'Poppins', sans-serif; font-weight: bold; color: #002233;">${inv.invoiceNumber}</span></p>
                   <p style="margin: 2px 0; font-size: 14px;"><strong style="color: #64748b;">Issue Date:</strong> ${formattedDate}</p>
                   <p style="margin: 2px 0; font-size: 14px;"><strong style="color: #64748b;">Due Date:</strong> ${formattedDueDate}</p>
                 </div>
@@ -528,14 +528,14 @@ export const InvoiceList = () => {
               <!-- Client & Service Box -->
               <div style="page-break-inside: avoid; display: grid; grid-template-columns: 1fr 1fr; border: 1px solid #cbd5e1; border-radius: 10px; padding: 20px; margin-bottom: 20px; background: #f8fafc;">
                 <div>
-                  <h3 style="font-size: 13px; font-weight: 900; text-transform: uppercase; color: #A98B56; margin-bottom: 4px; letter-spacing: 0.05em;">Billed To</h3>
-                  <p style="margin: 2px 0; font-size: 15px; font-weight: 800; color: #002D38;">${inv.clientName}</p>
-                  ${inv.clientAddress ? `<p style="margin: 2px 0; font-size: 14px; color: #002D38; white-space: pre-wrap;">${inv.clientAddress}</p>` : ''}
-                  ${inv.paymentTerms ? `<p style="margin: 3px 0 0 0; font-size: 14px; color: #002D38;"><strong>Payment Terms:</strong> ${inv.paymentTerms}</p>` : ''}
+                  <h3 style="font-size: 13px; font-weight: 900; text-transform: uppercase; color: #BA9E6A; margin-bottom: 4px; letter-spacing: 0.05em;">Billed To</h3>
+                  <p style="margin: 2px 0; font-size: 15px; font-weight: 800; color: #002233;">${inv.clientName}</p>
+                  ${inv.clientAddress ? `<p style="margin: 2px 0; font-size: 14px; color: #002233; white-space: pre-wrap;">${inv.clientAddress}</p>` : ''}
+                  ${inv.paymentTerms ? `<p style="margin: 3px 0 0 0; font-size: 14px; color: #002233;"><strong>Payment Terms:</strong> ${inv.paymentTerms}</p>` : ''}
                 </div>
                 <div style="text-align: right;">
-                  <h3 style="font-size: 13px; font-weight: 900; text-transform: uppercase; color: #A98B56; margin-bottom: 4px; letter-spacing: 0.05em;">Service Description</h3>
-                  <p style="margin: 2px 0; font-size: 14px; font-weight: 700; color: #002D38;">${inv.serviceDescription || 'Professional Recruitment & Talent Search Services'}</p>
+                  <h3 style="font-size: 13px; font-weight: 900; text-transform: uppercase; color: #BA9E6A; margin-bottom: 4px; letter-spacing: 0.05em;">Service Description</h3>
+                  <p style="margin: 2px 0; font-size: 14px; font-weight: 700; color: #002233;">${inv.serviceDescription || 'Professional Recruitment & Talent Search Services'}</p>
                 </div>
               </div>
 
@@ -548,12 +548,12 @@ export const InvoiceList = () => {
               <!-- Totals -->
               <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
                 <table style="page-break-inside: avoid; width: 340px; font-size: 15px; border-collapse: collapse;">
-                  <tr><td style="padding: 5px 0; color: #64748b; font-weight: 700;">Subtotal:</td><td style="text-align: right; font-family: 'Poppins', sans-serif; font-weight: 700; padding: 5px 0; color: #002D38;">$${sub.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td></tr>
-                  ${taxRate > 0 ? `<tr><td style="padding: 5px 0; color: #64748b; font-weight: 700;">Tax (${taxRate}%):</td><td style="text-align: right; font-family: 'Poppins', sans-serif; padding: 5px 0; color: #002D38;">+$${taxAmt.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td></tr>` : ''}
+                  <tr><td style="padding: 5px 0; color: #64748b; font-weight: 700;">Subtotal:</td><td style="text-align: right; font-family: 'Poppins', sans-serif; font-weight: 700; padding: 5px 0; color: #002233;">$${sub.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td></tr>
+                  ${taxRate > 0 ? `<tr><td style="padding: 5px 0; color: #64748b; font-weight: 700;">Tax (${taxRate}%):</td><td style="text-align: right; font-family: 'Poppins', sans-serif; padding: 5px 0; color: #002233;">+$${taxAmt.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td></tr>` : ''}
                   ${disc > 0 ? `<tr><td style="padding: 5px 0; color: #64748b; font-weight: 700;">Discount:</td><td style="text-align: right; font-family: 'Poppins', sans-serif; color: #ef4444; padding: 5px 0;">-$${disc.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td></tr>` : ''}
-                  <tr style="border-top: 2px solid #A98B56; background-color: #f1f5f9; font-size: 18px; font-weight: 900; color: #A98B56;">
-                    <td style="padding: 8px 8px; text-transform: uppercase; font-size: 14px; color: #002D38;">Total Due:</td>
-                    <td style="text-align: right; font-family: 'Poppins', sans-serif; padding: 8px 8px; color: #A98B56;">$${total.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                  <tr style="border-top: 2px solid #BA9E6A; background-color: #f1f5f9; font-size: 18px; font-weight: 900; color: #BA9E6A;">
+                    <td style="padding: 8px 8px; text-transform: uppercase; font-size: 14px; color: #002233;">Total Due:</td>
+                    <td style="text-align: right; font-family: 'Poppins', sans-serif; padding: 8px 8px; color: #BA9E6A;">$${total.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                   </tr>
                 </table>
               </div>
@@ -563,7 +563,7 @@ export const InvoiceList = () => {
                 <div style="width: 52%;">
                   ${(inv.bankName || inv.accountNumber || inv.payeeName) ? `
                     <div style="padding: 10px; background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px;">
-                      <strong style="display: block; margin-bottom: 3px; color: #004564; text-transform: uppercase; font-size: 13px; letter-spacing: 0.05em;">Bank Payment Instructions</strong>
+                      <strong style="display: block; margin-bottom: 3px; color: #003E5A; text-transform: uppercase; font-size: 13px; letter-spacing: 0.05em;">Bank Payment Instructions</strong>
                       ${inv.payeeName ? `<p style="margin: 2px 0; color: #334155;"><strong>Payee:</strong> ${inv.payeeName}</p>` : ''}
                       ${inv.bankName ? `<p style="margin: 2px 0; color: #334155;"><strong>Bank:</strong> ${inv.bankName}</p>` : ''}
                       ${inv.accountNumber ? `<p style="margin: 2px 0; color: #334155;"><strong>A/C:</strong> <span style="font-family: 'Poppins', sans-serif; font-weight: bold;">${inv.accountNumber}</span></p>` : ''}
@@ -571,7 +571,7 @@ export const InvoiceList = () => {
                     </div>
                   ` : `
                     <div style="font-size: 14px; color: #64748b;">
-                      <p style="font-weight: bold; color: #002D38; margin: 0 0 2px 0;">Thank you for your business!</p>
+                      <p style="font-weight: bold; color: #002233; margin: 0 0 2px 0;">Thank you for your business!</p>
                       <p style="margin: 0;">Please remit payment according to agreed terms.</p>
                     </div>
                   `}
@@ -579,8 +579,8 @@ export const InvoiceList = () => {
                 <div style="text-align: right;">
                   ${inv.signatureUrl 
                     ? `<img src="${inv.signatureUrl}" alt="Signature" style="max-height: 48px; max-width: 160px; object-fit: contain; margin-bottom: 2px;" crossorigin="anonymous" />`
-                    : `<div style="font-family: 'Poppins', sans-serif; font-style: italic; font-size: 30px; color: #A98B56; font-weight: bold; margin-bottom: 2px;">${cleanSigName}</div>`}
-                  <p style="margin: 0; font-weight: 900; font-size: 17px; color: #002D38;">${cleanSigName}</p>
+                    : `<div style="font-family: 'Poppins', sans-serif; font-style: italic; font-size: 30px; color: #BA9E6A; font-weight: bold; margin-bottom: 2px;">${cleanSigName}</div>`}
+                  <p style="margin: 0; font-weight: 900; font-size: 17px; color: #002233;">${cleanSigName}</p>
                   <p style="margin: 2px 0 0 0; font-size: 13px; color: #64748b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">${cleanSigTitle}</p>
                 </div>
               </div>
@@ -1035,7 +1035,7 @@ export const InvoiceList = () => {
                             : 'border-[var(--border-color)] bg-[var(--card-bg)] hover:border-[var(--primary-gold)]'
                         }`}
                       >
-                        <div className="w-10 h-10 bg-[#002D38] rounded-lg flex items-center justify-center p-2">
+                        <div className="w-10 h-10 bg-[#002233] rounded-lg flex items-center justify-center p-2">
                           <img src={editedInvoice.darkLogoUrl || 'https://aurrum.co/wp-content/uploads/2026/04/Aurrum_Logo-2.png'} alt="Dark Logo" className="w-full h-full object-contain" />
                         </div>
                         <div>
@@ -1053,7 +1053,7 @@ export const InvoiceList = () => {
                             : 'border-[var(--border-color)] bg-[var(--card-bg)] hover:border-[var(--primary-gold)]'
                         }`}
                       >
-                        <div className="w-10 h-10 bg-[#004564] rounded-lg flex items-center justify-center p-2">
+                        <div className="w-10 h-10 bg-[#003E5A] rounded-lg flex items-center justify-center p-2">
                           <img src={editedInvoice.whiteLogoUrl || 'https://aurrum.co/wp-content/uploads/2026/04/Aurrum_Logo-2.png'} alt="White Logo" className="w-full h-full object-contain" />
                         </div>
                         <div>
@@ -1103,7 +1103,7 @@ export const InvoiceList = () => {
                               reader.readAsDataURL(file);
                             }
                           }}
-                          className="block w-full text-xs text-[var(--text-muted)] file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[10px] file:font-bold file:bg-[#004564] file:text-white hover:file:opacity-90 cursor-pointer"
+                          className="block w-full text-xs text-[var(--text-muted)] file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[10px] file:font-bold file:bg-[#003E5A] file:text-white hover:file:opacity-90 cursor-pointer"
                         />
                       </div>
                     </div>
@@ -1386,7 +1386,7 @@ export const InvoiceList = () => {
                       <span className="text-[10px] text-[var(--text-muted)]">Single consolidated service fee</span>
                     </div>
                     <table className="w-full text-left">
-                      <thead className="bg-[#004564] text-white text-[10px] font-black uppercase tracking-wider">
+                      <thead className="bg-[#003E5A] text-white text-[10px] font-black uppercase tracking-wider">
                         <tr>
                           <th className="p-3 pl-4 w-12 text-center">#</th>
                           <th className="p-3">Service Description</th>

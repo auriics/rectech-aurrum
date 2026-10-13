@@ -279,11 +279,11 @@ export const ClientPipelineView: React.FC<ClientPipelineViewProps> = ({
       )}
 
       {/* Top Banner Header */}
-      <div className="crm-card p-6 border-l-4 border-l-[#A98B56] relative overflow-hidden">
+      <div className="crm-card p-6 border-l-4 border-l-[#BA9E6A] relative overflow-hidden">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
           <div className="flex items-start gap-4">
-            <div className="p-3.5 bg-gradient-to-br from-[#004564] to-[#002D38] text-white rounded-2xl shadow-md border border-[#A98B56]/30">
-              <Layers size={26} className="text-[#A98B56]" />
+            <div className="p-3.5 bg-gradient-to-br from-[#003E5A] to-[#002233] text-white rounded-2xl shadow-md border border-[#BA9E6A]/30">
+              <Layers size={26} className="text-[#BA9E6A]" />
             </div>
             <div className="space-y-1">
               <div className="flex items-center gap-2 flex-wrap">
@@ -304,13 +304,13 @@ export const ClientPipelineView: React.FC<ClientPipelineViewProps> = ({
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
             {/* Search Input */}
             <div className="relative min-w-[240px] sm:w-64">
-              <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#A98B56]" />
+              <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#BA9E6A]" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search candidate, role, skill..."
-                className="w-full pl-9 pr-8 py-2 bg-[var(--bg-secondary)] border border-[var(--border-color)] focus:border-[#A98B56] rounded-xl text-xs font-semibold text-[var(--text-primary)] placeholder:text-[var(--text-muted)] transition-all focus:outline-none"
+                className="w-full pl-9 pr-8 py-2 bg-[var(--bg-secondary)] border border-[var(--border-color)] focus:border-[#BA9E6A] rounded-xl text-xs font-semibold text-[var(--text-primary)] placeholder:text-[var(--text-muted)] transition-all focus:outline-none"
               />
               {searchQuery && (
                 <button 
@@ -328,7 +328,7 @@ export const ClientPipelineView: React.FC<ClientPipelineViewProps> = ({
                 onClick={() => setViewMode('board')}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                   viewMode === 'board' 
-                    ? 'bg-[#004564] text-white shadow-xs' 
+                    ? 'bg-[#003E5A] text-white shadow-xs' 
                     : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
                 }`}
                 title="Board View"
@@ -339,7 +339,7 @@ export const ClientPipelineView: React.FC<ClientPipelineViewProps> = ({
                 onClick={() => setViewMode('list')}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                   viewMode === 'list' 
-                    ? 'bg-[#004564] text-white shadow-xs' 
+                    ? 'bg-[#003E5A] text-white shadow-xs' 
                     : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
                 }`}
                 title="List View"
@@ -420,8 +420,8 @@ export const ClientPipelineView: React.FC<ClientPipelineViewProps> = ({
           onClick={() => setSelectedStageTab('all')}
           className={`px-4 py-2 rounded-xl text-xs font-bold transition-all shrink-0 flex items-center gap-1.5 cursor-pointer border ${
             selectedStageTab === 'all'
-              ? 'bg-[#004564] text-white border-[#004564] shadow-xs'
-              : 'bg-[var(--card-bg)] text-[var(--text-secondary)] border-[var(--border-color)] hover:border-[#A98B56]'
+              ? 'bg-[#003E5A] text-white border-[#003E5A] shadow-xs'
+              : 'bg-[var(--card-bg)] text-[var(--text-secondary)] border-[var(--border-color)] hover:border-[#BA9E6A]'
           }`}
         >
           All Stages <span className="px-1.5 py-0.5 rounded-full text-[10px] bg-white/20">{totalCount}</span>
@@ -437,8 +437,8 @@ export const ClientPipelineView: React.FC<ClientPipelineViewProps> = ({
               onClick={() => setSelectedStageTab(stage.id)}
               className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all shrink-0 flex items-center gap-2 cursor-pointer border ${
                 isSelected
-                  ? 'bg-[#A98B56] text-white border-[#A98B56] shadow-xs'
-                  : 'bg-[var(--card-bg)] text-[var(--text-secondary)] border-[var(--border-color)] hover:border-[#A98B56]'
+                  ? 'bg-[#BA9E6A] text-white border-[#BA9E6A] shadow-xs'
+                  : 'bg-[var(--card-bg)] text-[var(--text-secondary)] border-[var(--border-color)] hover:border-[#BA9E6A]'
               }`}
             >
               <StageIcon size={14} />
@@ -500,7 +500,7 @@ export const ClientPipelineView: React.FC<ClientPipelineViewProps> = ({
                           <div
                             key={candidate.id}
                             onClick={() => onSelectCandidate ? onSelectCandidate(candidate) : setSelectedCandidateForDetails(candidate)}
-                            className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-color)] hover:border-[#A98B56] hover:shadow-md transition-all cursor-pointer group space-y-3 relative"
+                            className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-color)] hover:border-[#BA9E6A] hover:shadow-md transition-all cursor-pointer group space-y-3 relative"
                           >
                             {/* Candidate Identity Bar */}
                             <div className="flex items-start justify-between gap-2">
@@ -509,15 +509,15 @@ export const ClientPipelineView: React.FC<ClientPipelineViewProps> = ({
                                   <img 
                                     src={candidate.photoUrl || candidate.avatar} 
                                     alt={candidate.fullName} 
-                                    className="w-9 h-9 rounded-xl object-cover shrink-0 border border-[#A98B56]/30"
+                                    className="w-9 h-9 rounded-xl object-cover shrink-0 border border-[#BA9E6A]/30"
                                   />
                                 ) : (
-                                  <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#004564] to-[#002D38] text-white font-black text-xs flex items-center justify-center shrink-0 border border-[#A98B56]/40 shadow-xs">
+                                  <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#003E5A] to-[#002233] text-white font-black text-xs flex items-center justify-center shrink-0 border border-[#BA9E6A]/40 shadow-xs">
                                     {candidate.fullName ? candidate.fullName.substring(0, 2).toUpperCase() : 'CA'}
                                   </div>
                                 )}
                                 <div className="min-w-0">
-                                  <h4 className="text-xs font-bold text-[var(--text-primary)] group-hover:text-[#A98B56] transition-colors truncate">
+                                  <h4 className="text-xs font-bold text-[var(--text-primary)] group-hover:text-[#BA9E6A] transition-colors truncate">
                                     {candidate.fullName}
                                   </h4>
                                   <p className="text-[10px] text-[var(--text-muted)] font-medium truncate">
@@ -536,13 +536,13 @@ export const ClientPipelineView: React.FC<ClientPipelineViewProps> = ({
                             <div className="grid grid-cols-2 gap-2 text-[10px] text-[var(--text-secondary)] pt-1">
                               {candidate.location && (
                                 <div className="flex items-center gap-1 truncate text-[var(--text-muted)]">
-                                  <MapPin size={11} className="shrink-0 text-[#A98B56]" />
+                                  <MapPin size={11} className="shrink-0 text-[#BA9E6A]" />
                                   <span className="truncate">{candidate.location}</span>
                                 </div>
                               )}
                               {(candidate.experience || candidate.totalExperience) && (
                                 <div className="flex items-center gap-1 truncate text-[var(--text-muted)]">
-                                  <Briefcase size={11} className="shrink-0 text-[#A98B56]" />
+                                  <Briefcase size={11} className="shrink-0 text-[#BA9E6A]" />
                                   <span className="truncate">{candidate.experience || candidate.totalExperience} Yrs Exp</span>
                                 </div>
                               )}
@@ -589,7 +589,7 @@ export const ClientPipelineView: React.FC<ClientPipelineViewProps> = ({
                               <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
                                 <button
                                   onClick={() => setSelectedCandidateForDetails(candidate)}
-                                  className="p-1.5 rounded-lg bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-primary)] hover:text-[#A98B56] hover:border-[#A98B56] transition-all cursor-pointer"
+                                  className="p-1.5 rounded-lg bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-primary)] hover:text-[#BA9E6A] hover:border-[#BA9E6A] transition-all cursor-pointer"
                                   title="View Candidate Details"
                                 >
                                   <Eye size={12} />
@@ -650,11 +650,11 @@ export const ClientPipelineView: React.FC<ClientPipelineViewProps> = ({
                         {/* Name & Email */}
                         <td className="py-3 px-3">
                           <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#004564] to-[#002D38] text-white font-bold text-xs flex items-center justify-center shrink-0">
+                            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#003E5A] to-[#002233] text-white font-bold text-xs flex items-center justify-center shrink-0">
                               {candidate.fullName ? candidate.fullName.substring(0, 2).toUpperCase() : 'CA'}
                             </div>
                             <div>
-                              <p className="font-bold text-[var(--text-primary)] group-hover:text-[#A98B56] transition-colors">
+                              <p className="font-bold text-[var(--text-primary)] group-hover:text-[#BA9E6A] transition-colors">
                                 {candidate.fullName}
                               </p>
                               <p className="text-[10px] text-[var(--text-muted)]">{candidate.email || 'No email'}</p>
@@ -678,7 +678,7 @@ export const ClientPipelineView: React.FC<ClientPipelineViewProps> = ({
                         <td className="py-3 px-3 text-[var(--text-muted)] text-[11px]">
                           <div>{candidate.location || 'Location N/A'}</div>
                           {candidate.experience && (
-                            <div className="text-[10px] font-semibold text-[#A98B56]">{candidate.experience} Yrs Exp</div>
+                            <div className="text-[10px] font-semibold text-[#BA9E6A]">{candidate.experience} Yrs Exp</div>
                           )}
                         </td>
 
@@ -698,7 +698,7 @@ export const ClientPipelineView: React.FC<ClientPipelineViewProps> = ({
                           <div className="flex items-center justify-end gap-1.5">
                             <button
                               onClick={() => setSelectedCandidateForDetails(candidate)}
-                              className="px-2.5 py-1 bg-[var(--bg-secondary)] border border-[var(--border-color)] hover:border-[#A98B56] text-[var(--text-primary)] rounded-lg text-xs font-semibold transition-all flex items-center gap-1 cursor-pointer"
+                              className="px-2.5 py-1 bg-[var(--bg-secondary)] border border-[var(--border-color)] hover:border-[#BA9E6A] text-[var(--text-primary)] rounded-lg text-xs font-semibold transition-all flex items-center gap-1 cursor-pointer"
                             >
                               <Eye size={12} /> Details
                             </button>
@@ -728,7 +728,7 @@ export const ClientPipelineView: React.FC<ClientPipelineViewProps> = ({
             {/* Modal Header */}
             <div className="flex items-start justify-between pb-4 border-b border-[var(--border-color)]">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#004564] to-[#002D38] text-white flex items-center justify-center font-black text-base border border-[#A98B56]/40 shadow-sm">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#003E5A] to-[#002233] text-white flex items-center justify-center font-black text-base border border-[#BA9E6A]/40 shadow-sm">
                   {selectedCandidateForDetails.fullName ? selectedCandidateForDetails.fullName.substring(0, 2).toUpperCase() : 'CA'}
                 </div>
                 <div>
@@ -758,7 +758,7 @@ export const ClientPipelineView: React.FC<ClientPipelineViewProps> = ({
               </div>
               <div className="p-3 bg-[var(--bg-secondary)] rounded-xl border border-[var(--border-color)]">
                 <span className="text-[10px] uppercase font-bold text-[var(--text-muted)] block">Client Status</span>
-                <span className="text-xs font-extrabold text-[#A98B56]">
+                <span className="text-xs font-extrabold text-[#BA9E6A]">
                   {selectedCandidateForDetails.clientStatus 
                     ? selectedCandidateForDetails.clientStatus 
                     : (selectedCandidateForDetails.clientId === user?.uid || selectedCandidateForDetails.assignedToClient === user?.uid || selectedCandidateForDetails.clientEmail === user?.email)
@@ -778,7 +778,7 @@ export const ClientPipelineView: React.FC<ClientPipelineViewProps> = ({
             {selectedCandidateForDetails.summary && (
               <div className="space-y-1.5">
                 <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--text-primary)] flex items-center gap-1.5">
-                  <Sparkles size={14} className="text-[#A98B56]" /> Professional Summary
+                  <Sparkles size={14} className="text-[#BA9E6A]" /> Professional Summary
                 </h4>
                 <p className="text-xs leading-relaxed text-[var(--text-secondary)] bg-[var(--bg-secondary)] p-4 rounded-xl border border-[var(--border-color)]">
                   {selectedCandidateForDetails.summary}
@@ -804,7 +804,7 @@ export const ClientPipelineView: React.FC<ClientPipelineViewProps> = ({
             {selectedCandidateForDetails.clientFeedback && (
               <div className="space-y-1.5">
                 <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">Latest Client Feedback</h4>
-                <div className="p-4 bg-[#A98B56]/10 border border-[#A98B56]/20 rounded-xl text-xs font-medium text-[var(--text-primary)] italic">
+                <div className="p-4 bg-[#BA9E6A]/10 border border-[#BA9E6A]/20 rounded-xl text-xs font-medium text-[var(--text-primary)] italic">
                   "{selectedCandidateForDetails.clientFeedback}"
                 </div>
               </div>

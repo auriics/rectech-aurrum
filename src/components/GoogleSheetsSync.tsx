@@ -477,11 +477,11 @@ export default function GoogleSheetsSync({ candidates, onImportSuccess, role }: 
   return (
     <div className="p-8 max-w-6xl mx-auto space-y-8 animate-fadeIn">
       {/* Header Banner */}
-      <div className="bg-gradient-to-r from-[#004564] to-[#003649] rounded-2xl p-8 text-white shadow-xl relative overflow-hidden border border-[#A98B56]/30">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[#A98B56]/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="bg-gradient-to-r from-[#003E5A] to-[#00334A] rounded-2xl p-8 text-white shadow-xl relative overflow-hidden border border-[#BA9E6A]/30">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#BA9E6A]/10 rounded-full blur-3xl pointer-events-none"></div>
         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#A98B56]/20 border border-[#A98B56]/40 text-[#BC9B66] text-xs font-semibold tracking-wide">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#BA9E6A]/20 border border-[#BA9E6A]/40 text-[#CBB285] text-xs font-semibold tracking-wide">
               <FileSpreadsheet size={14} /> Live Resume Synchronization
             </div>
             <h1 className="text-3xl font-extrabold tracking-tight font-sans">Live Resume Sync Hub</h1>
@@ -503,7 +503,7 @@ export default function GoogleSheetsSync({ candidates, onImportSuccess, role }: 
               <button
                 onClick={handleLogin}
                 disabled={isLoggingIn}
-                className="gsi-material-button px-5 py-3 rounded-xl bg-white text-[#002D38] hover:bg-slate-100 font-semibold text-sm shadow-lg transition-all flex items-center gap-3 cursor-pointer"
+                className="gsi-material-button px-5 py-3 rounded-xl bg-white text-[#002233] hover:bg-slate-100 font-semibold text-sm shadow-lg transition-all flex items-center gap-3 cursor-pointer"
               >
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" className="w-5 h-5">
                   <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
@@ -516,7 +516,7 @@ export default function GoogleSheetsSync({ candidates, onImportSuccess, role }: 
             ) : (
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-3 bg-white/10 px-4 py-2.5 rounded-xl border border-white/20 backdrop-blur-sm">
-                  <div className="w-8 h-8 rounded-full bg-[#A98B56] text-white flex items-center justify-center font-bold text-xs">
+                  <div className="w-8 h-8 rounded-full bg-[#BA9E6A] text-white flex items-center justify-center font-bold text-xs">
                     {user.email?.substring(0, 2).toUpperCase() || 'GS'}
                   </div>
                   <div className="flex flex-col text-left">
@@ -577,7 +577,7 @@ export default function GoogleSheetsSync({ candidates, onImportSuccess, role }: 
             <button
               onClick={handleExportToSheets}
               disabled={isExporting || candidates.length === 0}
-              className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#A98B56] to-[#BC9B66] text-white font-semibold text-sm shadow-md hover:opacity-95 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+              className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#BA9E6A] to-[#CBB285] text-white font-semibold text-sm shadow-md hover:opacity-95 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
             >
               {isExporting ? <RefreshCw size={18} className="animate-spin" /> : <FileSpreadsheet size={18} />}
               <span>{isExporting ? 'Exporting to Google Sheets...' : 'Create & Export Google Sheet'}</span>
@@ -618,16 +618,16 @@ export default function GoogleSheetsSync({ candidates, onImportSuccess, role }: 
                 value={importSpreadsheetUrl}
                 onChange={(e) => setImportSpreadsheetUrl(e.target.value)}
                 placeholder="https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit"
-                className="w-full px-4 py-2.5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-primary)] text-[var(--text-primary)] text-sm focus:outline-none focus:ring-2 focus:ring-[#A98B56]"
+                className="w-full px-4 py-2.5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-primary)] text-[var(--text-primary)] text-sm focus:outline-none focus:ring-2 focus:ring-[#BA9E6A]"
               />
             </div>
 
             <button
               type="submit"
               disabled={isImporting}
-              className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#004564] to-[#005472] text-white font-bold text-sm shadow-lg hover:opacity-95 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+              className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#003E5A] to-[#004C6D] text-white font-bold text-sm shadow-lg hover:opacity-95 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
             >
-              {isImporting ? <RefreshCw size={18} className="animate-spin text-[#A98B56]" /> : <Sparkles size={18} className="text-[#A98B56]" />}
+              {isImporting ? <RefreshCw size={18} className="animate-spin text-[#BA9E6A]" /> : <Sparkles size={18} className="text-[#BA9E6A]" />}
               <span>{isImporting ? 'Syncing Resumes One by One...' : '🚀 Sync Sheet Resumes One-by-One to Firebase'}</span>
             </button>
 
@@ -642,7 +642,7 @@ export default function GoogleSheetsSync({ candidates, onImportSuccess, role }: 
                 </div>
                 <div className="w-full bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
                   <div 
-                    className="bg-gradient-to-r from-[#004564] to-[#A98B56] h-full transition-all duration-150"
+                    className="bg-gradient-to-r from-[#003E5A] to-[#BA9E6A] h-full transition-all duration-150"
                     style={{ width: `${(syncProgress.current / syncProgress.total) * 100}%` }}
                   ></div>
                 </div>

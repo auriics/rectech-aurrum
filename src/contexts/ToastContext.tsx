@@ -104,7 +104,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
                     ? 'bg-rose-600/95 dark:bg-rose-600/90 text-white border-rose-400/40 shadow-rose-950/20'
                     : isWarning
                     ? 'bg-amber-600/95 dark:bg-amber-600/90 text-white border-amber-400/40 shadow-amber-950/20'
-                    : 'bg-[#003649]/95 text-white border-[#A98B56]/40 shadow-black/30'
+                    : 'bg-[#00334A]/95 text-white border-[#BA9E6A]/40 shadow-black/30'
                 }`}
               >
                 <div className="shrink-0 mt-0.5">
