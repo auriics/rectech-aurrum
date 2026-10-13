@@ -18,7 +18,6 @@ import { createNotification, notifyMultiple, formatNotificationMessage } from '.
 import ConfirmModal from '../components/ConfirmModal';
 import { useToast } from '../contexts/ToastContext';
 import HorizontalPipelineStepper from '../components/HorizontalPipelineStepper';
-import { JobDiscoveryMarketplace } from '../components/jobs/JobDiscoveryMarketplace';
 import { fetchCvList } from '../services/cvApiService';
 import { parseResumeHeuristically, extractTextFromPDF, extractTextFromDocx } from '../lib/localParser';
 import { getStorage, ref, getBytes } from 'firebase/storage';
@@ -2759,10 +2758,6 @@ Status: ${candidate.status || 'Sourced'}`;
 
           </div>
 
-          {/* AI Talent Marketplace & Personalized Recommendations */}
-          <div className="mt-12 pt-8 border-t border-[var(--border-color)]">
-            <JobDiscoveryMarketplace candidate={candidate} />
-          </div>
         </div>
       </div>
 

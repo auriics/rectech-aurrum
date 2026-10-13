@@ -32,13 +32,13 @@ export default function Sidebar({
       title: 'Workspace',
       items: [
         { icon: LayoutDashboard, label: 'Dashboard', id: 'home' },
+        { icon: Sparkles, label: 'AI Job Discovery', id: 'job-discovery' },
         { icon: Sparkles, label: 'Candidate Review', id: 'client-portal' },
         { icon: Layers, label: 'Pipeline', id: 'pipeline' },
         { icon: Users, label: 'Assigned Candidates', id: 'candidates' },
         { icon: Star, label: 'Shortlist', id: 'shortlist' },
         { icon: BarChart2, label: 'Talent Insights', id: 'analytics' },
         { icon: FileText, label: 'CV Repository', id: 'repository' },
-        { icon: Briefcase, label: 'Job Discovery', id: 'job-discovery' },
       ]
     },
     {
@@ -53,10 +53,10 @@ export default function Sidebar({
       title: 'Core Platform',
       items: [
         { icon: LayoutDashboard, label: 'Dashboard', id: 'home' },
+        { icon: Sparkles, label: 'AI Job Discovery', id: 'job-discovery' },
         ...(role === 'admin' || role === 'developer' ? [{ icon: Sparkles, label: 'Candidate Review', id: 'client-portal' }] : []),
         { icon: Layers, label: 'Pipeline', id: 'pipeline' },
         { icon: Users, label: 'Candidates', id: 'candidates' },
-        { icon: Briefcase, label: 'Job Discovery', id: 'job-discovery' },
         { icon: Linkedin, label: 'LinkedIn Search', id: 'linkedin-search' },
         { icon: FileText, label: 'CV Repository', id: 'repository' },
       ]
@@ -149,7 +149,14 @@ export default function Sidebar({
                     {item.id === 'notifications' && <NotificationBadge />}
                   </div>
                   {isOpen ? (
-                    <span className="text-sm font-medium tracking-wide truncate">{item.label}</span>
+                    <div className="flex items-center justify-between flex-1 min-w-0">
+                      <span className="text-sm font-medium tracking-wide truncate">{item.label}</span>
+                      {item.id === 'job-discovery' && (
+                        <span className="ml-2 px-1.5 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-[#BA9E6A]/25 text-[#CBB285] border border-[#BA9E6A]/40 shrink-0">
+                          AI
+                        </span>
+                      )}
+                    </div>
                   ) : (
                     /* Floating Tooltip when collapsed */
                     <div className="absolute left-full ml-3 px-3 py-1.5 bg-[#002233] text-white text-xs font-semibold rounded-lg shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 border border-[#004C6D]">

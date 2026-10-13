@@ -23,7 +23,10 @@ import {
   RotateCcw,
   Sliders,
   DollarSign,
-  GraduationCap
+  GraduationCap,
+  Users,
+  Compass,
+  ArrowRight
 } from 'lucide-react';
 import { 
   JobOpening, 
@@ -77,6 +80,10 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
   const [consent, setConsent] = useState<CandidatePersonalizationConsent | null>(null);
   const [errorState, setErrorState] = useState<string | null>(null);
 
+  // Candidate Search Combobox state
+  const [candidateSearchQuery, setCandidateSearchQuery] = useState('');
+  const [showCandidatePicker, setShowCandidatePicker] = useState(false);
+
   // Analytics state
   const [analytics, setAnalytics] = useState<{
     totalInteractions: number;
@@ -100,6 +107,18 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
   const [minSalary, setMinSalary] = useState<number>(0);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
   const [activeSectionTab, setActiveSectionTab] = useState<'all' | 'recommended' | 'skills' | 'career' | 'saved' | 'new'>('all');
+
+  // Filtered candidate list for picker
+  const filteredCandidates = useMemo(() => {
+    if (!candidateSearchQuery.trim()) return candidatesList.slice(0, 8);
+    const q = candidateSearchQuery.toLowerCase();
+    return candidatesList.filter(c => 
+      (c.fullName && c.fullName.toLowerCase().includes(q)) ||
+      (c.name && c.name.toLowerCase().includes(q)) ||
+      (c.domainFocus && c.domainFocus.toLowerCase().includes(q)) ||
+      (c.title && c.title.toLowerCase().includes(q))
+    ).slice(0, 8);
+  }, [candidatesList, candidateSearchQuery]);
 
   // Count active non-default filters
   const activeFilterCount = useMemo(() => {
@@ -142,15 +161,15 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
           }
         }
       } catch (err) {
-        // Analytics endpoint failure is non-blocking
+        // Analytics endpoint failure non-blocking
       }
 
       if (isManualRefresh) {
-        showSuccess('✓ Recommendation model recalibrated with latest candidate telemetry.');
+        showSuccess('✓ Neural match weights recalibrated with live candidate telemetry.');
       }
     } catch (err: any) {
       console.error('[JobDiscovery] Error loading data:', err);
-      setErrorState('Unable to load matching jobs. Please verify network connectivity and retry.');
+      setErrorState('Unable to load matching jobs. Please verify connectivity and retry.');
       showError('Failed to load personalized job recommendations.');
     } finally {
       setLoading(false);
@@ -175,13 +194,12 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
   // Actions
   const handleSaveJob = async (jobId: string) => {
     if (!currentCandidate?.id) {
-      showInfo('Please select an active candidate profile to save opportunities.');
+      showInfo('Please select a candidate profile to bookmark opportunities.');
       return;
     }
     try {
       await recordCandidateInteraction(currentCandidate.id, jobId, 'save');
       showSuccess('✓ Opportunity saved to candidate career tracker!');
-      // Update local state
       setRecommendations(prev => {
         if (!prev) return null;
         const updateList = (list: JobRecommendation[]) =>
@@ -206,7 +224,6 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
     try {
       await recordCandidateInteraction(currentCandidate.id, jobId, 'dismiss');
       showInfo('Opportunity dismissed. Matching weights adjusted.');
-      // Remove from view
       setRecommendations(prev => {
         if (!prev) return null;
         const filterList = (list: JobRecommendation[]) => list.filter(item => item.job.id !== jobId);
@@ -229,7 +246,7 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
 
   const handleExpressInterest = async (jobId: string) => {
     if (!currentCandidate?.id) {
-      showInfo('Please select an active candidate profile to register interest.');
+      showInfo('Please select a candidate profile to register mutual interest.');
       return;
     }
     try {
@@ -268,7 +285,7 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
     if (nextState) {
       showSuccess('✓ Personalized AI job discovery enabled.');
     } else {
-      showInfo('Personalization paused. Showing standard market opportunities.');
+      showInfo('Personalization paused. Showing standard marketplace view.');
     }
   };
 
@@ -355,138 +372,246 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
 
   return (
     <div className="w-full max-w-7xl 2xl:max-w-[1600px] mx-auto space-y-6 sm:space-y-8 pb-16">
-      {/* Recruiter / Admin Candidate Switcher Toolbar */}
+      {/* Top Standalone Header Bar */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-[var(--border-subtle)]">
+        <div>
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#BA9E6A]/15 text-[#8A6E3F] dark:text-[#CBB285] text-[10px] font-black uppercase tracking-wider mb-1.5">
+            <Sparkles size={12} className="text-[#BA9E6A]" /> Standalone AI Module
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-black text-[var(--text-primary)] tracking-tight">
+            AI-Powered Job Discovery
+          </h1>
+          <p className="text-xs sm:text-sm text-[var(--text-muted)] mt-0.5">
+            Automated mandate discovery & neural skill recommendation engine.
+          </p>
+        </div>
+
+        {/* Top Control Actions */}
+        <div className="flex items-center gap-2.5 flex-wrap">
+          <button
+            type="button"
+            onClick={() => setShowAnalyticsBanner(prev => !prev)}
+            aria-label="Toggle telemetry analytics"
+            className={`min-h-[40px] px-3.5 py-2 rounded-xl text-xs font-bold border transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 ${
+              showAnalyticsBanner
+                ? 'bg-[#003E5A] text-white border-[#003E5A]'
+                : 'bg-[var(--card-bg)] text-[var(--text-secondary)] border-[var(--border-color)] hover:border-[#BA9E6A]'
+            }`}
+          >
+            <BarChart2 size={15} />
+            <span>{showAnalyticsBanner ? 'Hide Telemetry' : 'Market Telemetry'}</span>
+          </button>
+
+          {currentCandidate && (
+            <button
+              type="button"
+              onClick={handleTogglePersonalization}
+              aria-label="Toggle AI personalization"
+              className={`min-h-[40px] px-3.5 py-2 rounded-xl text-xs font-bold border transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 ${
+                consent?.personalizationEnabled
+                  ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/30'
+                  : 'bg-[var(--card-bg)] text-[var(--text-muted)] border-[var(--border-color)]'
+              }`}
+              title="Toggle AI Personalization Model"
+            >
+              <ShieldCheck size={15} />
+              <span>Matching: {consent?.personalizationEnabled ? 'Active' : 'Paused'}</span>
+            </button>
+          )}
+
+          <button
+            type="button"
+            onClick={() => loadData(true)}
+            disabled={refreshing}
+            aria-label="Recalculate recommendations"
+            className="min-h-[40px] crm-btn-gold px-4 py-2 text-xs font-bold rounded-xl flex items-center gap-2 shadow-xs cursor-pointer active:scale-95 disabled:opacity-60"
+          >
+            <RefreshCw size={14} className={refreshing ? 'animate-spin' : ''} />
+            <span>{refreshing ? 'Recalibrating...' : 'Recalibrate AI'}</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Product Design: Candidate Matching Profile Card */}
       {candidatesList.length > 0 && (
-        <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-2xl p-3.5 sm:p-4 shadow-xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 sm:gap-4">
-          <div className="flex items-center gap-3 min-w-0">
-            <div className="w-10 h-10 rounded-xl bg-[#003E5A]/10 text-[#003E5A] dark:text-[#CBB285] dark:bg-[#BA9E6A]/20 flex items-center justify-center shrink-0">
-              <UserCheck size={20} />
+        <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-2xl p-4 sm:p-5 shadow-xs relative">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            {/* Candidate Identity */}
+            <div className="flex items-center gap-3.5 min-w-0">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#003E5A] to-[#002233] text-[#CBB285] font-black text-base flex items-center justify-center shrink-0 shadow-xs border border-[#BA9E6A]/30">
+                {(currentCandidate?.fullName || currentCandidate?.name || 'CP').slice(0, 2).toUpperCase()}
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-[var(--primary-gold)]">
+                    Target Candidate Profile
+                  </span>
+                  {currentCandidate?.domainFocus && (
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[var(--bg-secondary)] text-[var(--text-muted)] border border-[var(--border-color)]">
+                      {currentCandidate.domainFocus}
+                    </span>
+                  )}
+                </div>
+                <h2 className="text-base sm:text-lg font-black text-[var(--text-primary)] truncate">
+                  {currentCandidate?.fullName || currentCandidate?.name || 'All Open Marketplace Jobs'}
+                </h2>
+                <p className="text-xs text-[var(--text-muted)] truncate">
+                  {currentCandidate?.email || 'Viewing universal open requirements'} {currentCandidate?.experienceYears ? `• ${currentCandidate.experienceYears} yrs experience` : ''}
+                </p>
+              </div>
             </div>
-            <div className="min-w-0 flex-1">
-              <div className="text-[10px] font-black uppercase tracking-wider text-[var(--text-muted)]">
-                Active Matching Profile
-              </div>
-              <div className="text-sm font-bold text-[var(--text-primary)] truncate">
-                {currentCandidate?.fullName || currentCandidate?.name || 'Open Marketplace Overview'}
-              </div>
+
+            {/* Candidate Selector Actions */}
+            <div className="flex items-center gap-2.5 flex-wrap">
+              <button
+                type="button"
+                onClick={() => setShowCandidatePicker(prev => !prev)}
+                className="crm-btn-secondary min-h-[40px] px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 cursor-pointer hover:border-[#BA9E6A]"
+              >
+                <Users size={15} />
+                <span>Switch Candidate</span>
+              </button>
+
+              {currentCandidate && onNavigateToCandidate && (
+                <button
+                  type="button"
+                  onClick={() => onNavigateToCandidate(currentCandidate.id)}
+                  className="crm-btn-primary min-h-[40px] px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-xs"
+                >
+                  <span>Candidate Dossier</span>
+                  <ArrowRight size={14} />
+                </button>
+              )}
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
-            <label htmlFor="candidate-select" className="text-xs font-semibold text-[var(--text-muted)] whitespace-nowrap hidden lg:inline">
-              Candidate:
-            </label>
-            <select
-              id="candidate-select"
-              aria-label="Select candidate for recommendations"
-              value={currentCandidate?.id || ''}
-              onChange={(e) => {
-                const found = candidatesList.find(c => c.id === e.target.value);
-                if (found) setCurrentCandidate(found);
-              }}
-              className="w-full sm:w-64 md:w-72 bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-primary)] rounded-xl py-2 px-3 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#BA9E6A] cursor-pointer min-h-[44px] sm:min-h-[38px]"
-            >
-              {candidatesList.map(c => (
-                <option key={c.id} value={c.id}>
-                  {c.fullName || c.name || 'Unnamed'} {c.domainFocus ? `(${c.domainFocus})` : ''}
-                </option>
-              ))}
-            </select>
+          {/* Expandable Candidate Search Popover */}
+          {showCandidatePicker && (
+            <div className="mt-4 pt-4 border-t border-[var(--border-subtle)] space-y-3 animate-in fade-in duration-200">
+              <div className="flex items-center gap-2">
+                <Search size={15} className="text-[var(--text-muted)]" />
+                <input
+                  type="text"
+                  value={candidateSearchQuery}
+                  onChange={(e) => setCandidateSearchQuery(e.target.value)}
+                  placeholder="Search candidate by name, domain, or skills..."
+                  className="w-full bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl py-2 px-3 text-xs text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[#BA9E6A]"
+                  autoFocus
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowCandidatePicker(false)}
+                  className="p-1.5 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+                >
+                  <X size={16} />
+                </button>
+              </div>
 
-            {currentCandidate && onNavigateToCandidate && (
-              <button
-                type="button"
-                onClick={() => onNavigateToCandidate(currentCandidate.id)}
-                className="crm-btn-secondary min-h-[44px] sm:min-h-[38px] px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap cursor-pointer hover:border-[#BA9E6A] flex items-center justify-center gap-1 active:scale-95"
-                title="Open Candidate Profile"
-              >
-                <span>Profile</span>
-                <ChevronRight size={13} />
-              </button>
-            )}
+              {/* Quick Candidate Selection Pills */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 pt-1">
+                {filteredCandidates.map(c => {
+                  const isSelected = currentCandidate?.id === c.id;
+                  return (
+                    <button
+                      key={c.id}
+                      type="button"
+                      onClick={() => {
+                        setCurrentCandidate(c);
+                        setShowCandidatePicker(false);
+                      }}
+                      className={`text-left p-2.5 rounded-xl border transition-all cursor-pointer flex items-center gap-2.5 ${
+                        isSelected 
+                          ? 'bg-[#003E5A]/10 border-[#BA9E6A] text-[var(--text-primary)] font-bold'
+                          : 'bg-[var(--bg-secondary)] border-[var(--border-color)] text-[var(--text-secondary)] hover:border-[#BA9E6A]'
+                      }`}
+                    >
+                      <div className="w-7 h-7 rounded-lg bg-[var(--card-bg)] text-[#003E5A] dark:text-[#CBB285] font-black text-xs flex items-center justify-center shrink-0 border border-[var(--border-color)]">
+                        {(c.fullName || c.name || 'C').slice(0, 1)}
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-xs font-bold truncate">{c.fullName || c.name}</p>
+                        <p className="text-[10px] text-[var(--text-muted)] truncate">{c.domainFocus || 'General'}</p>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Telemetry KPI Ribbon (collapsible) */}
+      {showAnalyticsBanner && (
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 p-4 sm:p-5 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-2xl shadow-xs animate-in slide-in-from-top duration-200">
+          <div className="space-y-1">
+            <div className="text-[10px] font-black uppercase tracking-wider text-[var(--text-muted)] flex items-center gap-1.5">
+              <Briefcase size={12} className="text-[#003E5A] dark:text-[#CBB285]" /> Total Mandates
+            </div>
+            <div className="text-lg sm:text-xl font-black text-[var(--text-primary)]">
+              {allJobs.length}
+            </div>
+            <div className="text-[11px] text-[var(--text-muted)]">Verified open roles</div>
+          </div>
+
+          <div className="space-y-1">
+            <div className="text-[10px] font-black uppercase tracking-wider text-[var(--text-muted)] flex items-center gap-1.5">
+              <Sparkles size={12} className="text-[#BA9E6A]" /> Top Match Score
+            </div>
+            <div className="text-lg sm:text-xl font-black text-[#BA9E6A]">
+              {topMatchScore}%
+            </div>
+            <div className="text-[11px] text-[var(--text-muted)] truncate">For {currentCandidate?.fullName || 'Candidate'}</div>
+          </div>
+
+          <div className="space-y-1">
+            <div className="text-[10px] font-black uppercase tracking-wider text-[var(--text-muted)] flex items-center gap-1.5">
+              <Bookmark size={12} className="text-indigo-500" /> Saved Pipeline
+            </div>
+            <div className="text-lg sm:text-xl font-black text-[var(--text-primary)]">
+              {analytics?.saves || recommendations?.becauseYouSaved.length || 0}
+            </div>
+            <div className="text-[11px] text-[var(--text-muted)]">Bookmarked jobs</div>
+          </div>
+
+          <div className="space-y-1">
+            <div className="text-[10px] font-black uppercase tracking-wider text-[var(--text-muted)] flex items-center gap-1.5">
+              <Heart size={12} className="text-emerald-500" /> Mutual Interest
+            </div>
+            <div className="text-lg sm:text-xl font-black text-emerald-600 dark:text-emerald-400">
+              {analytics?.expressionsOfInterest || 0}
+            </div>
+            <div className="text-[11px] text-[var(--text-muted)]">Introductions logged</div>
           </div>
         </div>
       )}
 
-      {/* Hero Discovery Banner */}
-      <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-r from-[#003E5A] via-[#00334A] to-[#002233] p-5 sm:p-7 md:p-8 text-white shadow-xl border border-white/10">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[#BA9E6A]/10 rounded-full blur-3xl pointer-events-none" />
-        
-        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-          <div className="space-y-2 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#BA9E6A]/20 border border-[#BA9E6A]/40 text-[#CBB285] text-xs font-black tracking-wide uppercase">
-              <Sparkles size={14} /> AI Talent Marketplace
-            </div>
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-white tracking-tight leading-tight">
-              Personalized Job Discovery & Opportunities
-            </h1>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-xl">
-              Continuous neural career matching aligning candidate skills, verified experience, and workplace preferences with open recruitment mandates.
-            </p>
-          </div>
-
-          {/* Privacy & Recalculate Controls */}
-          <div className="flex flex-wrap items-center gap-2.5">
-            <button
-              type="button"
-              onClick={() => setShowAnalyticsBanner(prev => !prev)}
-              aria-label="Toggle marketplace analytics signals"
-              className={`min-h-[44px] sm:min-h-[38px] px-3.5 py-2 rounded-xl text-xs font-bold border transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 ${
-                showAnalyticsBanner
-                  ? 'bg-[#BA9E6A] text-white border-[#BA9E6A]'
-                  : 'bg-white/10 text-white/80 border-white/20 hover:bg-white/20'
-              }`}
-            >
-              <BarChart2 size={15} />
-              <span>{showAnalyticsBanner ? 'Hide Signals' : 'Signals'}</span>
-            </button>
-
-            {currentCandidate && (
-              <button
-                type="button"
-                onClick={handleTogglePersonalization}
-                aria-label="Toggle AI personalization"
-                className={`min-h-[44px] sm:min-h-[38px] px-3.5 py-2 rounded-xl text-xs font-bold border transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 ${
-                  consent?.personalizationEnabled
-                    ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
-                    : 'bg-white/10 text-white/70 border-white/20'
-                }`}
-                title="Toggle AI Personalization & Matching History"
-              >
-                <ShieldCheck size={15} />
-                <span>{consent?.personalizationEnabled ? 'Active' : 'Paused'}</span>
-              </button>
-            )}
-
-            <button
-              type="button"
-              onClick={() => loadData(true)}
-              disabled={refreshing}
-              aria-label="Recalculate recommendations"
-              className="min-h-[44px] sm:min-h-[38px] crm-btn-gold px-4 py-2 text-xs font-bold rounded-xl flex items-center gap-2 shadow-md cursor-pointer active:scale-95 disabled:opacity-60"
-            >
-              <RefreshCw size={14} className={refreshing ? 'animate-spin' : ''} />
-              <span>{refreshing ? 'Recalibrating...' : 'Recalculate'}</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Search & Quick Controls Bar */}
-        <div className="relative z-10 mt-6 pt-5 border-t border-white/10 flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3">
+      {/* Search & Quick Controls Bar */}
+      <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-2xl p-4 shadow-xs space-y-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3">
           <div className="relative flex-1">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/50" size={16} />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" size={16} />
             <input
               type="text"
               aria-label="Search job opportunities"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by role title, skill (e.g. React, Python), or company..."
-              className="w-full bg-white/10 border border-white/20 text-white placeholder:text-white/50 rounded-xl py-2.5 pl-10 pr-4 text-xs focus:outline-none focus:ring-2 focus:ring-[#BA9E6A] min-h-[44px] sm:min-h-[40px] transition-all"
+              placeholder="Search by role title, technology (e.g. React, Python), or company..."
+              className="w-full bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] rounded-xl py-2.5 pl-10 pr-9 text-xs focus:outline-none focus:ring-2 focus:ring-[#BA9E6A] min-h-[44px] sm:min-h-[40px] transition-all"
             />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+              >
+                <X size={14} />
+              </button>
+            )}
           </div>
 
           <div className="flex items-center gap-2">
-            {/* Filter Drawer / Panel Toggle Button */}
+            {/* Filter Toggle Button */}
             <button
               type="button"
               onClick={() => setIsFilterDrawerOpen(prev => !prev)}
@@ -494,7 +619,7 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
               className={`min-h-[44px] sm:min-h-[40px] px-4 py-2.5 rounded-xl text-xs font-bold border transition-all flex items-center justify-center gap-2 cursor-pointer flex-1 sm:flex-initial active:scale-95 ${
                 activeFilterCount > 0
                   ? 'bg-[#BA9E6A] text-white border-[#BA9E6A]'
-                  : 'bg-white/10 text-white border-white/20 hover:bg-white/20'
+                  : 'bg-[var(--bg-primary)] text-[var(--text-secondary)] border-[var(--border-color)] hover:border-[#BA9E6A]'
               }`}
             >
               <SlidersHorizontal size={15} />
@@ -512,7 +637,7 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
                 type="button"
                 onClick={handleResetFilters}
                 aria-label="Reset all filters"
-                className="min-h-[44px] min-w-[44px] sm:min-h-[40px] sm:min-w-[40px] rounded-xl bg-white/10 border border-white/20 text-white/80 hover:text-white flex items-center justify-center transition-all cursor-pointer"
+                className="min-h-[44px] min-w-[44px] sm:min-h-[40px] sm:min-w-[40px] rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-muted)] hover:text-[var(--text-primary)] flex items-center justify-center transition-all cursor-pointer"
                 title="Reset all filters"
               >
                 <RotateCcw size={15} />
@@ -522,9 +647,9 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
         </div>
 
         {/* Quick Work-Arrangement Chips Row */}
-        <div className="relative z-10 mt-3 flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-          <span className="text-[11px] font-bold text-white/60 whitespace-nowrap mr-1 hidden sm:inline">
-            Model:
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none pt-1">
+          <span className="text-[11px] font-bold text-[var(--text-muted)] whitespace-nowrap mr-1 hidden sm:inline">
+            Work Model:
           </span>
           {(['all', 'remote', 'hybrid', 'on-site'] as const).map((mode) => (
             <button
@@ -533,22 +658,22 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
               onClick={() => setSelectedArrangement(mode)}
               className={`px-3 py-1.5 rounded-xl text-xs font-bold capitalize transition-all cursor-pointer shrink-0 min-h-[36px] flex items-center ${
                 selectedArrangement === mode
-                  ? 'bg-[#BA9E6A] text-white shadow-xs'
-                  : 'bg-white/10 text-white/70 hover:bg-white/20'
+                  ? 'bg-[#003E5A] text-white shadow-xs dark:bg-[#BA9E6A]'
+                  : 'bg-[var(--bg-secondary)] text-[var(--text-secondary)] border border-[var(--border-color)] hover:border-[#BA9E6A]'
               }`}
             >
               {mode}
             </button>
           ))}
           {totalFilteredCount > 0 && (
-            <span className="text-xs font-bold text-[#CBB285] ml-auto shrink-0 pl-2">
+            <span className="text-xs font-bold text-[#BA9E6A] ml-auto shrink-0 pl-2">
               {totalFilteredCount} eligible {totalFilteredCount === 1 ? 'mandate' : 'mandates'}
             </span>
           )}
         </div>
       </div>
 
-      {/* Expandable / Drawer Filter Panel */}
+      {/* Expandable Filter Panel */}
       {isFilterDrawerOpen && (
         <div 
           className="p-5 sm:p-6 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-2xl shadow-sm space-y-5 animate-in slide-in-from-top duration-200"
@@ -581,7 +706,7 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* 1. Job Category / Industry */}
+            {/* 1. Industry */}
             <div className="space-y-1.5">
               <label htmlFor="filter-industry" className="text-xs font-bold text-[var(--text-muted)] flex items-center gap-1">
                 <Briefcase size={12} /> Industry Domain
@@ -714,52 +839,7 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
         </div>
       )}
 
-      {/* Analytics KPI Ribbon (collapsible) */}
-      {showAnalyticsBanner && (
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 p-4 sm:p-5 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-2xl shadow-xs animate-in slide-in-from-top duration-200">
-          <div className="space-y-1">
-            <div className="text-[10px] font-black uppercase tracking-wider text-[var(--text-muted)] flex items-center gap-1.5">
-              <Briefcase size={12} className="text-[#003E5A] dark:text-[#CBB285]" /> Total Mandates
-            </div>
-            <div className="text-lg sm:text-xl font-black text-[var(--text-primary)]">
-              {allJobs.length}
-            </div>
-            <div className="text-[11px] text-[var(--text-muted)]">Verified open roles</div>
-          </div>
-
-          <div className="space-y-1">
-            <div className="text-[10px] font-black uppercase tracking-wider text-[var(--text-muted)] flex items-center gap-1.5">
-              <Sparkles size={12} className="text-[#BA9E6A]" /> Top Match
-            </div>
-            <div className="text-lg sm:text-xl font-black text-[#BA9E6A]">
-              {topMatchScore}%
-            </div>
-            <div className="text-[11px] text-[var(--text-muted)] truncate">For {currentCandidate?.fullName || 'Candidate'}</div>
-          </div>
-
-          <div className="space-y-1">
-            <div className="text-[10px] font-black uppercase tracking-wider text-[var(--text-muted)] flex items-center gap-1.5">
-              <Bookmark size={12} className="text-indigo-500" /> Saved Pipeline
-            </div>
-            <div className="text-lg sm:text-xl font-black text-[var(--text-primary)]">
-              {analytics?.saves || recommendations?.becauseYouSaved.length || 0}
-            </div>
-            <div className="text-[11px] text-[var(--text-muted)]">Bookmarked jobs</div>
-          </div>
-
-          <div className="space-y-1">
-            <div className="text-[10px] font-black uppercase tracking-wider text-[var(--text-muted)] flex items-center gap-1.5">
-              <Heart size={12} className="text-emerald-500" /> Mutual Interest
-            </div>
-            <div className="text-lg sm:text-xl font-black text-emerald-600 dark:text-emerald-400">
-              {analytics?.expressionsOfInterest || 0}
-            </div>
-            <div className="text-[11px] text-[var(--text-muted)]">Introductions logged</div>
-          </div>
-        </div>
-      )}
-
-      {/* Responsive Shelf Filter Tabs */}
+      {/* Shelf Filter Tabs */}
       <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
         {[
           { id: 'all', label: 'All Shelves', icon: Layers },
@@ -832,7 +912,7 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
                 <Layers size={18} className="text-emerald-500 shrink-0" /> Jobs Based on Demonstrated Skills
               </h2>
               <p className="text-xs text-[var(--text-muted)]">
-                Direct alignment with your core technical tools and framework proficiencies.
+                Direct alignment with core technical tools and framework proficiencies.
               </p>
             </div>
             <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 shrink-0 pl-2">
