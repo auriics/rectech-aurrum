@@ -8,6 +8,7 @@ import { ClientTalentInsights } from './client/ClientTalentInsights';
 import { ClientCvRepository } from './client/ClientCvRepository';
 import { ClientProfile } from './client/ClientProfile';
 import { ClientNotifications } from './client/ClientNotifications';
+import { JobDiscoveryMarketplace } from './jobs/JobDiscoveryMarketplace';
 
 export { 
   ClientDashboardHome, 
@@ -145,6 +146,19 @@ export const ClientDashboard: React.FC<ClientDashboardProps> = ({
       <ClientProfile
         user={user}
         role={role}
+      />
+    );
+  }
+
+  if (activeTab === 'job-discovery') {
+    return (
+      <JobDiscoveryMarketplace
+        candidate={candidates?.[0] || null}
+        candidatesList={candidates}
+        onNavigateToCandidate={(cid) => {
+          const cand = candidates.find(c => c.id === cid);
+          if (cand && onSelectCandidate) onSelectCandidate(cand);
+        }}
       />
     );
   }

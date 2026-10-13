@@ -2758,6 +2758,11 @@ Status: ${candidate.status || 'Sourced'}`;
             </section>
 
           </div>
+
+          {/* AI Talent Marketplace & Personalized Recommendations */}
+          <div className="mt-12 pt-8 border-t border-[var(--border-color)]">
+            <JobDiscoveryMarketplace candidate={candidate} />
+          </div>
         </div>
       </div>
 

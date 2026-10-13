@@ -2086,6 +2086,8 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
                 ? 'CV Parsing Engine' 
                 : activeTab === 'invoices'
                 ? 'Generated Invoices'
+                : activeTab === 'job-discovery'
+                ? 'AI Job Discovery & Recommendations'
                 : 'Dashboard'}
             </span>
           </div>
@@ -2236,6 +2238,15 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
              <WebsiteLeadsView candidates={candidates} onRefresh={() => {}} />
           ) : activeTab === 'invoices' ? (
              <InvoiceList />
+          ) : activeTab === 'job-discovery' ? (
+             <JobDiscoveryMarketplace 
+               candidate={selectedCandidate || activeCandidates[0] || null} 
+               candidatesList={activeCandidates}
+               onNavigateToCandidate={(cid) => {
+                 const cand = activeCandidates.find(c => c.id === cid);
+                 if (cand) handleCandidateSelect(cand);
+               }}
+             />
           ) : role === 'client' ? (
              <ClientDashboard 
                candidates={activeCandidates} 

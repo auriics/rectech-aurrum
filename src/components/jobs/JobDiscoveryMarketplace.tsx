@@ -7,13 +7,19 @@ import {
   Bookmark, 
   TrendingUp, 
   Clock, 
-  Flame, 
   ShieldCheck, 
   RefreshCw, 
   CheckCircle2, 
   ChevronRight,
   Briefcase,
-  AlertCircle
+  AlertCircle,
+  User,
+  UserCheck,
+  BarChart2,
+  Heart,
+  Eye,
+  SlidersHorizontal,
+  X
 } from 'lucide-react';
 import { 
   JobOpening, 
@@ -34,21 +40,46 @@ import { JobDetailsModal } from './JobDetailsModal';
 import { useToast } from '../../contexts/ToastContext';
 
 interface JobDiscoveryMarketplaceProps {
-  candidate: any;
+  candidate?: any;
+  candidatesList?: any[];
   onNavigateToCandidate?: (id: string) => void;
 }
 
 export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = ({
   candidate,
+  candidatesList = [],
   onNavigateToCandidate
 }) => {
   const { showSuccess, showInfo, showError } = useToast();
   
+  // Active candidate selection
+  const [currentCandidate, setCurrentCandidate] = useState<any>(
+    candidate || (candidatesList && candidatesList.length > 0 ? candidatesList[0] : null)
+  );
+
+  useEffect(() => {
+    if (candidate) {
+      setCurrentCandidate(candidate);
+    } else if (candidatesList && candidatesList.length > 0 && !currentCandidate) {
+      setCurrentCandidate(candidatesList[0]);
+    }
+  }, [candidate, candidatesList]);
+
   const [loading, setLoading] = useState(true);
   const [allJobs, setAllJobs] = useState<JobOpening[]>([]);
   const [recommendations, setRecommendations] = useState<RecommendationSectionData | null>(null);
   const [consent, setConsent] = useState<CandidatePersonalizationConsent | null>(null);
   
+  // Analytics state
+  const [analytics, setAnalytics] = useState<{
+    totalInteractions: number;
+    views: number;
+    saves: number;
+    dismissals: number;
+    expressionsOfInterest: number;
+  } | null>(null);
+  const [showAnalyticsBanner, setShowAnalyticsBanner] = useState(false);
+
   // Active selected job for detail modal
   const [selectedRec, setSelectedRec] = useState<JobRecommendation | null>(null);
   const [similarJobs, setSimilarJobs] = useState<JobRecommendation[]>([]);
@@ -56,22 +87,37 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
   // Search & Filter state
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedArrangement, setSelectedArrangement] = useState<'all' | 'remote' | 'hybrid' | 'on-site'>('all');
-  const [activeSectionTab, setActiveSectionTab] = useState<'all' | 'recommended' | 'skills' | 'saved' | 'career'>('all');
+  const [activeSectionTab, setActiveSectionTab] = useState<'all' | 'recommended' | 'skills' | 'career' | 'saved' | 'new'>('all');
 
-  // Load jobs and recommendations
+  // Load jobs, recommendations, and analytics
   const loadData = async () => {
     setLoading(true);
     try {
       const jobs = await getMarketplaceJobs();
       setAllJobs(jobs);
 
-      if (candidate?.id) {
-        const consentData = await getCandidateConsent(candidate.id);
+      if (currentCandidate?.id) {
+        const consentData = await getCandidateConsent(currentCandidate.id);
         setConsent(consentData);
+      } else {
+        setConsent(null);
       }
 
-      const recData = await generatePersonalizedRecommendations(candidate, jobs);
+      const recData = await generatePersonalizedRecommendations(currentCandidate, jobs);
       setRecommendations(recData);
+
+      // Fetch background analytics
+      try {
+        const res = await fetch('/api/marketplace/analytics');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.status && data.metrics) {
+            setAnalytics(data.metrics);
+          }
+        }
+      } catch (err) {
+        // Analytics endpoint non-critical fallback
+      }
     } catch (err) {
       console.error('[JobDiscovery] Error loading data:', err);
       showError('Failed to load personalized job recommendations.');
@@ -82,24 +128,27 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
 
   useEffect(() => {
     loadData();
-  }, [candidate?.id]);
+  }, [currentCandidate?.id]);
 
   // Open detail modal and calculate similar jobs
   const handleViewJob = (rec: JobRecommendation) => {
     setSelectedRec(rec);
-    if (candidate?.id) {
-      recordCandidateInteraction(candidate.id, rec.job.id, 'view');
+    if (currentCandidate?.id) {
+      recordCandidateInteraction(currentCandidate.id, rec.job.id, 'view');
     }
-    const similar = getSimilarJobsForJob(rec.job, allJobs, candidate);
+    const similar = getSimilarJobsForJob(rec.job, allJobs, currentCandidate);
     setSimilarJobs(similar);
   };
 
   // Actions
   const handleSaveJob = async (jobId: string) => {
-    if (!candidate?.id) return;
+    if (!currentCandidate?.id) {
+      showInfo('Please select a candidate profile to save opportunities.');
+      return;
+    }
     try {
-      await recordCandidateInteraction(candidate.id, jobId, 'save');
-      showSuccess('✓ Job saved to your personal career tracker!');
+      await recordCandidateInteraction(currentCandidate.id, jobId, 'save');
+      showSuccess('✓ Opportunity saved to candidate career tracker!');
       // Update local state
       setRecommendations(prev => {
         if (!prev) return null;
@@ -114,16 +163,18 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
           recentlyViewed: updateList(prev.recentlyViewed)
         };
       });
+      // Increment save count in analytics locally
+      setAnalytics(prev => prev ? { ...prev, saves: prev.saves + 1, totalInteractions: prev.totalInteractions + 1 } : null);
     } catch (e) {
       showError('Failed to save job.');
     }
   };
 
   const handleDismissJob = async (jobId: string) => {
-    if (!candidate?.id) return;
+    if (!currentCandidate?.id) return;
     try {
-      await recordCandidateInteraction(candidate.id, jobId, 'dismiss');
-      showInfo('Job dismissed. Your recommendation model will adapt.');
+      await recordCandidateInteraction(currentCandidate.id, jobId, 'dismiss');
+      showInfo('Opportunity dismissed. Matching model adjusted.');
       // Remove from view
       setRecommendations(prev => {
         if (!prev) return null;
@@ -139,15 +190,19 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
         };
       });
       if (selectedRec?.job.id === jobId) setSelectedRec(null);
+      setAnalytics(prev => prev ? { ...prev, dismissals: prev.dismissals + 1, totalInteractions: prev.totalInteractions + 1 } : null);
     } catch (e) {
       console.error(e);
     }
   };
 
   const handleExpressInterest = async (jobId: string) => {
-    if (!candidate?.id) return;
+    if (!currentCandidate?.id) {
+      showInfo('Please select a candidate profile to register mutual interest.');
+      return;
+    }
     try {
-      await recordCandidateInteraction(candidate.id, jobId, 'express_interest');
+      await recordCandidateInteraction(currentCandidate.id, jobId, 'express_interest');
       showSuccess('✓ Mutual Interest Recorded! Aurrum matching team notified.');
       setRecommendations(prev => {
         if (!prev) return null;
@@ -164,6 +219,7 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
       if (selectedRec && selectedRec.job.id === jobId) {
         setSelectedRec(prev => prev ? { ...prev, hasExpressedInterest: true } : null);
       }
+      setAnalytics(prev => prev ? { ...prev, expressionsOfInterest: prev.expressionsOfInterest + 1, totalInteractions: prev.totalInteractions + 1 } : null);
     } catch (e) {
       showError('Failed to record expression of interest.');
     }
@@ -171,29 +227,40 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
 
   // Toggle personalization consent
   const handleTogglePersonalization = async () => {
-    if (!candidate?.id || !consent) return;
+    if (!currentCandidate?.id || !consent) {
+      showInfo('Personalization toggle requires an active candidate record.');
+      return;
+    }
     const nextState = !consent.personalizationEnabled;
-    await updateCandidateConsent(candidate.id, { personalizationEnabled: nextState });
+    await updateCandidateConsent(currentCandidate.id, { personalizationEnabled: nextState });
     setConsent(prev => prev ? { ...prev, personalizationEnabled: nextState } : null);
     if (nextState) {
       showSuccess('✓ Personalized AI job discovery enabled.');
     } else {
-      showInfo('Personalization paused. Showing standard market opportunities.');
+      showInfo('Personalization paused. Standard marketplace view active.');
     }
   };
 
-  // Filter recommendations based on search term
+  // Filter recommendations based on search query & arrangement
   const filterListBySearch = (list: JobRecommendation[]) => {
     return list.filter(item => {
-      const matchesSearch = !searchQuery || 
-        item.job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.job.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.job.requiredSkills.some(s => s.toLowerCase().includes(searchQuery.toLowerCase()));
+      const q = searchQuery.toLowerCase().trim();
+      const matchesSearch = !q || 
+        item.job.title.toLowerCase().includes(q) ||
+        item.job.company.toLowerCase().includes(q) ||
+        item.job.location.toLowerCase().includes(q) ||
+        item.job.requiredSkills.some(s => s.toLowerCase().includes(q));
       
       const matchesArrangement = selectedArrangement === 'all' || item.job.workArrangement === selectedArrangement;
       return matchesSearch && matchesArrangement;
     });
   };
+
+  // Top match percentage computation for candidate
+  const topMatchScore = useMemo(() => {
+    if (!recommendations || recommendations.recommendedForYou.length === 0) return 0;
+    return Math.round(recommendations.recommendedForYou[0].matchScore.totalScore);
+  }, [recommendations]);
 
   if (loading) {
     return (
@@ -207,9 +274,59 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
   }
 
   return (
-    <div className="space-y-10 animate-in fade-in duration-300 pb-16">
+    <div className="space-y-8 animate-in fade-in duration-300 pb-16">
+      {/* Recruiter / Admin Candidate Switcher Toolbar */}
+      {candidatesList.length > 0 && (
+        <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-2xl p-4 shadow-xs flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3 w-full md:w-auto">
+            <div className="w-10 h-10 rounded-xl bg-[#003E5A]/10 text-[#003E5A] dark:text-[#CBB285] dark:bg-[#BA9E6A]/20 flex items-center justify-center shrink-0">
+              <UserCheck size={20} />
+            </div>
+            <div>
+              <div className="text-[10px] font-black uppercase tracking-wider text-[var(--text-muted)]">
+                Active Matching Profile
+              </div>
+              <div className="text-sm font-bold text-[var(--text-primary)]">
+                {currentCandidate?.fullName || currentCandidate?.name || 'All Open Marketplace Jobs'}
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 w-full md:w-auto">
+            <label htmlFor="candidate-select" className="text-xs font-semibold text-[var(--text-muted)] whitespace-nowrap hidden sm:inline">
+              Switch Candidate:
+            </label>
+            <select
+              id="candidate-select"
+              value={currentCandidate?.id || ''}
+              onChange={(e) => {
+                const found = candidatesList.find(c => c.id === e.target.value);
+                if (found) setCurrentCandidate(found);
+              }}
+              className="w-full md:w-72 bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-primary)] rounded-xl py-2 px-3 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#BA9E6A] cursor-pointer"
+            >
+              {candidatesList.map(c => (
+                <option key={c.id} value={c.id}>
+                  {c.fullName || c.name || 'Unnamed'} {c.domainFocus ? `(${c.domainFocus})` : ''}
+                </option>
+              ))}
+            </select>
+
+            {currentCandidate && onNavigateToCandidate && (
+              <button
+                onClick={() => onNavigateToCandidate(currentCandidate.id)}
+                className="crm-btn-secondary px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap cursor-pointer hover:border-[#BA9E6A]"
+                title="Open Candidate Profile in Modal"
+              >
+                View Profile
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Hero Discovery Banner */}
-      <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-r from-[#003E5A] via-[#00334A] to-[#002233] p-8 text-white shadow-xl border border-white/10">
+      <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-r from-[#003E5A] via-[#00334A] to-[#002233] p-6 sm:p-8 text-white shadow-xl border border-white/10">
         <div className="absolute top-0 right-0 w-96 h-96 bg-[#BA9E6A]/10 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2 max-w-2xl">
@@ -220,24 +337,38 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
               Personalized Job Discovery & Opportunities
             </h1>
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              Continuous neural career matching aligning your demonstrated skills, verified experience, and workplace preferences with open recruitment mandates.
+              Continuous neural career matching aligning candidate skills, verified experience, and workplace preferences with open recruitment mandates.
             </p>
           </div>
 
-          {/* Privacy & Recalculate Widget */}
-          <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
+          {/* Privacy & Recalculate Controls */}
+          <div className="flex flex-wrap items-center gap-2.5 shrink-0">
             <button
-              onClick={handleTogglePersonalization}
-              className={`px-4 py-2.5 rounded-xl text-xs font-bold border transition-all flex items-center gap-2 cursor-pointer ${
-                consent?.personalizationEnabled
-                  ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
-                  : 'bg-white/10 text-white/70 border-white/20'
+              onClick={() => setShowAnalyticsBanner(prev => !prev)}
+              className={`px-3.5 py-2.5 rounded-xl text-xs font-bold border transition-all flex items-center gap-1.5 cursor-pointer ${
+                showAnalyticsBanner
+                  ? 'bg-[#BA9E6A] text-white border-[#BA9E6A]'
+                  : 'bg-white/10 text-white/80 border-white/20 hover:bg-white/20'
               }`}
-              title="Toggle AI Personalization & Matching History"
             >
-              <ShieldCheck size={16} />
-              <span>Personalization: {consent?.personalizationEnabled ? 'Active' : 'Paused'}</span>
+              <BarChart2 size={15} />
+              <span>{showAnalyticsBanner ? 'Hide Signals' : 'Marketplace Signals'}</span>
             </button>
+
+            {currentCandidate && (
+              <button
+                onClick={handleTogglePersonalization}
+                className={`px-3.5 py-2.5 rounded-xl text-xs font-bold border transition-all flex items-center gap-1.5 cursor-pointer ${
+                  consent?.personalizationEnabled
+                    ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+                    : 'bg-white/10 text-white/70 border-white/20'
+                }`}
+                title="Toggle AI Personalization & Matching History"
+              >
+                <ShieldCheck size={15} />
+                <span>Personalization: {consent?.personalizationEnabled ? 'Active' : 'Paused'}</span>
+              </button>
+            )}
 
             <button
               onClick={loadData}
@@ -280,8 +411,83 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
         </div>
       </div>
 
+      {/* Analytics KPI Ribbon (collapsible or active) */}
+      {showAnalyticsBanner && (
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-5 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-2xl shadow-xs animate-in slide-in-from-top duration-200">
+          <div className="space-y-1">
+            <div className="text-[10px] font-black uppercase tracking-wider text-[var(--text-muted)] flex items-center gap-1.5">
+              <Briefcase size={12} className="text-[#003E5A] dark:text-[#CBB285]" /> Total Mandates
+            </div>
+            <div className="text-xl font-black text-[var(--text-primary)]">
+              {allJobs.length}
+            </div>
+            <div className="text-[11px] text-[var(--text-muted)]">Verified open roles</div>
+          </div>
+
+          <div className="space-y-1">
+            <div className="text-[10px] font-black uppercase tracking-wider text-[var(--text-muted)] flex items-center gap-1.5">
+              <Sparkles size={12} className="text-[#BA9E6A]" /> Top Match Score
+            </div>
+            <div className="text-xl font-black text-[#BA9E6A]">
+              {topMatchScore}%
+            </div>
+            <div className="text-[11px] text-[var(--text-muted)]">For {currentCandidate?.fullName || 'Candidate'}</div>
+          </div>
+
+          <div className="space-y-1">
+            <div className="text-[10px] font-black uppercase tracking-wider text-[var(--text-muted)] flex items-center gap-1.5">
+              <Bookmark size={12} className="text-indigo-500" /> Saved Pipeline
+            </div>
+            <div className="text-xl font-black text-[var(--text-primary)]">
+              {analytics?.saves || recommendations?.becauseYouSaved.length || 0}
+            </div>
+            <div className="text-[11px] text-[var(--text-muted)]">Candidate career bookmarks</div>
+          </div>
+
+          <div className="space-y-1">
+            <div className="text-[10px] font-black uppercase tracking-wider text-[var(--text-muted)] flex items-center gap-1.5">
+              <Heart size={12} className="text-emerald-500" /> Mutual Introductions
+            </div>
+            <div className="text-xl font-black text-emerald-600 dark:text-emerald-400">
+              {analytics?.expressionsOfInterest || 0}
+            </div>
+            <div className="text-[11px] text-[var(--text-muted)]">Expressions of interest</div>
+          </div>
+        </div>
+      )}
+
+      {/* Shelf Filter Tabs */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+        {[
+          { id: 'all', label: 'All Shelves', icon: Layers },
+          { id: 'recommended', label: 'Recommended for You', icon: Sparkles },
+          { id: 'skills', label: 'Based on Skills', icon: CheckCircle2 },
+          { id: 'career', label: 'Career Moves', icon: TrendingUp },
+          { id: 'saved', label: 'Saved Jobs', icon: Bookmark },
+          { id: 'new', label: 'New This Week', icon: Clock },
+        ].map(tab => {
+          const Icon = tab.icon;
+          const isActive = activeSectionTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveSectionTab(tab.id as any)}
+              className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+                isActive
+                  ? 'bg-[#003E5A] text-white shadow-xs dark:bg-[#BA9E6A]'
+                  : 'bg-[var(--card-bg)] text-[var(--text-secondary)] border border-[var(--border-color)] hover:border-[#BA9E6A]'
+              }`}
+            >
+              <Icon size={14} className={isActive ? 'text-[#BA9E6A] dark:text-[#003E5A]' : 'text-[var(--text-muted)]'} />
+              <span>{tab.label}</span>
+            </button>
+          );
+        })}
+      </div>
+
       {/* SECTION 1: Recommended for You (Highest Relevance & Eligible) */}
-      {recommendations && recommendations.recommendedForYou.length > 0 && (
+      {(activeSectionTab === 'all' || activeSectionTab === 'recommended') && 
+       recommendations && recommendations.recommendedForYou.length > 0 && (
         <section className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
@@ -313,17 +519,21 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
       )}
 
       {/* SECTION 2: Jobs Based on Your Skills */}
-      {recommendations && recommendations.skillsBasedJobs.length > 0 && (
+      {(activeSectionTab === 'all' || activeSectionTab === 'skills') && 
+       recommendations && recommendations.skillsBasedJobs.length > 0 && (
         <section className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <h2 className="text-lg font-black text-[var(--text-primary)] flex items-center gap-2">
-                <Layers size={18} className="text-emerald-500" /> Jobs Based on Your Demonstrated Skills
+                <Layers size={18} className="text-emerald-500" /> Jobs Based on Demonstrated Skills
               </h2>
               <p className="text-xs text-[var(--text-muted)]">
                 Direct alignment with your core technical tools and framework proficiencies.
               </p>
             </div>
+            <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">
+              {filterListBySearch(recommendations.skillsBasedJobs).length} matches
+            </span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -342,7 +552,8 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
       )}
 
       {/* SECTION 3: Explore Your Next Career Move (Transferable Skills) */}
-      {recommendations && recommendations.careerMoveJobs.length > 0 && (
+      {(activeSectionTab === 'all' || activeSectionTab === 'career') && 
+       recommendations && recommendations.careerMoveJobs.length > 0 && (
         <section className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
@@ -353,6 +564,9 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
                 Adjacent roles where your transferable competencies unlock high-impact promotion tracks.
               </p>
             </div>
+            <span className="text-xs font-bold text-indigo-500">
+              {filterListBySearch(recommendations.careerMoveJobs).length} matches
+            </span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -371,7 +585,8 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
       )}
 
       {/* SECTION 4: Because You Saved This Job */}
-      {recommendations && recommendations.becauseYouSaved.length > 0 && (
+      {(activeSectionTab === 'all' || activeSectionTab === 'saved') && 
+       recommendations && recommendations.becauseYouSaved.length > 0 && (
         <section className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
@@ -382,6 +597,9 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
                 Opportunities closely related to your active bookmarks and saved selections.
               </p>
             </div>
+            <span className="text-xs font-bold text-[#BA9E6A]">
+              {filterListBySearch(recommendations.becauseYouSaved).length} matches
+            </span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -400,7 +618,8 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
       )}
 
       {/* SECTION 5: Recently Viewed / New Matches */}
-      {recommendations && recommendations.newMatches.length > 0 && (
+      {(activeSectionTab === 'all' || activeSectionTab === 'new') && 
+       recommendations && recommendations.newMatches.length > 0 && (
         <section className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
@@ -411,6 +630,9 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
                 Newly published mandates added to the Aurrum Talent Marketplace.
               </p>
             </div>
+            <span className="text-xs font-bold text-sky-500">
+              {filterListBySearch(recommendations.newMatches).length} matches
+            </span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -426,6 +648,36 @@ export const JobDiscoveryMarketplace: React.FC<JobDiscoveryMarketplaceProps> = (
             ))}
           </div>
         </section>
+      )}
+
+      {/* Empty State when search or filter yields no results */}
+      {recommendations && 
+       filterListBySearch(recommendations.recommendedForYou).length === 0 &&
+       filterListBySearch(recommendations.skillsBasedJobs).length === 0 &&
+       filterListBySearch(recommendations.careerMoveJobs).length === 0 && (
+        <div className="text-center py-16 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-2xl p-8 space-y-3">
+          <div className="w-12 h-12 rounded-full bg-[#BA9E6A]/20 text-[#BA9E6A] mx-auto flex items-center justify-center">
+            <Search size={22} />
+          </div>
+          <h3 className="text-base font-bold text-[var(--text-primary)]">
+            No matching opportunities found
+          </h3>
+          <p className="text-xs text-[var(--text-muted)] max-w-md mx-auto">
+            Try adjusting your search criteria, switching work arrangements, or clearing search filters.
+          </p>
+          {(searchQuery || selectedArrangement !== 'all' || activeSectionTab !== 'all') && (
+            <button
+              onClick={() => {
+                setSearchQuery('');
+                setSelectedArrangement('all');
+                setActiveSectionTab('all');
+              }}
+              className="crm-btn-secondary px-4 py-2 rounded-xl text-xs font-bold cursor-pointer"
+            >
+              Reset Filters
+            </button>
+          )}
+        </div>
       )}
 
       {/* Job Details Modal with Similar Jobs */}

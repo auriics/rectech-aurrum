@@ -56,6 +56,7 @@ export default function Sidebar({
         ...(role === 'admin' || role === 'developer' ? [{ icon: Sparkles, label: 'Candidate Review', id: 'client-portal' }] : []),
         { icon: Layers, label: 'Pipeline', id: 'pipeline' },
         { icon: Users, label: 'Candidates', id: 'candidates' },
+        { icon: Briefcase, label: 'Job Discovery', id: 'job-discovery' },
         { icon: Linkedin, label: 'LinkedIn Search', id: 'linkedin-search' },
         { icon: FileText, label: 'CV Repository', id: 'repository' },
       ]
