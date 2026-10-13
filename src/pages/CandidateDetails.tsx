@@ -18,6 +18,7 @@ import { createNotification, notifyMultiple, formatNotificationMessage } from '.
 import ConfirmModal from '../components/ConfirmModal';
 import { useToast } from '../contexts/ToastContext';
 import HorizontalPipelineStepper from '../components/HorizontalPipelineStepper';
+import { JobDiscoveryMarketplace } from '../components/jobs/JobDiscoveryMarketplace';
 import { fetchCvList } from '../services/cvApiService';
 import { parseResumeHeuristically, extractTextFromPDF, extractTextFromDocx } from '../lib/localParser';
 import { getStorage, ref, getBytes } from 'firebase/storage';

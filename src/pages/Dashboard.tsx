@@ -30,6 +30,7 @@ import SystemSettings from '../components/SystemSettings';
 import CustomSkillsManager from '../components/CustomSkillsManager';
 import BulkUpload from '../components/BulkUpload';
 import CVRepository from '../components/CVRepository';
+import { JobDiscoveryMarketplace } from '../components/jobs/JobDiscoveryMarketplace';
 import GoogleSheetsSync from '../components/GoogleSheetsSync';
 import { RecruitmentPipeline } from '../components/RecruitmentPipeline';
 import { ClientDashboard } from '../components/ClientDashboard';

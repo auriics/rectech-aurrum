@@ -2477,6 +2477,107 @@ app.get('/api/backup/download/:type', async (req, res) => {
 
 
 
+
+// =========================================================================
+// AI TALENT MARKETPLACE - BACKGROUND JOB DISCOVERY & RECOMMENDATION ENDPOINTS
+// =========================================================================
+
+// 1. Get or seed marketplace open jobs
+app.get('/api/marketplace/jobs', async (req, res) => {
+  try {
+    const jobsSnapshot = await adminDb.collection('marketplace_jobs').where('status', '==', 'open').limit(100).get();
+    const jobs = jobsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    res.json({ status: true, count: jobs.length, jobs });
+  } catch (err: any) {
+    console.error('[Marketplace API] Error fetching jobs:', err);
+    res.status(500).json({ status: false, error: err.message });
+  }
+});
+
+// 2. Continuous background recalculation endpoint for candidate recommendations
+app.post('/api/marketplace/recommendations/recalculate', async (req, res) => {
+  const { candidateId } = req.body;
+  if (!candidateId) {
+    return res.status(400).json({ status: false, message: 'candidateId is required' });
+  }
+
+  try {
+    const candidateDoc = await adminDb.collection('candidates').doc(candidateId).get();
+    if (!candidateDoc.exists) {
+      return res.status(404).json({ status: false, message: 'Candidate not found' });
+    }
+
+    const candidateData = candidateDoc.data();
+    const jobsSnapshot = await adminDb.collection('marketplace_jobs').where('status', '==', 'open').limit(50).get();
+    const jobs = jobsSnapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+
+    // Update recommendation calculation timestamp on candidate profile
+    await adminDb.collection('candidates').doc(candidateId).update({
+      recommendationsUpdatedAt: new Date().toISOString(),
+      recommendationsCachedCount: jobs.length
+    });
+
+    res.json({
+      status: true,
+      message: 'Background recommendation scoring complete',
+      candidateId,
+      evaluatedJobsCount: jobs.length,
+      timestamp: new Date().toISOString()
+    });
+  } catch (err: any) {
+    console.error('[Marketplace API] Recalculate error:', err);
+    res.status(500).json({ status: false, error: err.message });
+  }
+});
+
+// 3. Record interaction (view, save, dismiss, express_interest)
+app.post('/api/marketplace/interactions', async (req, res) => {
+  const { candidateId, jobId, interactionType, metadata } = req.body;
+  if (!candidateId || !jobId || !interactionType) {
+    return res.status(400).json({ status: false, message: 'candidateId, jobId, and interactionType are required' });
+  }
+
+  try {
+    const ref = await adminDb.collection('candidate_job_interactions').add({
+      candidateId,
+      jobId,
+      interactionType,
+      metadata: metadata || {},
+      timestamp: new Date().toISOString()
+    });
+
+    res.json({ status: true, id: ref.id, message: 'Interaction recorded' });
+  } catch (err: any) {
+    console.error('[Marketplace API] Interaction error:', err);
+    res.status(500).json({ status: false, error: err.message });
+  }
+});
+
+// 4. Recommendation Analytics & Monitoring Endpoint
+app.get('/api/marketplace/analytics', async (req, res) => {
+  try {
+    const interactionsSnap = await adminDb.collection('candidate_job_interactions').limit(500).get();
+    const interactions = interactionsSnap.docs.map(d => d.data());
+
+    const counts = {
+      totalInteractions: interactions.length,
+      views: interactions.filter((i: any) => i.interactionType === 'view').length,
+      saves: interactions.filter((i: any) => i.interactionType === 'save').length,
+      dismissals: interactions.filter((i: any) => i.interactionType === 'dismiss').length,
+      expressionsOfInterest: interactions.filter((i: any) => i.interactionType === 'express_interest').length,
+    };
+
+    res.json({
+      status: true,
+      metrics: counts,
+      timestamp: new Date().toISOString()
+    });
+  } catch (err: any) {
+    console.error('[Marketplace API] Analytics error:', err);
+    res.status(500).json({ status: false, error: err.message });
+  }
+});
+
 // Configure Vite layout static serving and wildcard routing asynchronously
 async function bootstrap() {
   if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {

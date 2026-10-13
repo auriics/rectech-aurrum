@@ -1,7 +1,7 @@
 import React from 'react';
 import { NotificationBadge } from '../NotificationBadge';
 import { 
-  LayoutDashboard, Users, FileText, BarChart2, Bell, Settings, LogOut, 
+  LayoutDashboard, Users, FileText, BarChart2, Bell, Settings, LogOut, Briefcase, 
   ChevronLeft, ChevronRight, Sparkles, Layers, Receipt, Linkedin, Shield, Star, User, FileSpreadsheet
 } from 'lucide-react';
 import { auth } from '../../lib/firebase';
@@ -38,6 +38,7 @@ export default function Sidebar({
         { icon: Star, label: 'Shortlist', id: 'shortlist' },
         { icon: BarChart2, label: 'Talent Insights', id: 'analytics' },
         { icon: FileText, label: 'CV Repository', id: 'repository' },
+        { icon: Briefcase, label: 'Job Discovery', id: 'job-discovery' },
       ]
     },
     {
