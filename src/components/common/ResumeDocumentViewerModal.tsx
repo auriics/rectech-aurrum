@@ -101,7 +101,7 @@ export const ResumeDocumentViewerModal: React.FC<ResumeDocumentViewerModalProps>
     } else {
       const printWindow = window.open('', '_blank');
       if (printWindow) {
-        printWindow.document.write(`<html><head><title>Resume - ${candidate.fullName}</title><style>body{font-family:sans-serif;padding:40px;line-height:1.6;}</style></head><body><h1>${candidate.fullName}</h1><pre>${rawText}</pre></body></html>`);
+        printWindow.document.write(`<html><head><title>Resume - ${candidate.fullName}</title><style>body{font-family:'Poppins',sans-serif;padding:40px;line-height:1.6;}</style></head><body><h1>${candidate.fullName}</h1><pre>${rawText}</pre></body></html>`);
         printWindow.document.close();
         printWindow.print();
       }

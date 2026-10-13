@@ -185,7 +185,7 @@ export const InvoiceList = () => {
         <tr style="border-bottom: 1px solid #cbd5e1;">
           <td style="padding: 10px 12px; text-align: center; color: #002D38;">1</td>
           <td style="padding: 10px 12px; font-weight: 600; color: #002D38;" colspan="3">${inv.serviceDescription || 'Placement Fee - Recruitment Services'}</td>
-          <td style="padding: 10px 12px; text-align: right; font-family: monospace; font-weight: 600; color: #002D38;">$${effectiveSubForPdf.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+          <td style="padding: 10px 12px; text-align: right; font-family: 'Poppins', sans-serif; font-weight: 600; color: #002D38;">$${effectiveSubForPdf.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
         </tr>
       ` : (inv.candidates || []).map((c: any, index: number) => `
         <tr style="border-bottom: 1px solid #cbd5e1;">
@@ -193,7 +193,7 @@ export const InvoiceList = () => {
           <td style="padding: 8px 12px; font-weight: 600; color: #002D38;">${c.candidateName}</td>
           <td style="padding: 8px 12px; color: #475569;">${c.position || 'N/A'}</td>
           <td style="padding: 8px 12px;"><span style="background-color: #f1f5f9; color: #475569; padding: 2px 6px; border-radius: 4px; font-size: 14px; font-weight: 600;">${c.billingType || 'Placement'}</span></td>
-          <td style="padding: 8px 12px; text-align: right; font-family: monospace; font-weight: 600; color: #002D38;">$${Number(c.fee || c.amount || 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+          <td style="padding: 8px 12px; text-align: right; font-family: 'Poppins', sans-serif; font-weight: 600; color: #002D38;">$${Number(c.fee || c.amount || 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
         </tr>
       `).join('');
 
@@ -267,7 +267,7 @@ export const InvoiceList = () => {
                   <h2 style="font-size: 25px; font-weight: 900; color: #002D38; margin: 0;">INVOICE</h2>
                   <span style="padding: 2px 6px; border: 1px solid #93c5fd; background: #eff6ff; color: #1d4ed8; border-radius: 6px; font-weight: 800; text-transform: uppercase; font-size: 13px;">${inv.status}</span>
                 </div>
-                <p style="margin: 2px 0; font-size: 14px;"><strong style="color: #64748b;">Invoice No:</strong> <span style="font-family: monospace; font-weight: bold; color: #002D38;">${inv.invoiceNumber}</span></p>
+                <p style="margin: 2px 0; font-size: 14px;"><strong style="color: #64748b;">Invoice No:</strong> <span style="font-family: 'Poppins', sans-serif; font-weight: bold; color: #002D38;">${inv.invoiceNumber}</span></p>
                 <p style="margin: 2px 0; font-size: 14px;"><strong style="color: #64748b;">Issue Date:</strong> ${formattedDate}</p>
                 <p style="margin: 2px 0; font-size: 14px;"><strong style="color: #64748b;">Due Date:</strong> ${formattedDueDate}</p>
               </div>
@@ -296,12 +296,12 @@ export const InvoiceList = () => {
             <!-- Totals -->
             <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
               <table style="page-break-inside: avoid; width: 340px; font-size: 15px; border-collapse: collapse;">
-                <tr><td style="padding: 5px 0; color: #64748b; font-weight: 700;">Subtotal:</td><td style="text-align: right; font-family: monospace; font-weight: 700; padding: 5px 0; color: #002D38;">$${sub.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td></tr>
-                ${taxRate > 0 ? `<tr><td style="padding: 5px 0; color: #64748b; font-weight: 700;">Tax (${taxRate}%):</td><td style="text-align: right; font-family: monospace; padding: 5px 0; color: #002D38;">+$${taxAmt.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td></tr>` : ''}
-                ${disc > 0 ? `<tr><td style="padding: 5px 0; color: #64748b; font-weight: 700;">Discount:</td><td style="text-align: right; font-family: monospace; color: #ef4444; padding: 5px 0;">-$${disc.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td></tr>` : ''}
+                <tr><td style="padding: 5px 0; color: #64748b; font-weight: 700;">Subtotal:</td><td style="text-align: right; font-family: 'Poppins', sans-serif; font-weight: 700; padding: 5px 0; color: #002D38;">$${sub.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td></tr>
+                ${taxRate > 0 ? `<tr><td style="padding: 5px 0; color: #64748b; font-weight: 700;">Tax (${taxRate}%):</td><td style="text-align: right; font-family: 'Poppins', sans-serif; padding: 5px 0; color: #002D38;">+$${taxAmt.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td></tr>` : ''}
+                ${disc > 0 ? `<tr><td style="padding: 5px 0; color: #64748b; font-weight: 700;">Discount:</td><td style="text-align: right; font-family: 'Poppins', sans-serif; color: #ef4444; padding: 5px 0;">-$${disc.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td></tr>` : ''}
                 <tr style="border-top: 2px solid #A98B56; background-color: #f1f5f9; font-size: 18px; font-weight: 900; color: #A98B56;">
                   <td style="padding: 8px 8px; text-transform: uppercase; font-size: 14px; color: #002D38;">Total Due:</td>
-                  <td style="text-align: right; font-family: monospace; padding: 8px 8px; color: #A98B56;">$${total.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                  <td style="text-align: right; font-family: 'Poppins', sans-serif; padding: 8px 8px; color: #A98B56;">$${total.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                 </tr>
               </table>
             </div>
@@ -314,8 +314,8 @@ export const InvoiceList = () => {
                     <strong style="display: block; margin-bottom: 3px; color: #004564; text-transform: uppercase; font-size: 13px; letter-spacing: 0.05em;">Bank Payment Instructions</strong>
                     ${inv.payeeName ? `<p style="margin: 2px 0; color: #334155;"><strong>Payee:</strong> ${inv.payeeName}</p>` : ''}
                     ${inv.bankName ? `<p style="margin: 2px 0; color: #334155;"><strong>Bank:</strong> ${inv.bankName}</p>` : ''}
-                    ${inv.accountNumber ? `<p style="margin: 2px 0; color: #334155;"><strong>A/C:</strong> <span style="font-family: monospace; font-weight: bold;">${inv.accountNumber}</span></p>` : ''}
-                    ${inv.swiftCode ? `<p style="margin: 2px 0; color: #334155;"><strong>SWIFT:</strong> <span style="font-family: monospace; font-weight: bold;">${inv.swiftCode}</span></p>` : ''}
+                    ${inv.accountNumber ? `<p style="margin: 2px 0; color: #334155;"><strong>A/C:</strong> <span style="font-family: 'Poppins', sans-serif; font-weight: bold;">${inv.accountNumber}</span></p>` : ''}
+                    ${inv.swiftCode ? `<p style="margin: 2px 0; color: #334155;"><strong>SWIFT:</strong> <span style="font-family: 'Poppins', sans-serif; font-weight: bold;">${inv.swiftCode}</span></p>` : ''}
                   </div>
                 ` : `
                   <div style="font-size: 14px; color: #64748b;">
@@ -327,7 +327,7 @@ export const InvoiceList = () => {
               <div style="text-align: right;">
                 ${inv.signatureUrl 
                   ? `<img src="${inv.signatureUrl}" alt="Signature" style="max-height: 48px; max-width: 160px; object-fit: contain; margin-bottom: 2px;" crossorigin="anonymous" />`
-                  : `<div style="font-family: serif; font-style: italic; font-size: 30px; color: #A98B56; font-weight: bold; margin-bottom: 2px;">${cleanSigName}</div>`}
+                  : `<div style="font-family: 'Poppins', sans-serif; font-style: italic; font-size: 30px; color: #A98B56; font-weight: bold; margin-bottom: 2px;">${cleanSigName}</div>`}
                 <p style="margin: 0; font-weight: 900; font-size: 17px; color: #002D38;">${cleanSigName}</p>
                 <p style="margin: 2px 0 0 0; font-size: 13px; color: #64748b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">${cleanSigTitle}</p>
               </div>
@@ -390,7 +390,7 @@ export const InvoiceList = () => {
       <tr style="border-bottom: 1px solid #cbd5e1;">
         <td style="padding: 10px 12px; text-align: center; color: #002D38;">1</td>
         <td style="padding: 10px 12px; font-weight: 600; color: #002D38;" colspan="3">${inv.serviceDescription || 'Placement Fee - Recruitment Services'}</td>
-        <td style="padding: 10px 12px; text-align: right; font-family: monospace; font-weight: 600; color: #002D38;">$${effectiveSubForPrint.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+        <td style="padding: 10px 12px; text-align: right; font-family: 'Poppins', sans-serif; font-weight: 600; color: #002D38;">$${effectiveSubForPrint.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
       </tr>
     ` : (inv.candidates || []).map((c: any, index: number) => `
       <tr style="border-bottom: 1px solid #cbd5e1;">
@@ -398,7 +398,7 @@ export const InvoiceList = () => {
         <td style="padding: 8px 12px; font-weight: 600; color: #002D38;">${c.candidateName}</td>
         <td style="padding: 8px 12px; color: #475569;">${c.position || 'N/A'}</td>
         <td style="padding: 8px 12px;"><span style="background-color: #f1f5f9; color: #475569; padding: 2px 6px; border-radius: 4px; font-size: 14px; font-weight: 600;">${c.billingType || 'Placement'}</span></td>
-        <td style="padding: 8px 12px; text-align: right; font-family: monospace; font-weight: 600; color: #002D38;">$${Number(c.fee || c.amount || 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+        <td style="padding: 8px 12px; text-align: right; font-family: 'Poppins', sans-serif; font-weight: 600; color: #002D38;">$${Number(c.fee || c.amount || 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
       </tr>
     `).join('');
 
@@ -515,7 +515,7 @@ export const InvoiceList = () => {
                     <h2 style="font-size: 25px; font-weight: 900; color: #002D38; margin: 0;">INVOICE</h2>
                     <span style="padding: 2px 6px; border: 1px solid #93c5fd; background: #eff6ff; color: #1d4ed8; border-radius: 6px; font-weight: 800; text-transform: uppercase; font-size: 13px;">${inv.status}</span>
                   </div>
-                  <p style="margin: 2px 0; font-size: 14px;"><strong style="color: #64748b;">Invoice No:</strong> <span style="font-family: monospace; font-weight: bold; color: #002D38;">${inv.invoiceNumber}</span></p>
+                  <p style="margin: 2px 0; font-size: 14px;"><strong style="color: #64748b;">Invoice No:</strong> <span style="font-family: 'Poppins', sans-serif; font-weight: bold; color: #002D38;">${inv.invoiceNumber}</span></p>
                   <p style="margin: 2px 0; font-size: 14px;"><strong style="color: #64748b;">Issue Date:</strong> ${formattedDate}</p>
                   <p style="margin: 2px 0; font-size: 14px;"><strong style="color: #64748b;">Due Date:</strong> ${formattedDueDate}</p>
                 </div>
@@ -544,12 +544,12 @@ export const InvoiceList = () => {
               <!-- Totals -->
               <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
                 <table style="page-break-inside: avoid; width: 340px; font-size: 15px; border-collapse: collapse;">
-                  <tr><td style="padding: 5px 0; color: #64748b; font-weight: 700;">Subtotal:</td><td style="text-align: right; font-family: monospace; font-weight: 700; padding: 5px 0; color: #002D38;">$${sub.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td></tr>
-                  ${taxRate > 0 ? `<tr><td style="padding: 5px 0; color: #64748b; font-weight: 700;">Tax (${taxRate}%):</td><td style="text-align: right; font-family: monospace; padding: 5px 0; color: #002D38;">+$${taxAmt.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td></tr>` : ''}
-                  ${disc > 0 ? `<tr><td style="padding: 5px 0; color: #64748b; font-weight: 700;">Discount:</td><td style="text-align: right; font-family: monospace; color: #ef4444; padding: 5px 0;">-$${disc.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td></tr>` : ''}
+                  <tr><td style="padding: 5px 0; color: #64748b; font-weight: 700;">Subtotal:</td><td style="text-align: right; font-family: 'Poppins', sans-serif; font-weight: 700; padding: 5px 0; color: #002D38;">$${sub.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td></tr>
+                  ${taxRate > 0 ? `<tr><td style="padding: 5px 0; color: #64748b; font-weight: 700;">Tax (${taxRate}%):</td><td style="text-align: right; font-family: 'Poppins', sans-serif; padding: 5px 0; color: #002D38;">+$${taxAmt.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td></tr>` : ''}
+                  ${disc > 0 ? `<tr><td style="padding: 5px 0; color: #64748b; font-weight: 700;">Discount:</td><td style="text-align: right; font-family: 'Poppins', sans-serif; color: #ef4444; padding: 5px 0;">-$${disc.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td></tr>` : ''}
                   <tr style="border-top: 2px solid #A98B56; background-color: #f1f5f9; font-size: 18px; font-weight: 900; color: #A98B56;">
                     <td style="padding: 8px 8px; text-transform: uppercase; font-size: 14px; color: #002D38;">Total Due:</td>
-                    <td style="text-align: right; font-family: monospace; padding: 8px 8px; color: #A98B56;">$${total.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                    <td style="text-align: right; font-family: 'Poppins', sans-serif; padding: 8px 8px; color: #A98B56;">$${total.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                   </tr>
                 </table>
               </div>
@@ -562,8 +562,8 @@ export const InvoiceList = () => {
                       <strong style="display: block; margin-bottom: 3px; color: #004564; text-transform: uppercase; font-size: 13px; letter-spacing: 0.05em;">Bank Payment Instructions</strong>
                       ${inv.payeeName ? `<p style="margin: 2px 0; color: #334155;"><strong>Payee:</strong> ${inv.payeeName}</p>` : ''}
                       ${inv.bankName ? `<p style="margin: 2px 0; color: #334155;"><strong>Bank:</strong> ${inv.bankName}</p>` : ''}
-                      ${inv.accountNumber ? `<p style="margin: 2px 0; color: #334155;"><strong>A/C:</strong> <span style="font-family: monospace; font-weight: bold;">${inv.accountNumber}</span></p>` : ''}
-                      ${inv.swiftCode ? `<p style="margin: 2px 0; color: #334155;"><strong>SWIFT:</strong> <span style="font-family: monospace; font-weight: bold;">${inv.swiftCode}</span></p>` : ''}
+                      ${inv.accountNumber ? `<p style="margin: 2px 0; color: #334155;"><strong>A/C:</strong> <span style="font-family: 'Poppins', sans-serif; font-weight: bold;">${inv.accountNumber}</span></p>` : ''}
+                      ${inv.swiftCode ? `<p style="margin: 2px 0; color: #334155;"><strong>SWIFT:</strong> <span style="font-family: 'Poppins', sans-serif; font-weight: bold;">${inv.swiftCode}</span></p>` : ''}
                     </div>
                   ` : `
                     <div style="font-size: 14px; color: #64748b;">
@@ -575,7 +575,7 @@ export const InvoiceList = () => {
                 <div style="text-align: right;">
                   ${inv.signatureUrl 
                     ? `<img src="${inv.signatureUrl}" alt="Signature" style="max-height: 48px; max-width: 160px; object-fit: contain; margin-bottom: 2px;" crossorigin="anonymous" />`
-                    : `<div style="font-family: serif; font-style: italic; font-size: 30px; color: #A98B56; font-weight: bold; margin-bottom: 2px;">${cleanSigName}</div>`}
+                    : `<div style="font-family: 'Poppins', sans-serif; font-style: italic; font-size: 30px; color: #A98B56; font-weight: bold; margin-bottom: 2px;">${cleanSigName}</div>`}
                   <p style="margin: 0; font-weight: 900; font-size: 17px; color: #002D38;">${cleanSigName}</p>
                   <p style="margin: 2px 0 0 0; font-size: 13px; color: #64748b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">${cleanSigTitle}</p>
                 </div>
