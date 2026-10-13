@@ -3,6 +3,7 @@ import { db } from '../lib/firebase';
 import { doc, getDoc, setDoc, collection, query, getDocs } from 'firebase/firestore';
 import { Save, Shield, Settings, Info, AlertTriangle, Lock, CheckCircle2, Image, Upload, Trash2, Layout, LogIn, FileText, Sparkles, RefreshCw, Cpu, Activity, Zap, Layers, Key, Clock, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useToast } from '../contexts/ToastContext';
 
 interface LogoUploaderProps {
   id: string;
@@ -168,6 +169,7 @@ function LogoUploader({
 
 export default function SystemSettings() {
   const { role } = useAuth();
+  const { showSuccess, showError } = useToast();
   const [limit, setLimit] = useState<number>(10);
   const [fileSizeLimit, setFileSizeLimit] = useState<number>(5);
   
@@ -268,10 +270,12 @@ export default function SystemSettings() {
       }, { merge: true });
 
       setMessage({ type: 'success', text: 'System settings & logo configurations updated successfully!' });
+      showSuccess('✓ System settings & logo configurations updated successfully!');
     } catch (err: any) {
       console.error("Error saving settings:", err);
       const errMsg = err instanceof Error ? err.message : String(err);
       setMessage({ type: 'error', text: `Failed to update settings: ${errMsg}` });
+      showError(`Failed to update settings: ${errMsg}`);
     } finally {
       setIsSaving(false);
     }

@@ -20,6 +20,7 @@ import { useTimezone } from '../contexts/TimezoneContext';
 import { logActivity } from '../services/activityService';
 import { createNotification, formatNotificationMessage } from '../services/notificationService';
 import ConfirmModal from './ConfirmModal';
+import { useToast } from '../contexts/ToastContext';
 import { fetchCvList } from '../services/cvApiService';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
@@ -48,6 +49,7 @@ interface CandidateModalProps {
 export default function CandidateModal({ candidate, isOpen, onClose, onShortlist, onUpdateFollowUp, onCompleteFollowUp, onUpdateNotes, onUpdateAssignee, onUpdateUploader, onContact, teamMembers, fullTeamList = [], onUpdateClient, onUpdateStage }: CandidateModalProps) {
   const { user, role, isPrivileged, getUserDisplayName, getUserRole } = useAuth();
   const { formatDate } = useTimezone();
+  const { showSuccess, showError, showWarning, showInfo } = useToast();
   const [followUpNote, setFollowUpNote] = useState('');
   const [followUpDate, setFollowUpDate] = useState('');
   const [generalNotes, setGeneralNotes] = useState('');
@@ -386,14 +388,16 @@ export default function CandidateModal({ candidate, isOpen, onClose, onShortlist
   });
 
   const showAlert = (title: string, message: string) => {
-    setConfirmConfig({
-      isOpen: true,
-      title,
-      message,
-      onConfirm: () => {},
-      variant: 'info',
-      confirmText: 'OK'
-    });
+    const lowerTitle = title.toLowerCase();
+    if (lowerTitle.includes('error') || lowerTitle.includes('failed')) {
+      showError(message || title);
+    } else if (lowerTitle.includes('warn') || lowerTitle.includes('required') || lowerTitle.includes('unavailable')) {
+      showWarning(message || title);
+    } else if (lowerTitle.includes('info')) {
+      showInfo(message || title);
+    } else {
+      showSuccess(message || title);
+    }
   };
 
   const [cvUrl, setCvUrl] = useState<string | null>(null);

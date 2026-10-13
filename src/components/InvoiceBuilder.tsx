@@ -4,11 +4,13 @@ import { doc, getDoc, collection, addDoc, serverTimestamp } from 'firebase/fires
 import { db } from '../lib/firebase';
 import { Invoice, InvoiceItem } from '../types';
 import { InvoicePreview } from './InvoicePreview';
+import { useToast } from '../contexts/ToastContext';
 import { Save, Plus, Trash2, ArrowLeft, Loader2 } from 'lucide-react';
 
 export const InvoiceBuilder = () => {
   const { candidateId } = useParams<{ candidateId: string }>();
   const navigate = useNavigate();
+  const { showSuccess, showError } = useToast();
   const [loading, setLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [invoice, setInvoice] = useState<Invoice>({
@@ -180,12 +182,14 @@ export const InvoiceBuilder = () => {
 
       await addDoc(collection(db, 'consolidated_invoices'), invoiceData);
       setStatusMessage({ type: 'success', text: 'Invoice saved successfully and added to Invoice History!' });
+      showSuccess('✓ Invoice saved successfully and added to Invoice History!');
       setTimeout(() => {
         navigate('/dashboard', { state: { tab: 'invoices' } });
       }, 1200);
     } catch (error) {
       console.error(error);
       setStatusMessage({ type: 'error', text: 'Failed to save invoice. Please try again.' });
+      showError('Failed to save invoice. Please try again.');
     } finally {
       setLoading(false);
     }

@@ -8,9 +8,11 @@ import { getAuth, createUserWithEmailAndPassword, signOut } from 'firebase/auth'
 import firebaseConfig from '../../firebase-applet-config.json';
 import { UserPlus, Shield, User as UserIcon, Trash2, Mail, Lock, Loader2, RotateCcw, AlertTriangle, RefreshCcw, Database, Archive } from 'lucide-react';
 import ConfirmModal from './ConfirmModal';
+import { useToast } from '../contexts/ToastContext';
 
 export default function UserManagement() {
   const { user, role, getUserDisplayName, getUserRole } = useAuth();
+  const { showSuccess, showError, showWarning, showInfo } = useToast();
   const [users, setUsers] = useState<any[]>([]);
   const [newEmail, setNewEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -33,15 +35,17 @@ export default function UserManagement() {
     onConfirm: () => {},
   });
 
-  const showAlert = (title: string, message: string) => {
-    setConfirmConfig({
-      isOpen: true,
-      title,
-      message,
-      onConfirm: () => {},
-      variant: 'info',
-      confirmText: 'OK'
-    });
+    const showAlert = (title: string, message: string) => {
+    const lowerTitle = title.toLowerCase();
+    if (lowerTitle.includes('error') || lowerTitle.includes('failed')) {
+      showError(message || title);
+    } else if (lowerTitle.includes('warn') || lowerTitle.includes('caution')) {
+      showWarning(message || title);
+    } else if (lowerTitle.includes('info')) {
+      showInfo(message || title);
+    } else {
+      showSuccess(message || title);
+    }
   };
 
   useEffect(() => {

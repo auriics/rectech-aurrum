@@ -26,6 +26,7 @@ function PrivateRoute({ children }: { children: React.ReactNode }) {
 import { ResumeProcessingProvider } from './contexts/ResumeProcessingContext';
 import { NotificationProvider } from './contexts/NotificationContext';
 import { TimezoneProvider } from './contexts/TimezoneContext';
+import { ToastProvider } from './contexts/ToastContext';
 
 export default function App() {
   return (
@@ -33,10 +34,11 @@ export default function App() {
       <BrandingProvider>
         <AuthProvider>
           <TimezoneProvider>
-            <NotificationProvider>
-              <ResumeProcessingProvider>
-                <Router>
-                  <Routes>
+            <ToastProvider>
+              <NotificationProvider>
+                <ResumeProcessingProvider>
+                  <Router>
+                    <Routes>
                     <Route path="/login" element={<Login />} />
                     <Route 
                       path="/dashboard" 
@@ -67,7 +69,8 @@ export default function App() {
                 </Router>
               </ResumeProcessingProvider>
             </NotificationProvider>
-          </TimezoneProvider>
+          </ToastProvider>
+        </TimezoneProvider>
         </AuthProvider>
       </BrandingProvider>
     </ThemeProvider>

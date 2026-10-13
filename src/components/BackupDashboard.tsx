@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Download, Database, FileText, Clock, AlertTriangle, CheckCircle, RefreshCw } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useToast } from '../contexts/ToastContext';
 
 export default function BackupDashboard() {
   const { isPrivileged, user } = useAuth();
+  const { showSuccess, showError } = useToast();
   const [backups, setBackups] = useState<any[]>([]);
 
   const handleDownload = async () => {
@@ -25,8 +27,9 @@ export default function BackupDashboard() {
           document.body.appendChild(a);
           a.click();
           a.remove();
+          showSuccess('✓ Full backup downloaded successfully!');
       } else {
-          alert('Access Denied or Backup failed');
+          showError('Access Denied or backup generation failed.');
       }
   };
 

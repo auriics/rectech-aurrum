@@ -16,6 +16,7 @@ import { logActivity } from '../services/activityService';
 import { getSLAInfo } from '../utils/clientActionService';
 import { createNotification, notifyMultiple, formatNotificationMessage } from '../services/notificationService';
 import ConfirmModal from '../components/ConfirmModal';
+import { useToast } from '../contexts/ToastContext';
 import HorizontalPipelineStepper from '../components/HorizontalPipelineStepper';
 import { fetchCvList } from '../services/cvApiService';
 import { parseResumeHeuristically, extractTextFromPDF, extractTextFromDocx } from '../lib/localParser';
@@ -42,6 +43,7 @@ export default function CandidateDetailsPage() {
   const navigate = useNavigate();
   const { user, role, isPrivileged, getUserDisplayName, getUserRole } = useAuth();
   const { formatDate } = useTimezone();
+  const { showSuccess, showError, showWarning, showInfo } = useToast();
 
   const [candidate, setCandidate] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -130,14 +132,16 @@ export default function CandidateDetailsPage() {
   });
 
   const showAlert = (title: string, message: string) => {
-    setConfirmConfig({
-      isOpen: true,
-      title,
-      message,
-      onConfirm: () => {},
-      variant: 'info',
-      confirmText: 'OK'
-    });
+    const lowerTitle = title.toLowerCase();
+    if (lowerTitle.includes('error') || lowerTitle.includes('failed')) {
+      showError(message || title);
+    } else if (lowerTitle.includes('warn') || lowerTitle.includes('required') || lowerTitle.includes('unavailable')) {
+      showWarning(message || title);
+    } else if (lowerTitle.includes('info')) {
+      showInfo(message || title);
+    } else {
+      showSuccess(message || title);
+    }
   };
 
   // Fetch Team/Users list

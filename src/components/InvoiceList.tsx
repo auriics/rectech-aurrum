@@ -13,6 +13,7 @@ import {
   Download, Mail, Sliders
 } from 'lucide-react';
 import { InvoiceDesignEditor } from './InvoiceDesignEditor';
+import { useToast } from '../contexts/ToastContext';
 
 interface BilledCandidate {
   candidateId: string;
@@ -52,6 +53,7 @@ const getEffectiveTotal = (inv: any) => {
 export const InvoiceList = () => {
   const navigate = useNavigate();
   const { role } = useAuth();
+  const { showSuccess, showError, showWarning, showInfo } = useToast();
   const [activeTab, setActiveTab] = useState<'list' | 'editor'>('list');
   const [invoices, setInvoices] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -107,6 +109,7 @@ export const InvoiceList = () => {
       setViewingInvoice(updatedPayload);
       setEditedInvoice(JSON.parse(JSON.stringify(updatedPayload)));
       setEditStatusMessage({ type: 'success', text: 'Invoice edits saved successfully!' });
+      showSuccess('✓ Invoice edits saved successfully!');
       setTimeout(() => setEditStatusMessage(null), 3500);
     } catch (err) {
       console.error('Error saving invoice edits:', err);
@@ -142,7 +145,7 @@ export const InvoiceList = () => {
       setViewingInvoice((prev: any) => prev ? { ...prev, status: newStatus } : null);
     } catch (err) {
       console.error('Error updating status:', err);
-      alert('Failed to update invoice status');
+      showError('Failed to update invoice status.');
     }
   };
 
@@ -157,6 +160,7 @@ export const InvoiceList = () => {
       setViewingInvoice(null);
       setEditedInvoice(null);
       setEditStatusMessage({ type: 'success', text: `Invoice #${invNum} deleted successfully.` });
+      showSuccess(`✓ Invoice #${invNum} deleted successfully.`);
       setTimeout(() => setEditStatusMessage(null), 3000);
     } catch (err) {
       console.error('Error deleting invoice:', err);
@@ -366,7 +370,7 @@ export const InvoiceList = () => {
       pdf.save(`invoice-${inv.invoiceNumber || 'statement'}.pdf`);
     } catch (error) {
       console.error('[InvoiceList] Download PDF error:', error);
-      alert('PDF download failed. Opening printable view instead.');
+      showWarning('PDF download failed. Opening printable view instead.');
       handlePrintInvoice(inv);
     }
   };
@@ -378,7 +382,7 @@ export const InvoiceList = () => {
       window.location.href = `mailto:?subject=${subject}&body=${body}`;
     } catch (error) {
       console.error('[InvoiceList] Email invoice error:', error);
-      alert('Failed to open email client.');
+      showError('Failed to open email client.');
     }
   };
 

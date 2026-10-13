@@ -4,6 +4,7 @@ import Select from 'react-select';
 import ReactMarkdown from 'react-markdown';
 import { Pagination } from './Pagination';
 import JSZip from 'jszip';
+import { useToast } from '../contexts/ToastContext';
 
 interface CVRepositoryProps {
   candidates: any[];
@@ -27,6 +28,7 @@ const DOMAIN_OPTIONS = [
 ];
 
 export default function CVRepository({ candidates, onSelect }: CVRepositoryProps) {
+  const { showSuccess, showError, showWarning, showInfo } = useToast();
   const [search, setSearch] = useState('');
   const [selectedDomains, setSelectedDomains] = useState<any[]>([]);
   const [isMultiDomain, setIsMultiDomain] = useState<boolean>(true);
@@ -83,7 +85,7 @@ export default function CVRepository({ candidates, onSelect }: CVRepositoryProps
       : filteredCandidates;
 
     if (targetCandidates.length === 0) {
-      alert('No candidate records found to package.');
+      showWarning('No candidate records found to package.');
       setIsDownloadingZip(false);
       return;
     }
@@ -205,7 +207,7 @@ ${c.rawResumeText || 'N/A'}
       }
 
       if (count === 0) {
-        alert('No candidate records found to package.');
+        showWarning('No candidate records found to package.');
         setIsDownloadingZip(false);
         return;
       }
@@ -224,7 +226,7 @@ ${c.rawResumeText || 'N/A'}
       setTimeout(() => setDownloadSuccessMessage(null), 5000);
     } catch (err) {
       console.error('ZIP generation error:', err);
-      alert('Failed to generate ZIP package of CVs.');
+      showError('Failed to generate ZIP package of CVs.');
     } finally {
       setIsDownloadingZip(false);
     }
@@ -664,7 +666,7 @@ ${c.rawResumeText || 'N/A'}
                     onClick={() => {
                       const text = chatMessages.map(m => `[${m.role.toUpperCase()}]\n${m.text}`).join('\n\n');
                       navigator.clipboard.writeText(text);
-                      alert('Chat transcript copied to clipboard!');
+                      showSuccess('✓ Chat transcript copied to clipboard!');
                     }}
                     title="Copy full chat transcript"
                     className="p-2 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:border-[var(--primary-gold)]/50 transition-all cursor-pointer"

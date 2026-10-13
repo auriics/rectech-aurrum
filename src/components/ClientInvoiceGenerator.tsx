@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { db } from '../lib/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { FileText, Loader2 } from 'lucide-react';
+import { useToast } from '../contexts/ToastContext';
 
 export const ClientInvoiceGenerator = ({ clientId, clientName, candidates }: { clientId: string, clientName: string, candidates: any[] }) => {
   const [loading, setLoading] = useState(false);
+  const { showSuccess, showError } = useToast();
 
   const generateInvoice = async () => {
     setLoading(true);
@@ -26,10 +28,10 @@ export const ClientInvoiceGenerator = ({ clientId, clientName, candidates }: { c
       await addDoc(collection(db, 'consolidated_invoices'), invoiceData);
       
       // Print/PDF generation logic would go here
-      alert('Dynamic invoice generated!');
+      showSuccess('✓ Dynamic invoice generated successfully!');
     } catch (error) {
       console.error('Error generating invoice:', error);
-      alert('Failed to generate invoice');
+      showError('Failed to generate dynamic invoice.');
     } finally {
       setLoading(false);
     }

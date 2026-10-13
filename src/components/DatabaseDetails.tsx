@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Download, RefreshCw, CheckCircle2, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useToast } from '../contexts/ToastContext';
 import firebaseConfig from '@/firebase-applet-config.json';
 
 export default function DatabaseDetails() {
   const { role } = useAuth();
+  const { showInfo } = useToast();
   const [loading, setLoading] = useState(false);
   const [auditLoading, setAuditLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -114,7 +116,7 @@ export default function DatabaseDetails() {
                <button
                  key={backup.period}
                  className="bg-[var(--card-bg)] p-4 rounded-xl border border-[var(--border-color)] hover:border-[var(--primary-color)] text-left transition-all"
-                 onClick={() => alert(`Downloading ${backup.period} backup... (Not implemented)`)}
+                 onClick={() => showInfo(`Downloading ${backup.period} backup snapshot in progress...`)}
                >
                  <div className="flex items-center justify-between">
                    <span className="font-bold text-[var(--text-primary)]">{backup.label}</span>

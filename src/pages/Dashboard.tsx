@@ -22,6 +22,7 @@ import LogReview from '../components/LogReview';
 import ActivityLogList from '../components/ActivityLogList';
 import { InvoiceList } from '../components/InvoiceList';
 import ConfirmModal from '../components/ConfirmModal';
+import { useToast } from '../contexts/ToastContext';
 import NotificationCenter from '../components/NotificationCenter';
 import { JsonResumeUploader } from '../components/JsonResumeUploader';
 
@@ -122,6 +123,7 @@ export default function Dashboard() {
   console.log("DEBUG: Dashboard role:", role);
   const { theme } = useTheme();
   const { notifications, markAsRead, markAllAsRead } = useNotifications();
+  const { showSuccess, showError, showWarning, showInfo } = useToast();
   const { timezone, setTimezone, formatDate } = useTimezone();
   const [candidates, setCandidates] = useState<any[]>([]);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
@@ -429,15 +431,17 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
     onConfirm: () => {},
   });
 
-  const showAlert = (title: string, message: string) => {
-    setConfirmConfig({
-      isOpen: true,
-      title,
-      message,
-      onConfirm: () => {},
-      variant: 'info',
-      confirmText: 'OK'
-    });
+    const showAlert = (title: string, message: string) => {
+    const lowerTitle = title.toLowerCase();
+    if (lowerTitle.includes('error') || lowerTitle.includes('failed')) {
+      showError(message || title);
+    } else if (lowerTitle.includes('warn') || lowerTitle.includes('required') || lowerTitle.includes('unavailable')) {
+      showWarning(message || title);
+    } else if (lowerTitle.includes('info')) {
+      showInfo(message || title);
+    } else {
+      showSuccess(message || title);
+    }
   };
 
   const processingJobs = useMemo(() => {

@@ -43,6 +43,7 @@ import LZString from 'lz-string';
 import { evaluateBooleanSearch } from '../../utils/booleanSearch';
 import { getStageConfig } from '../../lib/pipelineStages';
 import { filterClientPortalCandidates, getAvailableClients } from '../../utils/clientUtils';
+import { useToast } from '../../contexts/ToastContext';
 import { getSLAInfo, dispatchClientAction, ClientActionType } from '../../utils/clientActionService';
 import { ClientSelectorBar } from './ClientSelectorBar';
 
@@ -98,7 +99,9 @@ export const ClientCandidateReview: React.FC<ClientCandidateReviewProps> = ({
   const [resumeTab, setResumeTab] = useState<'text' | 'details' | 'document'>('text');
 
   // Trigger brief Toast notification
+  const { showToast: triggerGlobalToast } = useToast();
   const showToast = (type: 'success' | 'error', text: string) => {
+    triggerGlobalToast(text, type);
     setToastMessage({ type, text });
     setTimeout(() => setToastMessage(null), 4000);
   };
