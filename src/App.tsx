@@ -49,6 +49,14 @@ export default function App() {
                       } 
                     />
                     <Route 
+                      path="/ai-job-discovery" 
+                      element={
+                        <PrivateRoute>
+                          <Dashboard initialTab="job-discovery" />
+                        </PrivateRoute>
+                      } 
+                    />
+                    <Route 
                       path="/candidate/:id" 
                       element={
                         <PrivateRoute>

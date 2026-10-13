@@ -1,8 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { NotificationBadge } from '../NotificationBadge';
 import { 
   LayoutDashboard, Users, FileText, BarChart2, Bell, Settings, LogOut, Briefcase, 
-  ChevronLeft, ChevronRight, Sparkles, Layers, Receipt, Linkedin, Shield, Star, User, FileSpreadsheet
+  ChevronLeft, ChevronRight, Sparkles, Layers, Receipt, Linkedin, Shield, Star, User, FileSpreadsheet, Compass
 } from 'lucide-react';
 import { auth } from '../../lib/firebase';
 import { useAuth } from '../../contexts/AuthContext';
@@ -25,6 +26,7 @@ export default function Sidebar({
   setActiveTab: (tab: string) => void 
 }) {
   const { role, user, userProfile } = useAuth();
+  const navigate = useNavigate();
   
   // Logical section grouping for enterprise CRM navigation
   const navigationSections = role === 'client' ? [
@@ -32,7 +34,7 @@ export default function Sidebar({
       title: 'Workspace',
       items: [
         { icon: LayoutDashboard, label: 'Dashboard', id: 'home' },
-        { icon: Sparkles, label: 'AI Job Discovery', id: 'job-discovery' },
+        { icon: Compass, label: 'AI Job Discovery', id: 'job-discovery' },
         { icon: Sparkles, label: 'Candidate Review', id: 'client-portal' },
         { icon: Layers, label: 'Pipeline', id: 'pipeline' },
         { icon: Users, label: 'Assigned Candidates', id: 'candidates' },
@@ -53,7 +55,7 @@ export default function Sidebar({
       title: 'Core Platform',
       items: [
         { icon: LayoutDashboard, label: 'Dashboard', id: 'home' },
-        { icon: Sparkles, label: 'AI Job Discovery', id: 'job-discovery' },
+        { icon: Compass, label: 'AI Job Discovery', id: 'job-discovery' },
         ...(role === 'admin' || role === 'developer' ? [{ icon: Sparkles, label: 'Candidate Review', id: 'client-portal' }] : []),
         { icon: Layers, label: 'Pipeline', id: 'pipeline' },
         { icon: Users, label: 'Candidates', id: 'candidates' },
@@ -129,6 +131,15 @@ export default function Sidebar({
                   onClick={() => {
                     setActiveTab(item.id);
                     if (setIsMobileOpen) setIsMobileOpen(false);
+                    if (item.id === 'job-discovery') {
+                      if (window.location.pathname !== '/ai-job-discovery') {
+                        navigate('/ai-job-discovery');
+                      }
+                    } else {
+                      if (window.location.pathname === '/ai-job-discovery') {
+                        navigate('/dashboard');
+                      }
+                    }
                   }}
                   title={!isOpen ? item.label : undefined}
                   className={`group relative flex items-center ${isOpen ? 'gap-3 px-3 py-2.5' : 'justify-center p-3'} w-full rounded-xl transition-all duration-200 text-left cursor-pointer ${

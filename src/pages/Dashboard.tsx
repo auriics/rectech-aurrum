@@ -81,6 +81,7 @@ import {
   Shield,
   LayoutDashboard,
   Sparkles,
+  Compass,
   Star,
   BookOpen,
   LineChart as AnalyticsIcon,
@@ -117,7 +118,7 @@ import BackupDashboard from '../components/BackupDashboard';
 import WebsiteLeadsView from '../components/WebsiteLeadsView';
 import { DashboardHomeSkeleton, CandidateTableSkeleton, AnalyticsSkeleton, PipelineSkeleton, RepositorySkeleton, InvoicesSkeleton, SettingsSkeleton, ProfileSkeleton, NotificationSkeleton } from '../components/Skeletons';
 
-export default function Dashboard() {
+export default function Dashboard({ initialTab }: { initialTab?: string } = {}) {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, role, loading: authLoading, quotaExceeded, setQuotaExceeded, isPrivileged, getUserDisplayName, getUserRole, getUserName } = useAuth();
@@ -297,13 +298,38 @@ export default function Dashboard() {
   }[]>([]);
 
 
-  const [activeTab, setActiveTab] = useState<'home' | 'candidates' | 'pipeline' | 'notifications' | 'users' | 'analytics' | 'trash' | 'shortlist' | 'profile' | 'logs' | 'activity_logs' | 'upload' | 'repository' | 'settings' | 'backup' | 'database' | 'invoices' | 'linkedin-search' | 'custom_skills' | 'client-portal' | 'website_leads'>(() => {
+  const [activeTab, setActiveTab] = useState<'home' | 'candidates' | 'pipeline' | 'notifications' | 'users' | 'analytics' | 'trash' | 'shortlist' | 'profile' | 'logs' | 'activity_logs' | 'upload' | 'repository' | 'settings' | 'backup' | 'database' | 'invoices' | 'linkedin-search' | 'custom_skills' | 'client-portal' | 'website_leads' | 'job-discovery'>(() => {
+    if (initialTab) return initialTab as any;
+    if (location.pathname === '/ai-job-discovery') return 'job-discovery';
     return (location.state as any)?.tab || 'home';
   });
   const [bulkLimit, setBulkLimit] = useState<number>(10);
   const [fileSizeLimit, setFileSizeLimit] = useState<number>(5);
   const [searchPage, setSearchPage] = useState(1);
   const [searchRowsPerPage, setSearchRowsPerPage] = useState(20);
+
+  useEffect(() => {
+    if (location.pathname === '/ai-job-discovery') {
+      setActiveTab('job-discovery');
+    } else if (location.pathname === '/dashboard' && activeTab === 'job-discovery') {
+      setActiveTab('home');
+    }
+  }, [location.pathname]);
+
+  const handleTabSelect = (tabId: string) => {
+    setActiveTab(tabId as any);
+    setIsSidebarOpen(false);
+    setSelectedIds(new Set());
+    if (tabId === 'job-discovery') {
+      if (location.pathname !== '/ai-job-discovery') {
+        navigate('/ai-job-discovery');
+      }
+    } else {
+      if (location.pathname === '/ai-job-discovery') {
+        navigate('/dashboard');
+      }
+    }
+  };
   const [notificationMessage, setNotificationMessage] = useState<any>(null);
   const [lastReadTimestamp, setLastReadTimestamp] = useState<number>(0);
 
@@ -1840,6 +1866,7 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
             <div className="space-y-1">
               {[
                 { id: 'home', label: 'Dashboard', icon: LayoutDashboard },
+                { id: 'job-discovery', label: 'AI Job Discovery', icon: Compass, isAi: true },
                 ...(role === 'client' || role === 'admin' || role === 'developer' ? [{ id: 'client-portal', label: 'Client Portal', icon: Sparkles }] : []),
                 ...(role === 'client' || role === 'admin' || role === 'developer' ? [{ id: 'pipeline', label: 'Pipeline', icon: Layers }] : []),
                 { id: 'candidates', label: 'Candidates', icon: Users },
@@ -1853,7 +1880,7 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
                 <button 
                   key={item.id}
                   id={`nav-${item.id}`}
-                  onClick={() => { setActiveTab(item.id as any); setIsSidebarOpen(false); setSelectedIds(new Set()); }}
+                  onClick={() => handleTabSelect(item.id)}
                   title={isSidebarCollapsed ? item.label : undefined}
                   className={`w-full flex items-center ${isSidebarCollapsed ? 'lg:justify-center px-3' : 'px-3.5'} py-2.5 rounded-xl text-xs font-bold transition-all duration-200 group relative ${
                     activeTab === item.id 
@@ -1862,7 +1889,20 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
                   }`}
                 >
                   <item.icon className={`w-4 h-4 ${isSidebarCollapsed ? 'lg:mr-0' : 'mr-3'} shrink-0 transition-colors ${activeTab === item.id ? 'text-white' : 'text-[var(--sidebar-text-muted)] group-hover:text-[var(--primary-gold)]'}`} />
-                  {(!isSidebarCollapsed || (isSidebarCollapsed && window.innerWidth < 1024)) && <span className="tracking-tight">{item.label}</span>}
+                  {(!isSidebarCollapsed || (isSidebarCollapsed && window.innerWidth < 1024)) && (
+                    <div className="flex items-center justify-between flex-1 min-w-0">
+                      <span className="tracking-tight truncate">{item.label}</span>
+                      {(item as any).isAi && (
+                        <span className={`ml-2 text-[9px] font-black px-1.5 py-0.5 rounded uppercase tracking-wider shrink-0 ${
+                          activeTab === item.id 
+                            ? 'bg-white/25 text-white' 
+                            : 'bg-[var(--primary-gold)]/20 text-[var(--primary-gold)] border border-[var(--primary-gold)]/30'
+                        }`}>
+                          AI
+                        </span>
+                      )}
+                    </div>
+                  )}
                   
                   {activeTab === item.id && isSidebarCollapsed && (
                     <span className="absolute left-0 top-1/4 bottom-1/4 w-1 bg-amber-400 rounded-r-md" />
@@ -1889,7 +1929,7 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
                   <button 
                     key={item.id}
                     id={`nav-${item.id}`}
-                    onClick={() => { setActiveTab(item.id as any); setIsSidebarOpen(false); setSelectedIds(new Set()); }}
+                    onClick={() => handleTabSelect(item.id)}
                     title={isSidebarCollapsed ? item.label : undefined}
                     className={`w-full flex items-center ${isSidebarCollapsed ? 'lg:justify-center px-3' : 'px-3.5'} py-2.5 rounded-xl text-xs font-bold transition-all duration-200 group relative ${
                       activeTab === item.id 
@@ -1922,7 +1962,7 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
                 <button 
                   key={item.id}
                   id={`nav-${item.id}`}
-                  onClick={() => { setActiveTab(item.id as any); setIsSidebarOpen(false); setSelectedIds(new Set()); }}
+                  onClick={() => handleTabSelect(item.id)}
                   title={isSidebarCollapsed ? item.label : undefined}
                   className={`w-full flex items-center ${isSidebarCollapsed ? 'lg:justify-center px-3' : 'px-3.5'} py-2.5 rounded-xl text-xs font-bold transition-all duration-200 group relative ${
                     activeTab === item.id 

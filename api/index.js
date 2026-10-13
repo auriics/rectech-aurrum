@@ -4783,9 +4783,147 @@ app.get("/api/backup/download/:type", async (req, res) => {
     res.status(500).json({ status: false, message: "Backup failed" });
   }
 });
+var DEFAULT_BENCHMARK_JOBS = [
+  {
+    id: "job-aurrum-fullstack-01",
+    title: "Senior Full Stack Engineer (React & Node.js)",
+    company: "Aurrum Tech Solutions",
+    industry: "IT / Software",
+    location: "London, UK",
+    workArrangement: "hybrid",
+    employmentType: "full-time",
+    experienceLevel: "senior",
+    minExperienceYears: 4,
+    salaryMin: 85e3,
+    salaryMax: 11e4,
+    salaryCurrency: "GBP",
+    description: "We are seeking an experienced Full Stack Engineer proficient with React, TypeScript, Node.js, and cloud backends to build modern, high-volume recruitment platforms.",
+    requiredSkills: ["React", "Node.js", "TypeScript", "JavaScript", "SQL", "REST API"],
+    preferredSkills: ["Tailwind CSS", "Docker", "Firebase", "AWS"],
+    mandatoryQualifications: ["Bachelor degree or equivalent practical experience", "4+ years full stack development"],
+    status: "open",
+    publishedAt: new Date(Date.now() - 864e5 * 2).toISOString(),
+    clientName: "Aurrum Talent Cloud"
+  },
+  {
+    id: "job-aurrum-ai-ml-02",
+    title: "Lead AI / Machine Learning Engineer",
+    company: "Cognitive Insights Labs",
+    industry: "AI / Machine Learning",
+    location: "Remote, UK / Europe",
+    workArrangement: "remote",
+    employmentType: "full-time",
+    experienceLevel: "lead",
+    minExperienceYears: 5,
+    salaryMin: 95e3,
+    salaryMax: 13e4,
+    salaryCurrency: "GBP",
+    description: "Architect generative AI pipelines, LLM fine-tuning, embeddings search, and intelligent candidate-matching engines with Google Gemini and OpenAI.",
+    requiredSkills: ["Python", "Machine Learning", "AI", "NLP", "PyTorch", "TensorFlow"],
+    preferredSkills: ["LLM", "Gemini API", "Vector DB", "LangChain"],
+    mandatoryQualifications: ["5+ years applying ML models in production"],
+    status: "open",
+    publishedAt: new Date(Date.now() - 864e5).toISOString(),
+    clientName: "Global AI Ventures"
+  },
+  {
+    id: "job-aurrum-frontend-03",
+    title: "Frontend React UI/UX Specialist",
+    company: "Creative Nexus Studio",
+    industry: "Design",
+    location: "Manchester, UK",
+    workArrangement: "remote",
+    employmentType: "full-time",
+    experienceLevel: "mid",
+    minExperienceYears: 2,
+    salaryMin: 5e4,
+    salaryMax: 68e3,
+    salaryCurrency: "GBP",
+    description: "Design intuitive interfaces, responsive design systems, micro-interactions, and accessible web experiences using React and Tailwind CSS.",
+    requiredSkills: ["React", "CSS", "HTML", "JavaScript", "UI/UX Design", "Tailwind CSS"],
+    preferredSkills: ["Figma", "Framer Motion", "Accessibility (WCAG)"],
+    mandatoryQualifications: ["Portfolio of interactive web applications"],
+    status: "open",
+    publishedAt: new Date(Date.now() - 864e5 * 4).toISOString(),
+    clientName: "Design First Ltd"
+  },
+  {
+    id: "job-aurrum-devops-04",
+    title: "Cloud DevOps & Infrastructure Engineer",
+    company: "CloudScale Networks",
+    industry: "Engineering",
+    location: "London, UK",
+    workArrangement: "hybrid",
+    employmentType: "full-time",
+    experienceLevel: "senior",
+    minExperienceYears: 4,
+    salaryMin: 8e4,
+    salaryMax: 105e3,
+    salaryCurrency: "GBP",
+    description: "Deploy resilient multi-cloud environments, automated CI/CD pipelines, Kubernetes clusters, and zero-trust security architecture.",
+    requiredSkills: ["AWS", "Docker", "Kubernetes", "CI/CD", "Linux", "Terraform"],
+    preferredSkills: ["GCP", "Prometheus", "Grafana", "Python"],
+    mandatoryQualifications: ["Demonstrated experience managing production container clusters"],
+    status: "open",
+    publishedAt: new Date(Date.now() - 864e5 * 3).toISOString(),
+    clientName: "CloudScale Group"
+  },
+  {
+    id: "job-aurrum-pm-05",
+    title: "Technical Project / Delivery Manager",
+    company: "Apex Digital Consulting",
+    industry: "Project Management",
+    location: "Birmingham, UK",
+    workArrangement: "on-site",
+    employmentType: "full-time",
+    experienceLevel: "senior",
+    minExperienceYears: 5,
+    salaryMin: 7e4,
+    salaryMax: 9e4,
+    salaryCurrency: "GBP",
+    description: "Lead cross-functional engineering squads, manage enterprise stakeholder communications, and deliver complex software releases on schedule.",
+    requiredSkills: ["Project Management", "Agile", "Scrum", "Jira", "Stakeholder Management", "Risk Management"],
+    preferredSkills: ["PMP", "Prince2", "Technical Background"],
+    mandatoryQualifications: ["5+ years delivering enterprise digital transformations"],
+    status: "open",
+    publishedAt: new Date(Date.now() - 864e5 * 5).toISOString(),
+    clientName: "Apex Advisory"
+  },
+  {
+    id: "job-aurrum-sales-06",
+    title: "Enterprise SaaS Account Executive",
+    company: "Aurrum Cloud Revenue",
+    industry: "Sales",
+    location: "London, UK",
+    workArrangement: "hybrid",
+    employmentType: "full-time",
+    experienceLevel: "mid",
+    minExperienceYears: 3,
+    salaryMin: 6e4,
+    salaryMax: 85e3,
+    salaryCurrency: "GBP",
+    description: "Drive new logo acquisitions, conduct high-impact product demonstrations, and close recurring B2B software partnerships.",
+    requiredSkills: ["Sales", "B2B Sales", "Lead Generation", "CRM", "Negotiation", "Account Management"],
+    preferredSkills: ["SaaS Experience", "Hubspot", "Enterprise Accounts"],
+    mandatoryQualifications: ["Proven track record hitting revenue quotas"],
+    status: "open",
+    publishedAt: new Date(Date.now() - 864e5 * 6).toISOString(),
+    clientName: "Growth Partners UK"
+  }
+];
 app.get("/api/marketplace/jobs", async (req, res) => {
   try {
-    const jobsSnapshot = await adminDb.collection("marketplace_jobs").where("status", "==", "open").limit(100).get();
+    let jobsSnapshot = await adminDb.collection("marketplace_jobs").where("status", "==", "open").limit(100).get();
+    if (jobsSnapshot.empty) {
+      console.log("[Marketplace API] marketplace_jobs is empty. Auto-seeding default benchmark jobs into Firestore...");
+      const batch = adminDb.batch();
+      for (const j of DEFAULT_BENCHMARK_JOBS) {
+        const ref = adminDb.collection("marketplace_jobs").doc(j.id);
+        batch.set(ref, j, { merge: true });
+      }
+      await batch.commit();
+      jobsSnapshot = await adminDb.collection("marketplace_jobs").where("status", "==", "open").limit(100).get();
+    }
     const jobs = jobsSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     res.json({ status: true, count: jobs.length, jobs });
   } catch (err) {
