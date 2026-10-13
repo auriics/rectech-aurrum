@@ -253,3 +253,49 @@ export function NotificationSkeleton() {
   );
 }
 
+export function JobRecommendationSkeleton() {
+  return (
+    <div className="space-y-8 animate-pulse w-full max-w-7xl 2xl:max-w-[1600px] mx-auto">
+      {/* Hero Banner Skeleton */}
+      <div className="rounded-[2rem] bg-[var(--border-color)]/30 p-6 sm:p-8 space-y-4">
+        <div className="h-6 w-40 bg-[var(--border-color)]/50 rounded-full"></div>
+        <div className="h-8 w-3/4 max-w-md bg-[var(--border-color)]/60 rounded-xl"></div>
+        <div className="h-4 w-full max-w-lg bg-[var(--border-color)]/40 rounded-lg"></div>
+        <div className="h-10 w-full max-w-xl bg-[var(--border-color)]/40 rounded-xl mt-4"></div>
+      </div>
+
+      {/* Grid of Skeleton Cards */}
+      <div className="space-y-4">
+        <div className="h-6 w-56 bg-[var(--border-color)]/50 rounded-lg"></div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5">
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <div key={i} className="crm-card p-5 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-2xl space-y-4">
+              <div className="flex justify-between items-start gap-2">
+                <div className="flex gap-2">
+                  <div className="h-5 w-16 bg-[var(--border-color)]/40 rounded-full"></div>
+                  <div className="h-5 w-16 bg-[var(--border-color)]/30 rounded-full"></div>
+                </div>
+                <div className="h-6 w-20 bg-[var(--border-color)]/50 rounded-xl"></div>
+              </div>
+              <div className="h-5 w-3/4 bg-[var(--border-color)]/60 rounded-md"></div>
+              <div className="h-4 w-1/2 bg-[var(--border-color)]/40 rounded-md"></div>
+              <div className="h-4 w-2/3 bg-[var(--border-color)]/30 rounded-md"></div>
+              <div className="h-10 w-full bg-[var(--border-color)]/20 rounded-xl"></div>
+              <div className="flex gap-1.5 flex-wrap">
+                <div className="h-5 w-14 bg-[var(--border-color)]/40 rounded-md"></div>
+                <div className="h-5 w-16 bg-[var(--border-color)]/40 rounded-md"></div>
+                <div className="h-5 w-12 bg-[var(--border-color)]/40 rounded-md"></div>
+              </div>
+              <div className="pt-3 border-t border-[var(--border-color)]/40 flex justify-between items-center gap-2">
+                <div className="h-10 w-10 bg-[var(--border-color)]/40 rounded-xl"></div>
+                <div className="h-10 w-28 bg-[var(--border-color)]/40 rounded-xl"></div>
+                <div className="h-10 w-24 bg-[var(--border-color)]/50 rounded-xl"></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
