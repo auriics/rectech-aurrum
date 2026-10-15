@@ -3,21 +3,20 @@ import nlp from 'compromise';
 import * as chrono from 'chrono-node';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import { ResumeData, ResumeSchema } from '../types/resume';
-import * as pdfParseModule from 'pdf-parse';
 
-// Resolve pdf-parse correctly in both ESM (dev) and CommonJS (prod bundle)
+// Polyfill canvas/DOM primitives required by PDF parser in serverless environments
+if (typeof (globalThis as any).DOMMatrix === 'undefined') {
+  (globalThis as any).DOMMatrix = class DOMMatrix {};
+}
+if (typeof (globalThis as any).ImageData === 'undefined') {
+  (globalThis as any).ImageData = class ImageData {};
+}
+if (typeof (globalThis as any).Path2D === 'undefined') {
+  (globalThis as any).Path2D = class Path2D {};
+}
+
+// Resolve pdf-parse dynamically in both ESM and CommonJS
 async function getPDFParser(): Promise<any> {
-  // 1. Try checking the statically imported module namespace
-  const mod = pdfParseModule as any;
-  if (typeof mod === 'function' || (mod && typeof mod.PDFParse === 'function')) {
-    return mod;
-  }
-  if (mod && (typeof mod.default === 'function' || (mod.default && typeof mod.default.PDFParse === 'function'))) {
-    return mod.default;
-  }
-  if (mod && mod.default && (typeof mod.default.default === 'function' || (mod.default.default && typeof mod.default.default.PDFParse === 'function'))) {
-    return mod.default.default;
-  }
 
   // 2. Try dynamic import
   try {

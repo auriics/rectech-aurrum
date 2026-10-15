@@ -225,18 +225,19 @@ var ResumeSchema = z.object({
 });
 
 // src/services/resumeParser.server.ts
-import * as pdfParseModule from "pdf-parse";
+if (typeof globalThis.DOMMatrix === "undefined") {
+  globalThis.DOMMatrix = class DOMMatrix {
+  };
+}
+if (typeof globalThis.ImageData === "undefined") {
+  globalThis.ImageData = class ImageData {
+  };
+}
+if (typeof globalThis.Path2D === "undefined") {
+  globalThis.Path2D = class Path2D {
+  };
+}
 async function getPDFParser() {
-  const mod = pdfParseModule;
-  if (typeof mod === "function" || mod && typeof mod.PDFParse === "function") {
-    return mod;
-  }
-  if (mod && (typeof mod.default === "function" || mod.default && typeof mod.default.PDFParse === "function")) {
-    return mod.default;
-  }
-  if (mod && mod.default && (typeof mod.default.default === "function" || mod.default.default && typeof mod.default.default.PDFParse === "function")) {
-    return mod.default.default;
-  }
   try {
     const imported = await import("pdf-parse");
     if (typeof imported === "function" || imported && typeof imported.PDFParse === "function") return imported;
@@ -2691,6 +2692,18 @@ function getAdminMessaging() {
 }
 
 // server.ts
+if (typeof globalThis.DOMMatrix === "undefined") {
+  globalThis.DOMMatrix = class DOMMatrix {
+  };
+}
+if (typeof globalThis.ImageData === "undefined") {
+  globalThis.ImageData = class ImageData {
+  };
+}
+if (typeof globalThis.Path2D === "undefined") {
+  globalThis.Path2D = class Path2D {
+  };
+}
 var firebaseConfig2 = {
   projectId: "ai-studio-applet-webapp-ddf84",
   firestoreDatabaseId: "aurrum-production"
