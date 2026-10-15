@@ -7,7 +7,6 @@ var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require
 
 // server.ts
 import express from "express";
-import { createServer as createViteServer } from "vite";
 import path2 from "path";
 import multer from "multer";
 import fs2 from "fs";
@@ -5428,6 +5427,7 @@ app.get("/api/marketplace/network-analytics", async (req, res) => {
 });
 async function bootstrap() {
   if (process.env.NODE_ENV !== "production" && !process.env.VERCEL) {
+    const { createServer: createViteServer } = await import("vite");
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa"

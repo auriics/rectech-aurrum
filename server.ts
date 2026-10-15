@@ -1,5 +1,5 @@
 import express from 'express';
-import { createServer as createViteServer } from 'vite';
+// vite is dynamically imported in bootstrap() only when running locally in development
 import path from 'path';
 import multer from 'multer';
 import fs from 'fs';
@@ -3231,6 +3231,7 @@ app.get('/api/marketplace/network-analytics', async (req, res) => {
 // Configure Vite layout static serving and wildcard routing asynchronously
 async function bootstrap() {
   if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+    const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: 'spa',
