@@ -314,6 +314,14 @@ export default function Dashboard({ initialTab }: { initialTab?: string } = {}) 
   const [searchRowsPerPage, setSearchRowsPerPage] = useState(20);
 
   useEffect(() => {
+    // Restrict AI discovery and talent network exclusively to Developer role
+    if (role && role !== 'developer' && (location.pathname === '/ai-job-discovery' || location.pathname === '/talent-network' || location.pathname === '/direct-introductions' || activeTab === 'job-discovery' || activeTab === 'talent-network' || activeTab === 'introductions')) {
+      if (location.pathname !== '/dashboard') {
+        navigate('/dashboard');
+      }
+      setActiveTab('home');
+      return;
+    }
     if (location.pathname === '/ai-job-discovery') {
       setActiveTab('job-discovery');
     } else if (location.pathname === '/talent-network') {
@@ -323,9 +331,12 @@ export default function Dashboard({ initialTab }: { initialTab?: string } = {}) 
     } else if (location.pathname === '/dashboard' && (activeTab === 'job-discovery' || activeTab === 'talent-network' || activeTab === 'introductions')) {
       setActiveTab('home');
     }
-  }, [location.pathname]);
+  }, [location.pathname, role]);
 
   const handleTabSelect = (tabId: string) => {
+    if (role !== 'developer' && (tabId === 'job-discovery' || tabId === 'talent-network' || tabId === 'introductions')) {
+      return;
+    }
     setActiveTab(tabId as any);
     setIsSidebarOpen(false);
     setSelectedIds(new Set());
@@ -416,6 +427,9 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
 
   useEffect(() => {
     if ((role === 'recruiter' || role === 'client') && activeTab === 'settings') {
+      setActiveTab('home');
+    }
+    if (role && role !== 'developer' && (activeTab === 'job-discovery' || activeTab === 'talent-network' || activeTab === 'introductions')) {
       setActiveTab('home');
     }
   }, [role, activeTab]);
@@ -1883,9 +1897,11 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
             <div className="space-y-1">
               {[
                 { id: 'home', label: 'Dashboard', icon: LayoutDashboard },
-                { id: 'job-discovery', label: 'AI Job Discovery', icon: Compass, isAi: true },
-                { id: 'talent-network', label: 'Talent Network', icon: Globe, isAi: true },
-                { id: 'introductions', label: 'Direct Introductions', icon: Send },
+                ...(role === 'developer' ? [
+                  { id: 'job-discovery', label: 'AI Job Discovery', icon: Compass, isAi: true },
+                  { id: 'talent-network', label: 'Talent Network', icon: Globe, isAi: true },
+                  { id: 'introductions', label: 'Direct Introductions', icon: Send },
+                ] : []),
                 ...(role === 'client' || role === 'admin' || role === 'developer' ? [{ id: 'client-portal', label: 'Client Portal', icon: Sparkles }] : []),
                 ...(role === 'client' || role === 'admin' || role === 'developer' ? [{ id: 'pipeline', label: 'Pipeline', icon: Layers }] : []),
                 { id: 'candidates', label: 'Candidates', icon: Users },
@@ -2301,7 +2317,7 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
              <WebsiteLeadsView candidates={candidates} onRefresh={() => {}} />
           ) : activeTab === 'invoices' ? (
              <InvoiceList />
-          ) : activeTab === 'job-discovery' ? (
+          ) : (role === 'developer' && activeTab === 'job-discovery') ? (
              <JobDiscoveryMarketplace 
                candidate={selectedCandidate || activeCandidates[0] || null} 
                candidatesList={activeCandidates}
@@ -2310,7 +2326,7 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
                  if (cand) handleCandidateSelect(cand);
                }}
              />
-          ) : activeTab === 'talent-network' ? (
+          ) : (role === 'developer' && activeTab === 'talent-network') ? (
              <TalentNetworkDiscovery
                currentRole={role}
                currentUserId={user?.uid}
@@ -2320,7 +2336,7 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
                }}
                onSwitchToIntroductions={() => handleTabSelect('introductions')}
              />
-          ) : activeTab === 'introductions' ? (
+          ) : (role === 'developer' && activeTab === 'introductions') ? (
              <DirectIntroductionsManager
                currentRole={role}
                currentUserId={user?.uid}

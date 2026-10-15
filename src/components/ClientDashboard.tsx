@@ -8,7 +8,7 @@ import { ClientTalentInsights } from './client/ClientTalentInsights';
 import { ClientCvRepository } from './client/ClientCvRepository';
 import { ClientProfile } from './client/ClientProfile';
 import { ClientNotifications } from './client/ClientNotifications';
-import { JobDiscoveryMarketplace } from './jobs/JobDiscoveryMarketplace';
+// AI Job Discovery restricted exclusively to developer role
 
 export { 
   ClientDashboardHome, 
@@ -150,18 +150,7 @@ export const ClientDashboard: React.FC<ClientDashboardProps> = ({
     );
   }
 
-  if (activeTab === 'job-discovery') {
-    return (
-      <JobDiscoveryMarketplace
-        candidate={candidates?.[0] || null}
-        candidatesList={candidates}
-        onNavigateToCandidate={(cid) => {
-          const cand = candidates.find(c => c.id === cid);
-          if (cand && onSelectCandidate) onSelectCandidate(cand);
-        }}
-      />
-    );
-  }
+  // AI Job Discovery restricted exclusively to developer role
 
   if (activeTab === 'notifications') {
     return (
