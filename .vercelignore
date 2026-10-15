@@ -1,0 +1,8 @@
+firestore_dump.json
+node_modules
+dist
+.git
+.vercel
+*.log
+*.cjs
+.claude
