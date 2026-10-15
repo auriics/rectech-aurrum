@@ -57,6 +57,22 @@ export default function App() {
                       } 
                     />
                     <Route 
+                      path="/talent-network" 
+                      element={
+                        <PrivateRoute>
+                          <Dashboard initialTab="talent-network" />
+                        </PrivateRoute>
+                      } 
+                    />
+                    <Route 
+                      path="/direct-introductions" 
+                      element={
+                        <PrivateRoute>
+                          <Dashboard initialTab="introductions" />
+                        </PrivateRoute>
+                      } 
+                    />
+                    <Route 
                       path="/candidate/:id" 
                       element={
                         <PrivateRoute>

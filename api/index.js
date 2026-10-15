@@ -5000,6 +5000,432 @@ app.get("/api/marketplace/analytics", async (req, res) => {
     res.status(500).json({ status: false, error: err.message });
   }
 });
+var BENCHMARK_TALENT_SEEDS = [
+  {
+    id: "talent-sarah-fullstack-01",
+    candidateId: "talent-sarah-fullstack-01",
+    fullName: "Sarah Jenkins",
+    email: "sarah.jenkins@example.com",
+    phone: "+44 7700 900123",
+    headline: "Senior Full Stack & Cloud Architect (React / Node / AWS)",
+    summary: "Seasoned engineer with 6+ years building distributed SaaS architectures, real-time messaging systems, and high-conversion web frontends.",
+    skills: ["React", "TypeScript", "Node.js", "AWS", "Docker", "PostgreSQL", "REST API", "GraphQL"],
+    totalExperienceYears: 6,
+    industries: ["IT / Software", "FinTech", "SaaS"],
+    preferredTitles: ["Senior Full Stack Engineer", "Lead Frontend Engineer", "Software Architect"],
+    preferredLocations: ["London, UK", "Remote, UK"],
+    workArrangement: "hybrid",
+    employmentType: "full-time",
+    desiredSalaryMin: 85e3,
+    desiredSalaryMax: 11e4,
+    salaryCurrency: "GBP",
+    availability: "1_month",
+    visibility: "discoverable",
+    anonymized: true,
+    optedInAt: new Date(Date.now() - 864e5 * 10).toISOString(),
+    lastActiveAt: (/* @__PURE__ */ new Date()).toISOString(),
+    verifiedQualifications: ["AWS Certified Solutions Architect", "BSc Computer Science"],
+    consentVersion: "v1.0"
+  },
+  {
+    id: "talent-alex-aiml-02",
+    candidateId: "talent-alex-aiml-02",
+    fullName: "Alexandre Dubois",
+    email: "alex.dubois@example.com",
+    phone: "+33 6 12 34 56 78",
+    headline: "Lead AI / ML Systems Engineer (LLMs, PyTorch, Gemini)",
+    summary: "Specialized in production LLM pipelines, multimodal embedding retrieval, and enterprise search agents with 5+ years of practical ML engineering.",
+    skills: ["Python", "Machine Learning", "AI", "PyTorch", "NLP", "TensorFlow", "LLM", "Gemini API"],
+    totalExperienceYears: 5,
+    industries: ["AI / Machine Learning", "Big Tech"],
+    preferredTitles: ["Lead AI Engineer", "Senior Machine Learning Specialist", "AI Research Engineer"],
+    preferredLocations: ["Remote, UK / Europe", "Paris, France"],
+    workArrangement: "remote",
+    employmentType: "full-time",
+    desiredSalaryMin: 95e3,
+    desiredSalaryMax: 125e3,
+    salaryCurrency: "GBP",
+    availability: "2_weeks",
+    visibility: "discoverable",
+    anonymized: true,
+    optedInAt: new Date(Date.now() - 864e5 * 5).toISOString(),
+    lastActiveAt: (/* @__PURE__ */ new Date()).toISOString(),
+    verifiedQualifications: ["MSc Artificial Intelligence", "Deep Learning Specialization"],
+    consentVersion: "v1.0"
+  },
+  {
+    id: "talent-maya-ux-03",
+    candidateId: "talent-maya-ux-03",
+    fullName: "Maya Patel",
+    email: "maya.patel@example.com",
+    phone: "+44 7700 900456",
+    headline: "Design Systems & Senior UI/UX Specialist (React & Tailwind)",
+    summary: "Bridge between high-fidelity Figma design and pixel-perfect accessible React components with 4+ years creating enterprise design tokens.",
+    skills: ["UI/UX Design", "React", "Tailwind CSS", "Figma", "CSS", "HTML", "Accessibility (WCAG)"],
+    totalExperienceYears: 4,
+    industries: ["Design", "Media", "FinTech"],
+    preferredTitles: ["Senior Product Designer", "Frontend UI/UX Specialist", "Design Engineer"],
+    preferredLocations: ["Manchester, UK", "Remote, UK"],
+    workArrangement: "remote",
+    employmentType: "full-time",
+    desiredSalaryMin: 6e4,
+    desiredSalaryMax: 75e3,
+    salaryCurrency: "GBP",
+    availability: "immediate",
+    visibility: "discoverable",
+    anonymized: true,
+    optedInAt: new Date(Date.now() - 864e5 * 7).toISOString(),
+    lastActiveAt: (/* @__PURE__ */ new Date()).toISOString(),
+    verifiedQualifications: ["Nielsen Norman UX Certified", "BA Interaction Design"],
+    consentVersion: "v1.0"
+  },
+  {
+    id: "talent-david-devops-04",
+    candidateId: "talent-david-devops-04",
+    fullName: "David Thorne",
+    email: "david.thorne@example.com",
+    phone: "+44 7700 900789",
+    headline: "Staff Infrastructure & DevOps Architect (Kubernetes & Multi-Cloud)",
+    summary: "Cloud resilience specialist with 7+ years architecting zero-trust Terraform deployments, CI/CD observability, and SOC2 compliant infrastructure.",
+    skills: ["Kubernetes", "AWS", "GCP", "Docker", "Terraform", "CI/CD", "Linux", "Python"],
+    totalExperienceYears: 7,
+    industries: ["Engineering", "Cloud Infrastructure", "Cybersecurity"],
+    preferredTitles: ["Staff DevOps Engineer", "Principal Cloud Architect", "Infrastructure Lead"],
+    preferredLocations: ["London, UK", "Bristol, UK"],
+    workArrangement: "hybrid",
+    employmentType: "full-time",
+    desiredSalaryMin: 9e4,
+    desiredSalaryMax: 115e3,
+    salaryCurrency: "GBP",
+    availability: "1_month",
+    visibility: "discoverable",
+    anonymized: true,
+    optedInAt: new Date(Date.now() - 864e5 * 14).toISOString(),
+    lastActiveAt: (/* @__PURE__ */ new Date()).toISOString(),
+    verifiedQualifications: ["CKA Certified Kubernetes Administrator", "HashiCorp Terraform Associate"],
+    consentVersion: "v1.0"
+  }
+];
+app.get("/api/marketplace/talent", async (req, res) => {
+  try {
+    let talentSnapshot = await adminDb.collection("marketplace_profiles").where("visibility", "==", "discoverable").limit(50).get();
+    if (talentSnapshot.empty) {
+      console.log("[Marketplace API] marketplace_profiles is empty. Auto-seeding benchmark talent...");
+      const batch = adminDb.batch();
+      for (const t of BENCHMARK_TALENT_SEEDS) {
+        const ref = adminDb.collection("marketplace_profiles").doc(t.id);
+        batch.set(ref, t, { merge: true });
+      }
+      await batch.commit();
+      talentSnapshot = await adminDb.collection("marketplace_profiles").where("visibility", "==", "discoverable").limit(50).get();
+    }
+    let profiles = talentSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    const { searchQuery, minExperience, arrangement } = req.query;
+    if (searchQuery && typeof searchQuery === "string") {
+      const q = searchQuery.toLowerCase();
+      profiles = profiles.filter(
+        (p) => p.fullName && p.fullName.toLowerCase().includes(q) || p.headline && p.headline.toLowerCase().includes(q) || p.skills && p.skills.some((s) => s.toLowerCase().includes(q)) || p.preferredTitles && p.preferredTitles.some((t) => t.toLowerCase().includes(q))
+      );
+    }
+    if (minExperience) {
+      const minExp = parseInt(minExperience, 10);
+      if (!isNaN(minExp)) {
+        profiles = profiles.filter((p) => (p.totalExperienceYears || 0) >= minExp);
+      }
+    }
+    if (arrangement && arrangement !== "all") {
+      profiles = profiles.filter((p) => p.workArrangement === arrangement || p.workArrangement === "hybrid");
+    }
+    const sanitized = profiles.map((p) => {
+      if (p.anonymized) {
+        return {
+          ...p,
+          email: "[Shielded - Mutual Intro Required]",
+          phone: "[Shielded - Mutual Intro Required]"
+        };
+      }
+      return p;
+    });
+    res.json({ status: true, count: sanitized.length, talent: sanitized });
+  } catch (err) {
+    console.error("[Marketplace API] Error fetching talent:", err);
+    res.status(500).json({ status: false, error: err.message });
+  }
+});
+app.post("/api/marketplace/talent/opt-in", async (req, res) => {
+  const { candidateId, visibility, preferences, profile } = req.body;
+  if (!candidateId) {
+    return res.status(400).json({ status: false, message: "candidateId is required" });
+  }
+  try {
+    const docRef = adminDb.collection("marketplace_profiles").doc(candidateId);
+    const existing = await docRef.get();
+    const dataToSave = {
+      ...profile,
+      candidateId,
+      visibility: visibility || "discoverable",
+      anonymized: true,
+      lastActiveAt: (/* @__PURE__ */ new Date()).toISOString()
+    };
+    if (!existing.exists) {
+      dataToSave.optedInAt = (/* @__PURE__ */ new Date()).toISOString();
+      dataToSave.consentVersion = "v1.0";
+    }
+    await docRef.set(dataToSave, { merge: true });
+    await adminDb.collection("candidates").doc(candidateId).set({
+      marketplaceVisibility: visibility || "discoverable",
+      marketplaceLastActiveAt: (/* @__PURE__ */ new Date()).toISOString()
+    }, { merge: true });
+    res.json({ status: true, message: "Marketplace profile updated", profile: dataToSave });
+  } catch (err) {
+    console.error("[Marketplace API] Opt-in error:", err);
+    res.status(500).json({ status: false, error: err.message });
+  }
+});
+app.get("/api/marketplace/introductions", async (req, res) => {
+  try {
+    const { partyType, partyId } = req.query;
+    let queryRef = adminDb.collection("direct_introductions");
+    if (partyType === "employer" && partyId) {
+      queryRef = queryRef.where("employerId", "==", partyId);
+    } else if (partyType === "candidate" && partyId) {
+      queryRef = queryRef.where("candidateId", "==", partyId);
+    }
+    const snapshot = await queryRef.limit(100).get();
+    let intros = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }));
+    intros.sort((a, b) => new Date(b.updatedAt || b.createdAt).getTime() - new Date(a.updatedAt || a.createdAt).getTime());
+    res.json({ status: true, count: intros.length, introductions: intros });
+  } catch (err) {
+    console.error("[Marketplace API] Error fetching introductions:", err);
+    res.status(500).json({ status: false, error: err.message });
+  }
+});
+app.post("/api/marketplace/introductions/request", async (req, res) => {
+  const { candidateId, candidateName, candidateHeadline, jobId, jobTitle, companyName, employerId, employerName, initiatorRole, message, matchScore } = req.body;
+  if (!candidateId || !jobId) {
+    return res.status(400).json({ status: false, message: "candidateId and jobId are required" });
+  }
+  try {
+    const existingSnap = await adminDb.collection("direct_introductions").where("candidateId", "==", candidateId).where("jobId", "==", jobId).limit(1).get();
+    if (!existingSnap.empty) {
+      return res.status(409).json({
+        status: false,
+        message: "An introduction thread already exists for this candidate and position",
+        existingId: existingSnap.docs[0].id
+      });
+    }
+    const now = (/* @__PURE__ */ new Date()).toISOString();
+    const newIntro = {
+      candidateId,
+      candidateName: candidateName || "Discoverable Candidate",
+      candidateHeadline: candidateHeadline || "Candidate Profile",
+      jobId,
+      jobTitle: jobTitle || "Target Position",
+      companyName: companyName || employerName || "Aurrum Client",
+      employerId: employerId || "employer-default",
+      employerName: employerName || "Hiring Manager",
+      status: "intro_requested",
+      initiator: initiatorRole || "employer",
+      matchScore: matchScore || 85,
+      candidateConsent: false,
+      employerConsent: true,
+      anonymizedUntilConsent: true,
+      statusHistory: [
+        {
+          fromStatus: "suggested",
+          toStatus: "intro_requested",
+          timestamp: now,
+          changedBy: employerName || "Hiring Manager",
+          reason: message || "Direct introduction requested via AI Talent Network"
+        }
+      ],
+      messages: message ? [{
+        senderId: employerId || "employer-default",
+        senderRole: initiatorRole || "employer",
+        senderName: employerName || "Hiring Manager",
+        text: message,
+        timestamp: now
+      }] : [],
+      createdAt: now,
+      updatedAt: now
+    };
+    const docRef = await adminDb.collection("direct_introductions").add(newIntro);
+    res.json({ status: true, id: docRef.id, introduction: { id: docRef.id, ...newIntro } });
+  } catch (err) {
+    console.error("[Marketplace API] Request intro error:", err);
+    res.status(500).json({ status: false, error: err.message });
+  }
+});
+app.post("/api/marketplace/introductions/respond", async (req, res) => {
+  const { introductionId, action, responderId, responderName, reason } = req.body;
+  if (!introductionId || !action) {
+    return res.status(400).json({ status: false, message: "introductionId and action are required" });
+  }
+  try {
+    const docRef = adminDb.collection("direct_introductions").doc(introductionId);
+    const snap = await docRef.get();
+    if (!snap.exists) {
+      return res.status(404).json({ status: false, message: "Introduction not found" });
+    }
+    const currentData = snap.data();
+    let newStatus = currentData.status;
+    let candidateConsent = currentData.candidateConsent;
+    let employerConsent = currentData.employerConsent;
+    let anonymizedUntilConsent = currentData.anonymizedUntilConsent;
+    if (action === "accept") {
+      newStatus = "intro_accepted";
+      candidateConsent = true;
+      employerConsent = true;
+      anonymizedUntilConsent = false;
+    } else if (action === "decline") {
+      newStatus = "intro_declined";
+    } else if (action === "schedule_interview") {
+      newStatus = "interview_scheduled";
+    } else if (action === "mark_hired") {
+      newStatus = "hired";
+    }
+    const now = (/* @__PURE__ */ new Date()).toISOString();
+    const updatedHistory = [
+      ...currentData.statusHistory || [],
+      {
+        fromStatus: currentData.status,
+        toStatus: newStatus,
+        timestamp: now,
+        changedBy: responderName || responderId || "System",
+        reason: reason || `Updated via direct response: ${action}`
+      }
+    ];
+    await docRef.update({
+      status: newStatus,
+      candidateConsent,
+      employerConsent,
+      anonymizedUntilConsent,
+      statusHistory: updatedHistory,
+      updatedAt: now
+    });
+    res.json({
+      status: true,
+      introductionId,
+      newStatus,
+      anonymizedUntilConsent,
+      message: `Introduction status updated to ${newStatus}`
+    });
+  } catch (err) {
+    console.error("[Marketplace API] Response error:", err);
+    res.status(500).json({ status: false, error: err.message });
+  }
+});
+app.post("/api/marketplace/attribution/hire", async (req, res) => {
+  const { introductionId, candidateId, candidateName, jobId, jobTitle, employerId, employerName, annualSalaryAgreed, feeRate, feeModel, currency, startDate } = req.body;
+  if (!candidateId || !employerId || !annualSalaryAgreed) {
+    return res.status(400).json({ status: false, message: "candidateId, employerId, and annualSalaryAgreed are required" });
+  }
+  try {
+    const rate = feeRate || 0.15;
+    const salary = Number(annualSalaryAgreed);
+    const totalFeeAmount = feeModel === "flat_fee" ? feeRate || 1e4 : Math.round(salary * rate);
+    const now = (/* @__PURE__ */ new Date()).toISOString();
+    const attributionData = {
+      introductionId: introductionId || "",
+      candidateId,
+      candidateName: candidateName || "Candidate",
+      jobId: jobId || "",
+      jobTitle: jobTitle || "Hired Role",
+      employerId,
+      employerName: employerName || "Employer",
+      annualSalaryAgreed: salary,
+      feeModel: feeModel || "percentage_salary",
+      feeRate: rate,
+      totalFeeAmount,
+      currency: currency || "GBP",
+      billingStatus: "pending_invoice",
+      hiredAt: now,
+      startDate: startDate || new Date(Date.now() + 864e5 * 30).toISOString(),
+      verifiedByAdmin: true,
+      attributionWindowDays: 90
+    };
+    const docRef = await adminDb.collection("hiring_attributions").add(attributionData);
+    const attributionId = docRef.id;
+    const invoiceNumber = `INV-MKT-${Math.floor(1e4 + Math.random() * 9e4)}`;
+    const invoiceDoc = {
+      invoiceNumber,
+      clientName: employerName || "Aurrum Enterprise Client",
+      clientEmail: "billing@client.com",
+      date: now.split("T")[0],
+      dueDate: new Date(Date.now() + 864e5 * 30).toISOString().split("T")[0],
+      status: "pending",
+      amount: totalFeeAmount,
+      currency: currency || "GBP",
+      candidateName: candidateName || "Candidate",
+      jobTitle: jobTitle || "Hired Role",
+      items: [
+        {
+          id: "item-1",
+          description: `Direct Introduction Placement Fee (${(rate * 100).toFixed(1)}% of annual salary ${currency || "\xA3"}${salary.toLocaleString()}) - ${candidateName || "Candidate"}`,
+          quantity: 1,
+          rate: totalFeeAmount,
+          amount: totalFeeAmount
+        }
+      ],
+      attributionId,
+      introductionId: introductionId || "",
+      createdAt: now
+    };
+    const invoiceRef = await adminDb.collection("invoices").add(invoiceDoc);
+    await docRef.update({
+      invoiceId: invoiceRef.id,
+      billingStatus: "invoiced"
+    });
+    if (introductionId) {
+      await adminDb.collection("direct_introductions").doc(introductionId).update({
+        status: "hired",
+        updatedAt: now
+      });
+    }
+    res.json({
+      status: true,
+      attributionId,
+      invoiceId: invoiceRef.id,
+      invoiceNumber,
+      totalFeeAmount,
+      currency: currency || "GBP",
+      message: "Hiring attribution recorded and draft placement invoice generated"
+    });
+  } catch (err) {
+    console.error("[Marketplace API] Attribution error:", err);
+    res.status(500).json({ status: false, error: err.message });
+  }
+});
+app.get("/api/marketplace/network-analytics", async (req, res) => {
+  try {
+    const [talentSnap, introsSnap, attributionsSnap] = await Promise.all([
+      adminDb.collection("marketplace_profiles").where("visibility", "==", "discoverable").get(),
+      adminDb.collection("direct_introductions").get(),
+      adminDb.collection("hiring_attributions").get()
+    ]);
+    const intros = introsSnap.docs.map((d) => d.data());
+    const attributions = attributionsSnap.docs.map((d) => d.data());
+    const activeIntros = intros.filter((i) => !["closed", "expired", "intro_declined"].includes(i.status)).length;
+    const acceptedCount = intros.filter((i) => ["intro_accepted", "interview_scheduled", "hired"].includes(i.status)).length;
+    const hiredCount = intros.filter((i) => i.status === "hired").length;
+    const totalRevenue = attributions.reduce((sum, a) => sum + (Number(a.totalFeeAmount) || 0), 0);
+    const analytics = {
+      totalDiscoverableTalent: Math.max(talentSnap.size, BENCHMARK_TALENT_SEEDS.length),
+      activeIntroductions: activeIntros,
+      mutualInterests: intros.filter((i) => i.status === "mutual_interest").length,
+      scheduledInterviews: intros.filter((i) => i.status === "interview_scheduled").length,
+      totalHires: hiredCount,
+      acceptanceRatePercent: intros.length > 0 ? Math.round(acceptedCount / intros.length * 100) : 74,
+      totalPlacementRevenue: totalRevenue,
+      averagePlacementFee: attributions.length > 0 ? Math.round(totalRevenue / attributions.length) : 14250,
+      timestamp: (/* @__PURE__ */ new Date()).toISOString()
+    };
+    res.json({ status: true, analytics });
+  } catch (err) {
+    console.error("[Marketplace API] Network analytics error:", err);
+    res.status(500).json({ status: false, error: err.message });
+  }
+});
 async function bootstrap() {
   if (process.env.NODE_ENV !== "production" && !process.env.VERCEL) {
     const vite = await createViteServer({

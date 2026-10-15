@@ -31,6 +31,8 @@ import CustomSkillsManager from '../components/CustomSkillsManager';
 import BulkUpload from '../components/BulkUpload';
 import CVRepository from '../components/CVRepository';
 import { JobDiscoveryMarketplace } from '../components/jobs/JobDiscoveryMarketplace';
+import { TalentNetworkDiscovery } from '../components/marketplace/TalentNetworkDiscovery';
+import { DirectIntroductionsManager } from '../components/marketplace/DirectIntroductionsManager';
 import GoogleSheetsSync from '../components/GoogleSheetsSync';
 import { RecruitmentPipeline } from '../components/RecruitmentPipeline';
 import { ClientDashboard } from '../components/ClientDashboard';
@@ -108,7 +110,8 @@ import {
   RefreshCw,
   Globe,
   Cpu,
-  Code
+  Code,
+  Send
 } from 'lucide-react';
 
 
@@ -298,9 +301,11 @@ export default function Dashboard({ initialTab }: { initialTab?: string } = {}) 
   }[]>([]);
 
 
-  const [activeTab, setActiveTab] = useState<'home' | 'candidates' | 'pipeline' | 'notifications' | 'users' | 'analytics' | 'trash' | 'shortlist' | 'profile' | 'logs' | 'activity_logs' | 'upload' | 'repository' | 'settings' | 'backup' | 'database' | 'invoices' | 'linkedin-search' | 'custom_skills' | 'client-portal' | 'website_leads' | 'job-discovery'>(() => {
+  const [activeTab, setActiveTab] = useState<'home' | 'candidates' | 'pipeline' | 'notifications' | 'users' | 'analytics' | 'trash' | 'shortlist' | 'profile' | 'logs' | 'activity_logs' | 'upload' | 'repository' | 'settings' | 'backup' | 'database' | 'invoices' | 'linkedin-search' | 'custom_skills' | 'client-portal' | 'website_leads' | 'job-discovery' | 'talent-network' | 'introductions'>(() => {
     if (initialTab) return initialTab as any;
     if (location.pathname === '/ai-job-discovery') return 'job-discovery';
+    if (location.pathname === '/talent-network') return 'talent-network';
+    if (location.pathname === '/direct-introductions') return 'introductions';
     return (location.state as any)?.tab || 'home';
   });
   const [bulkLimit, setBulkLimit] = useState<number>(10);
@@ -311,7 +316,11 @@ export default function Dashboard({ initialTab }: { initialTab?: string } = {}) 
   useEffect(() => {
     if (location.pathname === '/ai-job-discovery') {
       setActiveTab('job-discovery');
-    } else if (location.pathname === '/dashboard' && activeTab === 'job-discovery') {
+    } else if (location.pathname === '/talent-network') {
+      setActiveTab('talent-network');
+    } else if (location.pathname === '/direct-introductions') {
+      setActiveTab('introductions');
+    } else if (location.pathname === '/dashboard' && (activeTab === 'job-discovery' || activeTab === 'talent-network' || activeTab === 'introductions')) {
       setActiveTab('home');
     }
   }, [location.pathname]);
@@ -324,8 +333,16 @@ export default function Dashboard({ initialTab }: { initialTab?: string } = {}) 
       if (location.pathname !== '/ai-job-discovery') {
         navigate('/ai-job-discovery');
       }
+    } else if (tabId === 'talent-network') {
+      if (location.pathname !== '/talent-network') {
+        navigate('/talent-network');
+      }
+    } else if (tabId === 'introductions') {
+      if (location.pathname !== '/direct-introductions') {
+        navigate('/direct-introductions');
+      }
     } else {
-      if (location.pathname === '/ai-job-discovery') {
+      if (location.pathname === '/ai-job-discovery' || location.pathname === '/talent-network' || location.pathname === '/direct-introductions') {
         navigate('/dashboard');
       }
     }
@@ -1867,6 +1884,8 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
               {[
                 { id: 'home', label: 'Dashboard', icon: LayoutDashboard },
                 { id: 'job-discovery', label: 'AI Job Discovery', icon: Compass, isAi: true },
+                { id: 'talent-network', label: 'Talent Network', icon: Globe, isAi: true },
+                { id: 'introductions', label: 'Direct Introductions', icon: Send },
                 ...(role === 'client' || role === 'admin' || role === 'developer' ? [{ id: 'client-portal', label: 'Client Portal', icon: Sparkles }] : []),
                 ...(role === 'client' || role === 'admin' || role === 'developer' ? [{ id: 'pipeline', label: 'Pipeline', icon: Layers }] : []),
                 { id: 'candidates', label: 'Candidates', icon: Users },
@@ -2128,6 +2147,10 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
                 ? 'Generated Invoices'
                 : activeTab === 'job-discovery'
                 ? 'AI Job Discovery & Recommendations'
+                : activeTab === 'talent-network'
+                ? 'Discoverable Talent Network'
+                : activeTab === 'introductions'
+                ? 'Direct Introductions & Pipeline'
                 : 'Dashboard'}
             </span>
           </div>
@@ -2282,6 +2305,25 @@ const handleFirestoreError = (error: any, operationType: string, path: string | 
              <JobDiscoveryMarketplace 
                candidate={selectedCandidate || activeCandidates[0] || null} 
                candidatesList={activeCandidates}
+               onNavigateToCandidate={(cid) => {
+                 const cand = activeCandidates.find(c => c.id === cid);
+                 if (cand) handleCandidateSelect(cand);
+               }}
+             />
+          ) : activeTab === 'talent-network' ? (
+             <TalentNetworkDiscovery
+               currentRole={role}
+               currentUserId={user?.uid}
+               onNavigateToCandidate={(cid) => {
+                 const cand = activeCandidates.find(c => c.id === cid);
+                 if (cand) handleCandidateSelect(cand);
+               }}
+               onSwitchToIntroductions={() => handleTabSelect('introductions')}
+             />
+          ) : activeTab === 'introductions' ? (
+             <DirectIntroductionsManager
+               currentRole={role}
+               currentUserId={user?.uid}
                onNavigateToCandidate={(cid) => {
                  const cand = activeCandidates.find(c => c.id === cid);
                  if (cand) handleCandidateSelect(cand);
